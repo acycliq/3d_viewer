@@ -1,11 +1,11 @@
-function my_particles(textureLoader) {
+function my_particles(textureLoader, sprite_png) {
 
     /**
      * Textures
      */
 
-    const particleTexture = textureLoader.load('assets/static/textures/particles/3.png')
-
+    // const particleTexture = textureLoader.load('assets/static/textures/particles/3.png')
+    const particleTexture = textureLoader.load(sprite_png)
 
     const particleGeometry = new THREE.BufferGeometry()
     const count = 50000
