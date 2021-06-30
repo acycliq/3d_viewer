@@ -6,11 +6,15 @@
     <!--This is important to get a correct canvas size on mobile-->
     <meta name='viewport' content='width=device-width, user-scalable=no'/>
 
+
 </head>
 <body>
 
 <script src='three.js/build/three.js'></script>
 <script src='three.js/examples/js/controls/OrbitControls.js'></script>
+
+<script src="js/particles.js"></script>
+
 
 <canvas class="webgl"></canvas>
 
@@ -26,10 +30,14 @@
         // Scene
         const scene = new THREE.Scene()
 
+        const textureLoader = new THREE.TextureLoader()
+
+         my_dots = my_particles(textureLoader)
+
         /**
          * Textures
          */
-        const textureLoader = new THREE.TextureLoader()
+        // const textureLoader = new THREE.TextureLoader()
         const particleTexture = textureLoader.load('./assets/static/textures/particles/9.png')
 
         /**
@@ -69,6 +77,7 @@
         // Points
         const particles = new THREE.Points(particleGeometry, particlesMaterial)
         scene.add(particles)
+        scene.add(my_dots)
 
         /**
          * Sizes
