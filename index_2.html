@@ -23,7 +23,7 @@
         // Canvas
         const canvas = document.querySelector('canvas.webgl')
 
-// Scene
+        // Scene
         const scene = new THREE.Scene()
 
         /**
@@ -57,15 +57,16 @@
         const particlesMaterial = new THREE.PointsMaterial()
         particlesMaterial.size = 0.1
         particlesMaterial.sizeAttenuation = true
-// particlesMaterial.color = new THREE.Color('#ff88cc')
+        // particlesMaterial.color = new THREE.Color('#ff88cc')
         particlesMaterial.transparent = true
         particlesMaterial.alphaMap = particleTexture
-// particlesMaterial.alphaTest = 0.01
-// particlesMaterial.depthTest = false
+        // particlesMaterial.alphaTest = 0.01
+        // particlesMaterial.depthTest = false
         particlesMaterial.depthWrite = false
         particlesMaterial.blending = THREE.AdditiveBlending
         particlesMaterial.vertexColors = true
-// Points
+
+        // Points
         const particles = new THREE.Points(particleGeometry, particlesMaterial)
         scene.add(particles)
 
@@ -94,12 +95,13 @@
         /**
          * Camera
          */
-// Base camera
+
+        // Base camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
         camera.position.z = 3
-// scene.add(camera)
+        scene.add(camera)
 
-// Controls
+        // Controls
         const controls = new THREE.OrbitControls(camera, canvas)
         controls.enableDamping = true
 
