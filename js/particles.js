@@ -26,36 +26,11 @@ function my_particles(textureLoader, sprite_png) {
     )
 
 
-    // var getTexture = function () {
-    //     var canvas = document.createElement('canvas');
-    //     canvas.width = 32;
-    //     canvas.height = 32;
-    //
-    //     var ctx = canvas.getContext('2d');
-    //     // the body
-    //     // ctx.translate(-81, -84);
-    //
-    //     ctx.fillStyle = "yellow";
-    //     ctx.beginPath();
-    //     ctx.moveTo(-16, -16);
-    //     ctx.lineTo(16, -16);
-    //     ctx.lineTo(16, 16);
-    //     ctx.lineTo(-16, 16);
-    //     ctx.lineTo(-16, -16);
-    //     ctx.fill();
-    //
-    //
-    //     var texture = new THREE.Texture(canvas);
-    //     texture.needsUpdate = true;
-    //     return texture;
-    // };
-
-    var getTexture = function () {
+    var getTexture = function (glyphName) {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
 
-        ctx = ctxPath('star6', ctx);
-        ctx.fillStyle = "yellow";
+        ctx = ctxPath(glyphName, ctx);
         var texture = new THREE.Texture(canvas);
         texture.needsUpdate = true;
         return texture;
@@ -67,7 +42,7 @@ function my_particles(textureLoader, sprite_png) {
     particlesMaterial.sizeAttenuation = true
     // particlesMaterial.color = new THREE.Color('#ff88cc')
     particlesMaterial.transparent = true
-    particlesMaterial.alphaMap = getTexture()
+    particlesMaterial.alphaMap = getTexture('square')
     // particlesMaterial.alphaTest = 0.01
     // particlesMaterial.depthTest = false
     particlesMaterial.depthWrite = false
