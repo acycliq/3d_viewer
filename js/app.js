@@ -7,7 +7,8 @@ function app(geneData) {
     var geneNames = Object.keys(data).sort();
 
     var my_gene = 'Cck'
-    var xyz_coords = new Float32Array(data[my_gene].map(d => [Math.random()*10, Math.random()*10, 1]).flat())
+    // var xyz_coords = new Float32Array(data[my_gene].map(d => [Math.random()*5000-2500, Math.random()*5000-2500, 1]).flat())
+    var xyz_coords = new Float32Array(data[my_gene].map(d => [d.x-2500, d.y-2500, 1]).flat())
 
     const textureLoader = new THREE.TextureLoader()
     const diamonds = my_particles_coords(textureLoader, xyz_coords, 'diamond')

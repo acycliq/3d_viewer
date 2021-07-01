@@ -97,7 +97,7 @@ function my_particles_coords(textureLoader, positions, glyphName) {
 
 
     const particlesMaterial = new THREE.PointsMaterial()
-    particlesMaterial.size = 0.1
+    particlesMaterial.size = 32
     particlesMaterial.sizeAttenuation = true
     // particlesMaterial.color = new THREE.Color('#ff88cc')
     particlesMaterial.transparent = true

@@ -41,8 +41,8 @@ function setup(heart) {
      */
 
     // Base camera
-    const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.z = 3
+    const camera = new THREE.PerspectiveCamera(125, sizes.width / sizes.height, 0.1, 10000)
+    camera.position.z = 3000
 
     scene.add(camera)
 
