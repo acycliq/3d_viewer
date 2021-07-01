@@ -1,10 +1,10 @@
 
 function ctxPath(glyphName, ctx) {
-    var r = 64
+    var r = 64;
     var p = {
         'x': r,
         'y': r,
-    }
+    };
 
     var tile_size =  2 * r;
     ctx.canvas.width = 2 * tile_size;
@@ -42,7 +42,7 @@ function ctxPath(glyphName, ctx) {
         ctx.lineTo(p.x - 0.5 * r, p.y + 0.27637816 * r);
         ctx.lineTo(p.x - 0.618027443 * r, p.y + 1 * r);
         ctx.lineTo(p.x, p.y + 0.658351875 * r);
-        ctx.fill();
+         ctx.closePath();
 
     }
 
@@ -54,7 +54,7 @@ function ctxPath(glyphName, ctx) {
         ctx.lineTo(p.x + r, p.y);
         ctx.lineTo(p.x, p.y + r);
         ctx.lineTo(p.x - r, p.y);
-        ctx.fill();
+         ctx.closePath();
     }
 
 
@@ -65,7 +65,7 @@ function ctxPath(glyphName, ctx) {
         ctx.lineTo(p.x + r, p.y + r);
         ctx.lineTo(p.x - r, p.y + r);
         ctx.lineTo(p.x - r, p.y - r);
-        ctx.fill();
+         ctx.closePath();
     }
 
 

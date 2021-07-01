@@ -1,11 +1,11 @@
-function my_particles(textureLoader, sprite_png) {
+function my_particles(textureLoader, glyphName) {
 
     /**
      * Textures
      */
 
         // const particleTexture = textureLoader.load('assets/static/textures/particles/3.png')
-    const particleTexture = textureLoader.load(sprite_png)
+    // const particleTexture = textureLoader.load(sprite_png)
 
     const particleGeometry = new THREE.BufferGeometry()
     const count = 5000
@@ -42,7 +42,7 @@ function my_particles(textureLoader, sprite_png) {
     particlesMaterial.sizeAttenuation = true
     // particlesMaterial.color = new THREE.Color('#ff88cc')
     particlesMaterial.transparent = true
-    particlesMaterial.alphaMap = getTexture('square')
+    particlesMaterial.alphaMap = getTexture(glyphName)
     // particlesMaterial.alphaTest = 0.01
     // particlesMaterial.depthTest = false
     particlesMaterial.depthWrite = false

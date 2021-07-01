@@ -1,4 +1,4 @@
-function setup(heart) {
+function setup(heart, particles_2) {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
@@ -12,6 +12,7 @@ function setup(heart) {
     // scene.add(particles)
     // scene.add(my_dots)
     scene.add(heart)
+    scene.add(particles_2)
 
     /**
      * Sizes
