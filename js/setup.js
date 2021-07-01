@@ -1,4 +1,4 @@
-function setup(heart, particles_2) {
+function setup(heart) {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
@@ -12,7 +12,7 @@ function setup(heart, particles_2) {
     // scene.add(particles)
     // scene.add(my_dots)
     scene.add(heart)
-    scene.add(particles_2)
+    // scene.add(particles_2)
 
     /**
      * Sizes
@@ -43,11 +43,13 @@ function setup(heart, particles_2) {
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
     camera.position.z = 3
+
     scene.add(camera)
 
     // Controls
     const controls = new THREE.OrbitControls(camera, canvas)
     controls.enableDamping = true
+
 
     /**
      * Renderer

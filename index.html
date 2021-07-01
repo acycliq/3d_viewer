@@ -6,26 +6,33 @@
     <!--This is important to get a correct canvas size on mobile-->
     <meta name='viewport' content='width=device-width, user-scalable=no'/>
 
+    <!--d3 -->
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+
+    <script src='three.js/build/three.js'></script>
+    <script src='three.js/examples/js/controls/OrbitControls.js'></script>
+
+    <script src="js/glyphPaths.js"></script>
+    <script src="js/classColors.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/sprite.js"></script>
+    <script src="js/dataLoader.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/index.js"></script>
 
 
 </head>
 <body>
-
-<script src='three.js/build/three.js'></script>
-<script src='three.js/examples/js/controls/OrbitControls.js'></script>
-
-<script src="js/glyphPaths.js"></script>
-<script src="js/particles.js"></script>
-<script src="js/sprite.js"></script>
-<script src="js/app.js"></script>
-<script src="js/setup.js"></script>
 
 <canvas class="webgl"></canvas>
 
 <script>
     var scene, renderer, camera, controls, cube;
 
-    init();
+    run();
+    // init();
 
 </script>
 
