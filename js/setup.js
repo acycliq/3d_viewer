@@ -1,4 +1,4 @@
-function setup(my_dots, particles) {
+function setup(heart) {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
@@ -9,8 +9,9 @@ function setup(my_dots, particles) {
     // const my_dots = my_particles(textureLoader, 'assets/static/textures/particles/3.png')
     // const particles = my_particles(textureLoader, 'assets/static/textures/particles/9.png')
 
-    scene.add(particles)
-    scene.add(my_dots)
+    // scene.add(particles)
+    // scene.add(my_dots)
+    scene.add(heart)
 
     /**
      * Sizes
