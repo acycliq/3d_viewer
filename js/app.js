@@ -24,9 +24,18 @@ function app(geneData) {
         return out
     }
 
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
     // get the svg markers (glyphs)
     var glyphs = glyphSettings();
-    var getColor = glyphColor;
+    // var getColor = glyphColor();
     var glyphMap = d3.map(glyphs, function (d) {
         return d.gene;
     });
@@ -43,9 +52,25 @@ function app(geneData) {
         coords_arr.push(temp)
     }
 
+    function getGlyphColor(gene) {
+        var _name = getGlyphName(gene)
+        var _taxonomy = glyphSettings().filter(d => d.gene === gene)[0].taxonomy
+        var _hex = glyphColor(_taxonomy)
+        var _rgb = hexToRgb(_hex)
+
+        return _rgb
+    }
+
     const textureLoader = new THREE.TextureLoader()
     // const gName = getGlyphName('Cck')
-    var points = geneNames.map((d, i) => my_particles(textureLoader, coords_arr[i], getGlyphName(d)))
+    // var _taxonomy = glyphSettings().filter(d => d.gene === 'Cck')[0].taxonomy
+    // var _hex = glyphColor(_taxonomy)
+    // var _rgb = hexToRgb(_hex)
+
+    // var _rgb = getGlyphColor('Cck')
+
+    // var glyphColor = getColor(getTaxonomy('Cck'))
+    var points = geneNames.map((d, i) => my_particles(textureLoader, coords_arr[i], getGlyphName(d), getGlyphColor(d)))
     // const diamonds = my_particles(textureLoader, xyz_coords, 'diamond')
     setup(points)
     console.log(geneNames)

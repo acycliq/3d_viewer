@@ -57,6 +57,23 @@
 //
 // }
 
+/**
+ * Converts a hexadecimal string to a hexadecimal color number.
+ *
+ * @example
+ * PIXI.utils.string2hex("#ffffff"); // returns 0xffffff
+ * @memberof PIXI.utils
+ * @function string2hex
+ * @param {string} The string color (e.g., `"#ffffff"`)
+ * @return {number} Number in hexadecimal.
+ */
+function string2hex(string) {
+    if (typeof string === 'string' && string[0] === '#') {
+        string = string.substr(1);
+    }
+    return parseInt(string, 16);
+}
+
 
 function markerColor(geneName) {
     var colorCode = glyphColor(glyphSettings().filter(d => d.gene === geneName)[0].taxonomy);
@@ -65,7 +82,7 @@ function markerColor(geneName) {
 }
 
 
-function my_particles(textureLoader, positions, glyphName) {
+function my_particles(textureLoader, positions, glyphName, glyphColor) {
 
     /**
      * Textures
@@ -80,7 +97,18 @@ function my_particles(textureLoader, positions, glyphName) {
     // const positions = new Float32Array(count * 3)
     const colors = new Float32Array(positions.length)
     for (let i = 0; i < positions.length; i++) {
-        colors[i] = Math.random()
+        if (i % 3 === 0) {
+            colors[i] = glyphColor.r / 255
+        }
+
+        if (i % 3 === 1) {
+            colors[i] = glyphColor.g / 255
+        }
+
+        if (i % 3 === 2) {
+            colors[i] = glyphColor.b / 255
+        }
+
     }
 
     particleGeometry.setAttribute(
@@ -108,7 +136,7 @@ function my_particles(textureLoader, positions, glyphName) {
     particlesMaterial.sizeAttenuation = true
     // particlesMaterial.color = new THREE.Color('#ff88cc')
     particlesMaterial.transparent = true
-    particlesMaterial.opacity =  0.5
+    particlesMaterial.opacity = 0.5
     particlesMaterial.alphaMap = getTexture(glyphName)
     // particlesMaterial.alphaTest = 0.01
     // particlesMaterial.depthTest = false
