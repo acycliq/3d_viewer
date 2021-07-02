@@ -58,6 +58,13 @@
 // }
 
 
+function markerColor(geneName) {
+    var colorCode = glyphColor(glyphSettings().filter(d => d.gene === geneName)[0].taxonomy);
+    var out = myUtils().string2hex(colorCode);
+    return out
+}
+
+
 function my_particles(textureLoader, positions, glyphName) {
 
     /**
@@ -65,7 +72,7 @@ function my_particles(textureLoader, positions, glyphName) {
      */
 
         // const particleTexture = textureLoader.load('assets/static/textures/particles/3.png')
-    // const particleTexture = textureLoader.load(sprite_png)
+        // const particleTexture = textureLoader.load(sprite_png)
 
     const particleGeometry = new THREE.BufferGeometry()
     // const count = 5000
@@ -101,6 +108,7 @@ function my_particles(textureLoader, positions, glyphName) {
     particlesMaterial.sizeAttenuation = true
     // particlesMaterial.color = new THREE.Color('#ff88cc')
     particlesMaterial.transparent = true
+    particlesMaterial.opacity =  0.5
     particlesMaterial.alphaMap = getTexture(glyphName)
     // particlesMaterial.alphaTest = 0.01
     // particlesMaterial.depthTest = false
