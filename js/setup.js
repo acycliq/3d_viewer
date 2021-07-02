@@ -1,4 +1,4 @@
-function setup(heart) {
+function setup(points) {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
@@ -11,7 +11,7 @@ function setup(heart) {
 
     // scene.add(particles)
     // scene.add(my_dots)
-    scene.add(heart)
+    points.map(d => scene.add(d));
     // scene.add(particles_2)
 
     /**
@@ -41,7 +41,7 @@ function setup(heart) {
      */
 
     // Base camera
-    const camera = new THREE.PerspectiveCamera(125, sizes.width / sizes.height, 0.1, 10000)
+    const camera = new THREE.PerspectiveCamera(125, sizes.width / sizes.height, 0.1, 20000)
     camera.position.z = 3000
 
     scene.add(camera)
