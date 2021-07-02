@@ -41,8 +41,8 @@ function setup(points) {
      */
 
     // Base camera
-    const camera = new THREE.PerspectiveCamera(125, sizes.width / sizes.height, 0.1, 20000)
-    camera.position.z = 3000
+    const camera = new THREE.PerspectiveCamera(125, sizes.width / sizes.height, 1, 20000)
+    camera.position.z = 5000
 
     scene.add(camera)
 

@@ -40,15 +40,14 @@ function app(geneData) {
         return d.gene;
     });
 
-    var my_gene = 'Cck'
-    // var xyz_coords = new Float32Array(data[my_gene].map(d => [Math.random()*5000-2500, Math.random()*5000-2500, 1]).flat())
-    var xyz_coords = new Float32Array(data[my_gene].map(d => [d.x - 2500, d.y - 2500, 1]).flat())
 
     // loop over the genes and collect in one array the coords for each spot
+    var img_width = 7602,
+        img_height = 5471;
     var coords_arr = [];
     for (var i = 0; i < geneNames.length; i++) {
         var g = geneNames[i]
-        var temp = new Float32Array(data[g].map(d => [d.x - 2500, d.y - 2500, 1]).flat())
+        var temp = new Float32Array(data[g].map(d => [d.x - img_width/2, img_height - d.y - img_height/2, 1]).flat());
         coords_arr.push(temp)
     }
 
