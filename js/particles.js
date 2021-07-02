@@ -132,11 +132,11 @@ function my_particles(textureLoader, positions, glyphName, glyphColor) {
 
 
     const particlesMaterial = new THREE.PointsMaterial()
-    particlesMaterial.size = 32
+    particlesMaterial.size = 8
     particlesMaterial.sizeAttenuation = true
     // particlesMaterial.color = new THREE.Color('#ff88cc')
     particlesMaterial.transparent = true
-    particlesMaterial.opacity = 0.5
+    particlesMaterial.opacity = 0.8
     particlesMaterial.alphaMap = getTexture(glyphName)
     // particlesMaterial.alphaTest = 0.01
     // particlesMaterial.depthTest = false

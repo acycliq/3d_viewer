@@ -9,7 +9,9 @@ function ctxPath(glyphName, ctx) {
     var tile_size =  2 * r;
     ctx.canvas.width = 2 * tile_size;
     ctx.canvas.height = 2 * tile_size;
-    ctx.fillStyle = "yellow";
+    // ctx.fillStyle = "yellow";
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = "yellow";
 
     if (glyphName === 'star6') {
         ctx.beginPath();
@@ -158,7 +160,8 @@ function ctxPath(glyphName, ctx) {
         console.log('glyph: "' + glyphName + '" not implemented.')
     }
 
-    ctx.fill()
+    // ctx.fill()
+    ctx.stroke();
     return ctx
 }
 

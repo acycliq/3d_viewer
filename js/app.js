@@ -42,12 +42,13 @@ function app(geneData) {
 
 
     // loop over the genes and collect in one array the coords for each spot
-    var img_width = 7602,
-        img_height = 5471;
+    var img_width = 1260,
+        img_height = 340
+        img_depth = 60;
     var coords_arr = [];
     for (var i = 0; i < geneNames.length; i++) {
         var g = geneNames[i]
-        var temp = new Float32Array(data[g].map(d => [d.x - img_width/2, img_height - d.y - img_height/2, 1]).flat());
+        var temp = new Float32Array(data[g].map(d => [d.x - img_width/2, img_height - d.y - img_height/2, 300*(d.z - img_depth/2)]).flat());
         coords_arr.push(temp)
     }
 
