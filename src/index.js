@@ -2,7 +2,7 @@ function run() {
     console.log('app starts');
     configSettings = config();
 
-    fetcher([configSettings.cellData, configSettings.geneData, configSettings.cellBoundaries]).then(
+    fetcher([configSettings.geneData]).then(
         result => make_package(result),
         error => alert(error) // doesn't run
     );

@@ -72,7 +72,7 @@ function app(geneData) {
     // var glyphColor = getColor(getTaxonomy('Cck'))
     var points = geneNames.map((d, i) => my_particles(textureLoader, coords_arr[i], getGlyphName(d), getGlyphColor(d)))
     // const diamonds = my_particles(textureLoader, xyz_coords, 'diamond')
-    setup(points)
+    render_scene(points)
     console.log(geneNames)
 
 

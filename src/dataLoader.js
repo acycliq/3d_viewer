@@ -46,7 +46,7 @@ function data_loader(workPackage) {
 
     function setupWorker() {
         // create a web worker that streams the chart data
-        worker = new Worker("./js/streaming-tsv-parser.js");
+        worker = new Worker("./src/streaming-tsv-parser.js");
         worker.onmessage = function (event) {
             if (event.data.finished) {
                 console.log(agg_data);
@@ -75,22 +75,20 @@ function data_loader(workPackage) {
     function redraw(data) {
         // console.log(data[0])
         // console.log(data[1])
-        innerHtml = makeInnerHtml(data.map(d => d3.format(",")(d.data_length)));
-        document.getElementById("loading").innerHTML = innerHtml;
-
-        innerHtml = makeInnerHtml(data.map(d => d3.format(".0%")(d.progress) ));
-        innerHtml = innerHtml.replace(/% \//g, '% ');
-        document.getElementById("loading_perc").innerHTML = innerHtml;
-
-        innerHtml = makeInnerHtml(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() + 'MB' ));
-        document.getElementById("loading_mb").innerHTML = innerHtml;
+        // innerHtml = makeInnerHtml(data.map(d => d3.format(",")(d.data_length)));
+        // document.getElementById("loading").innerHTML = innerHtml;
+        //
+        // innerHtml = makeInnerHtml(data.map(d => d3.format(".0%")(d.progress) ));
+        // innerHtml = innerHtml.replace(/% \//g, '% ');
+        // document.getElementById("loading_perc").innerHTML = innerHtml;
+        //
+        // innerHtml = makeInnerHtml(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() + 'MB' ));
+        // document.getElementById("loading_mb").innerHTML = innerHtml;
 
 
         var avg = average(data.map(d => d.progress));
         var avg_mb = average(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() ));
-        var progress_1 = data[0].progress,
-            progress_2 = data[1].progress;
-            progress_3 = data[2].progress;
+        var progress_1 = data[0].progress;
 
         var inc = 0.0; // controls how often it will be update. Every 2% set inc = 0.02
         if (avg >= Math.min(1, previous_avg + inc)) {
@@ -103,29 +101,21 @@ function data_loader(workPackage) {
             $('#mb').html(mb_1 + 'MB');
             $('#datapoints').html(d3.format(",")(data[0].data_length));
 
-            updateDonutChart('#specificChart2', progress_2*100, true);
-            $('#mb2').html((data[1].bytes_streamed/(1024*1024)).toFixed() + 'MB');
-            $('#datapoints2').html(d3.format(",")(data[1].data_length));
-
-            updateDonutChart('#specificChart3', progress_3*100, true);
-            $('#mb3').html((data[2].bytes_streamed/(1024*1024)).toFixed() + 'MB');
-            $('#datapoints3').html(d3.format(",")(data[2].data_length));
-
             previous_avg = avg;
         }
     }
 
     function onDataLoaded(data) {
-        [cellBoundaries, cellData] = postLoad([data.cellBoundaries, data.cellData]);
+        // [cellBoundaries, cellData] = postLoad([data.cellBoundaries, data.cellData]);
 
-        // sort cellBoundaries and cellData. These two should be aligned
-        cellBoundaries.sort((a, b) => a.cell_id - b.cell_id);
-        cellData.sort((a, b) => a.cell_id - b.cell_id);
+        // // sort cellBoundaries and cellData. These two should be aligned
+        // cellBoundaries.sort((a, b) => a.cell_id - b.cell_id);
+        // cellData.sort((a, b) => a.cell_id - b.cell_id);
 
         all_geneData = data.geneData;
         console.log('loading data finished');
         console.log('num of genes loaded: ' + all_geneData.length);
-        console.log('num of cells loaded: ' + cellData.length);
+        // console.log('num of cells loaded: ' + cellData.length);
 
         // do now the chart
         // dapiChart(configSettings);

@@ -1,4 +1,4 @@
-function setup(points) {
+function render_scene(points) {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
@@ -81,4 +81,6 @@ function setup(points) {
     tick()
 
 
+    //finaly remove the preloader
+    removePreloader()
 }
