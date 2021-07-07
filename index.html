@@ -6,35 +6,81 @@
     <!--This is important to get a correct canvas size on mobile-->
     <meta name='viewport' content='width=device-width, user-scalable=no'/>
 
+
+    <!--jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="src/lib/css/bootstrap.min.css">
+    <script src="src/lib/js/bootstrap.min.js"></script>
+
     <!--d3 -->
     <script src='https://d3js.org/d3.v4.min.js'></script>
 
     <script src='three.js/build/three.js'></script>
     <script src='three.js/examples/js/controls/OrbitControls.js'></script>
 
-    <script src="js/glyphPaths.js"></script>
-    <script src="js/glyphConfig.js"></script>
-    <script src="js/classColors.js"></script>
-    <script src="js/particles.js"></script>
-    <script src="js/sprite.js"></script>
-    <script src="js/dataLoader.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/setup.js"></script>
-    <script src="js/index.js"></script>
+    <link rel="stylesheet" href="src/lib/css/progress.css">
+    <script src="src/lib/js/progress.js"></script>
+    <script src="src/glyphPaths.js"></script>
+    <script src="src/glyphConfig.js"></script>
+    <script src="src/classColors.js"></script>
+    <script src="src/particles.js"></script>
+    <script src="src/dataLoader.js"></script>
+    <script src="src/config.js"></script>
+    <script src="src/app.js"></script>
+    <script src="src/renderScene.js"></script>
+
+    <link rel="stylesheet" href="src/lib/css/index.css">
+    <script src="src/index.js"></script>
 
 
 </head>
 <body>
 
+
+<div class="container-fluid aligned-middle stack-top" id="preloader">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="specificChart" class="donut-size">
+                <div class="pie-wrapper">
+                        <span class="label">
+                            <span class="num">0</span><span class="smaller">%</span>
+                        </span>
+                    <div class="pie">
+                        <div class="left-side half-circle"></div>
+                        <div class="right-side half-circle"></div>
+                    </div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-center">
+                <p>Num of spots: <span id="datapoints" class="meter">0</span></p>
+                <p>Size: <span id="mb" class="meter">0MB</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12" id="wait_chart">
+            Building the chart. Please wait...
+        </div>
+        <script>$('#wait_chart').hide()</script>
+    </div>
+</div>
+
+
 <canvas class="webgl"></canvas>
 
 <script>
-    var scene, renderer, camera, controls;
-
+    var scene, renderer, camera, controls, all_geneData, worker;
     run();
-    // init();
 
+    function removePreloader() {
+        $('#preloader').delay(350).fadeOut(250); // will fade out the white DIV that covers the website.
+        $('body').delay(350).css({'overflow': 'visible'});
+    }
 </script>
 
 
