@@ -1,3 +1,8 @@
+
+// variables in the global scope
+var camera, scene, renderer, controls, all_geneData, worker;
+console.log('in index.js')
+
 function run() {
     console.log('app starts');
     configSettings = config();
