@@ -73,6 +73,7 @@ function app(geneData) {
     var points = geneNames.map((d, i) => my_particles(textureLoader, coords_arr[i], getGlyphName(d), getGlyphColor(d)))
     // const diamonds = my_particles(textureLoader, xyz_coords, 'diamond')
     render_scene(points)
+    animate()
     console.log(geneNames)
 
 
