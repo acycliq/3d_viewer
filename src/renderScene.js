@@ -12,8 +12,8 @@ function render_scene(points) {
     // Base camera
     camera = new THREE.PerspectiveCamera(125,
         window.innerWidth / window.innerHeight,
-        1, 120000);
-    camera.position.z = 500;
+        0.0000000001, 10000);
+    camera.position.z = 3000;
     scene.add(camera);
 
 

@@ -1,5 +1,5 @@
 // variables in the global scope
-var camera, scene, renderer, controls, all_geneData, worker;
+var camera, scene, renderer, controls, all_geneData, worker, configSettings;
 // let raycaster;
 
 let moveForward = false;
