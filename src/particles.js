@@ -10,9 +10,10 @@ function my_particles(positions) {
     // const mypositions = new Float32Array([0,0,1.5]) ;
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    var r = 1.0,
-        g = 110.0,
-        b = 1.0;
+    var red = 0.5,
+        green = 0.5,
+        blue = 1.0,
+        alpha = 0.8;
     const particlesMaterial = new THREE.ShaderMaterial({
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -21,7 +22,10 @@ function my_particles(positions) {
         fragmentShader: fShader,
         uniforms: {
             uSize: {value: 110.0},
-            r: {value: r}
+            r: {value: red},
+            g: {value: green},
+            b: {value: blue},
+            a: {value: alpha}
         }
     });
 
