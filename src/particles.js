@@ -1,5 +1,5 @@
 
-function my_particles(positions) {
+function my_particles(positions, color) {
 
     const particleGeometry = new THREE.BufferGeometry();
     var scales = new Float32Array(positions.length);
@@ -10,21 +10,18 @@ function my_particles(positions) {
     // const mypositions = new Float32Array([0,0,1.5]) ;
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    var red = 0.5,
-        green = 0.5,
-        blue = 1.0,
-        alpha = 0.8;
+    const alpha = 0.8;
     const particlesMaterial = new THREE.ShaderMaterial({
         depthWrite: false,
-        blending: THREE.AdditiveBlending,
+        // blending: THREE.AdditiveBlending,
         vertexColors: true,
         vertexShader: vShader,
         fragmentShader: fShader,
         uniforms: {
             uSize: {value: 110.0},
-            r: {value: red},
-            g: {value: green},
-            b: {value: blue},
+            r: {value: color.r},
+            g: {value: color.g},
+            b: {value: color.b},
             a: {value: alpha}
         }
     });

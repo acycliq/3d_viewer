@@ -15,11 +15,20 @@ const groupBy = (array, key) => {
     }, {}); // empty object is the initial value for result object
 };
 
-function getTaxonomy(gene){
+function getTaxonomy(gene) {
     return glyphSettings().filter(d => d.gene === gene)[0].taxonomy
 }
 
-function getColor(gene){
+function getColor(gene) {
     const t = getTaxonomy(gene);
     return glyphColor(t)
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }

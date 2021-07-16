@@ -11,6 +11,7 @@ function app(geneData) {
         img_height = configSettings.img_height,
         img_depth = configSettings.img_depth;
     var coords_arr = [];
+    var rgb_arr = [];
     for (var i = 0; i < geneNames.length; i++) {
         var g = geneNames[i];
         // for vizgen
@@ -19,9 +20,11 @@ function app(geneData) {
         //for ucl
         var temp = new Float32Array(data[g].map(d => [d.x - img_width/2, img_height - d.y - img_height/2, d.z - img_depth/2]).flat());
         coords_arr.push(temp)
+
+        rgb_arr.push(hexToRgb(getColor(g)))
     }
 
-    var points = geneNames.map((d, i) => my_particles(coords_arr[i]));
+    var points = geneNames.map((d, i) => my_particles(coords_arr[i], rgb_arr[i]));
     render_scene(points);
     console.log(geneNames)
 }
