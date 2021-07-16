@@ -18,7 +18,7 @@ console.log('in index.js')
 
 function run() {
     console.log('app starts');
-    configSettings = config();
+    configSettings = config().get('default');
 
     fetcher([configSettings.geneData]).then(
         result => make_package(result),

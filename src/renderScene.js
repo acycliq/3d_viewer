@@ -13,7 +13,8 @@ function render_scene(points) {
     camera = new THREE.PerspectiveCamera(125,
         window.innerWidth / window.innerHeight,
         0.0000000001, 10000);
-    camera.position.z = 3000;
+    // camera.position.z = 3000; // vizgen
+    camera.position.z = 300;  // ucl
     scene.add(camera);
 
 
