@@ -12,7 +12,6 @@ void main()
     
     float side_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.9, 0.5));
     float side_2 = 1.0 - lineSegment(gl_PointCoord, vec2(0.9, 0.5), vec2(0.5, 0.95));
-    
     float side_3 = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.95), vec2(0.1, 0.5));
     float side_4 = 1.0 - lineSegment(gl_PointCoord, vec2(0.1, 0.5), vec2(0.5, 0.05));
     
