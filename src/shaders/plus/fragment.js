@@ -1,21 +1,20 @@
 const fShader = `
 
-void main() {
-                vec3 color = vec3(0.0);
-                vec3 shape = vec3(0.0);
+float lineSegment(vec2 p, vec2 a, vec2 b) {
+    float thickness = 1.0/100.0;
+    vec2 pa = p - a, ba = b - a;
+    float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+    return step(0.05, length(pa - ba*h));
+}
 
-                // True (ie 1.0) if x between 0.45 and 0.55  
-                float x_1 = 1.0 - step(0.55, gl_PointCoord.x);
-                float x_2 = step(0.45, gl_PointCoord.x);
-                
-                // True (ie 1.0) if y between 0.45 and 0.55  
-                float y_1 = 1.0 - step(0.55, gl_PointCoord.y);
-                float y_2 = step(0.45, gl_PointCoord.y);
-                
-                // cross
-                shape = vec3(x_1 * x_2 + y_1 * y_2);
-                color = vec3(1.0, 0.0, 0.5);
-                
-                gl_FragColor = vec4(shape * color, 1.0);
+void main() 
+{
+    
+    float vertical = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.5, 0.95));
+    float horizontal = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.5), vec2(0.95, 0.5));
+    
+    float shaper = vertical + horizontal;
+
+    gl_FragColor = vec4(vec3(shaper), 1.0);
 }
 `
