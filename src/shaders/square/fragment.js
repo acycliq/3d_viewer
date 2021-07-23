@@ -1,22 +1,21 @@
 const fShader = `
-            uniform vec2 u_resolution;
-            varying vec2 vUv;
-            uniform vec2 u_mouse;
 
-            void main() {
-                vec3 color = vec3(0.0);
-                vec3 shape = vec3(0.0);
+float lineSegment(vec2 p, vec2 a, vec2 b) {
+    float thickness = 1.0/100.0;
+    vec2 pa = p - a, ba = b - a;
+    float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+    return step(0.05, length(pa - ba*h));
+}
 
-                // Each result will return 1.0 (white) or 0.0 (black).
-                float left = step(0.1, gl_PointCoord.x);   // 1 if x greater than 0.1
-                float top = step(0.1, gl_PointCoord.y);    // 1 if y greater than 0.1
-                float bottom = 1.0 - step(0.9, gl_PointCoord.y); // 1 if y less than 0.9
-                float right = 1.0 - step(0.9, gl_PointCoord.x); // 1 if x less than 0.9
+void main() 
+{
+    
+    float top = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.05), vec2(0.95, 0.05));
+    float right = 1.0 - lineSegment(gl_PointCoord, vec2(0.95, 0.05), vec2(0.95, 0.95));
+    float bottom = 1.0 - lineSegment(gl_PointCoord, vec2(0.95, 0.95), vec2(0.05, 0.95));
+    float left = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.95), vec2(0.05, 0.05));
+    float shaper = top + right + bottom + left;
 
-                // The multiplication of left*bottom will be similar to the logical AND.
-                shape = vec3(1.0 - top * left * bottom * right);
-                color = vec3(1.0, 0.0, 0.5);
-
-                gl_FragColor = vec4(shape * color, 1.0);
-            }
+    gl_FragColor = vec4(vec3(shaper), 1.0);
+}
 `
