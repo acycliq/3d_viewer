@@ -1,5 +1,4 @@
 const fShader = `
-// NEEDS TO BE DONE> HAS NOT EVEN STARTED
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
