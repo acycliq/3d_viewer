@@ -15,21 +15,21 @@ void main()
     float side = 1.0;  // fragment has side length = 1.0
     float r = side/2.0;
     vec2 p = vec2(r);  // center of the fragment
-    float eps = 0.1;   // will be adjusting the tips of the star to avoid clipping
+    float eps = 0.05;   // will be adjusting the tips of the star to avoid clipping
     
-    // Points start at the bottom left tip of the star and move counter clockwise
-    vec2 L = vec2(p.x + r, p.y);
-    vec2 A = vec2(p.x + 0.43 * r, p.y + 0.25 * r);
-    vec2 B = vec2(p.x + 0.50 * r, p.y + 0.87 * r);
-    vec2 C = vec2(p.x, p.y + 0.50 * r);
-    vec2 D = vec2(p.x - 0.50 * r, p.y + 0.87 * r);
-    vec2 E = vec2(p.x - 0.43 * r, p.y + 0.25 * r);
-    vec2 F = vec2(p.x - r, p.y);
-    vec2 G = vec2(p.x - 0.43 * r, p.y - 0.25 * r);
-    vec2 H = vec2(p.x - 0.50 * r, p.y - 0.87 * r);
-    vec2 I = vec2(p.x, p.y - 0.50 * r);
-    vec2 J = vec2(p.x + 0.50 * r, p.y - 0.87 * r);
-    vec2 K = vec2(p.x + 0.43 * r, p.y - 0.25 * r);
+    // Points start at the bottom left tip of the star and move clockwise
+    vec2 A = vec2(p.x + 0.50 * r, p.y + 0.87 * r);
+    vec2 B = vec2(p.x, p.y + 0.50 * r);
+    vec2 C = vec2(p.x - 0.50 * r, p.y + 0.87 * r);
+    vec2 D = vec2(p.x - 0.43 * r, p.y + 0.25 * r);
+    vec2 E = vec2(p.x - r, p.y);
+    vec2 F = vec2(p.x - 0.43 * r, p.y - 0.25 * r);
+    vec2 G = vec2(p.x - 0.50 * r, p.y - 0.87 * r);
+    vec2 H = vec2(p.x, p.y - 0.50 * r);
+    vec2 I = vec2(p.x + 0.50 * r, p.y - 0.87 * r);
+    vec2 J = vec2(p.x + 0.43 * r, p.y - 0.25 * r);
+    vec2 K = vec2(p.x + r, p.y);
+    vec2 L = vec2(p.x + 0.43 * r, p.y + 0.25 * r);
     
     // Draw now the star
     float line_1  = 1.0 - lineSegment(gl_PointCoord, A, B);
