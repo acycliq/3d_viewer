@@ -1,20 +1,17 @@
-const vShader = `
+const vShader_glyphs = `
 uniform float uSize;
 void main()
 {
-    /**
-     * Position
-     */
+    // Position
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
     
-    /**
-     * Size
-     */
-
+    // Size
     gl_PointSize = 100.0;
+    
+    // Controls the attenuation
     gl_PointSize *= (1.0 / - viewPosition.z);
 }
 `
