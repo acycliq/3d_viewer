@@ -6,6 +6,8 @@ uniform float b;
 uniform float a;
 void main()
 {
-    gl_FragColor = vec4(r, g, b, a);
+    float strength = gl_PointCoord.y;
+    gl_FragColor = vec4(vec2(gl_PointCoord.y), 1.0, 1.0);
+    
 }
 `
