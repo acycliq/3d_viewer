@@ -24,7 +24,7 @@ function app(geneData) {
         rgb_arr.push(hexToRgb(getColor(g)))
     }
 
-    var points = geneNames.map((d, i) => my_particles(coords_arr[i], rgb_arr[i]));
+    var points = geneNames.map((d, i) => my_particles(coords_arr[i], d));
     render_scene(points);
     console.log(geneNames)
 }

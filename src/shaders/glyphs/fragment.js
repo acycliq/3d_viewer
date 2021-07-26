@@ -89,7 +89,7 @@ void main()
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
-const fShader_dot = `
+const fShader_point = `
 float draw_circle(vec2 coord, float radius) {
     // calculate the distance from the center(which is at [0.5, 0.5])
     float d = distance(gl_PointCoord, vec2(0.5));

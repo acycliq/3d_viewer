@@ -19,9 +19,30 @@ function getTaxonomy(gene) {
     return glyphSettings().filter(d => d.gene === gene)[0].taxonomy
 }
 
+function getGlyph(gene) {
+    return glyphSettings().filter(d => d.gene === gene)[0].glyphName
+}
+
 function getColor(gene) {
     const t = getTaxonomy(gene);
     return glyphColor(t)
+}
+
+function getShader(glyph){
+    return glyph === 'star6'? fShader_star6:
+        glyph==='star5'? fShader_star5:
+            glyph === 'diamond'? fShader_diamond:
+                glyph === 'square'? fShader_square:
+                    glyph === 'triangleUp'? fShader_triangleUp:
+                        glyph === 'triangleDown'? fShader_triangleDown:
+                            glyph === 'triangleRight'? fShader_triangleRight:
+                                glyph === 'triangleLeft'? fShader_triangleLeft:
+                                    glyph === 'cross'? fShader_cross:
+                                        glyph === 'plus'? fShader_plus:
+                                            glyph === 'asterisk'? fShader_asterisk:
+                                                glyph === 'circle'? fShader_circle:
+                                                    glyph === 'point'? fShader_point:
+                                                        console.log('Shader for ' + glyph + ' is missing.')
 }
 
 function hexToRgb(hex) {
