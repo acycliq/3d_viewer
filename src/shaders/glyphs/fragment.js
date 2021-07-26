@@ -7,6 +7,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     return step(0.05, length(pa - ba*h));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     
@@ -20,7 +25,7 @@ void main()
     
     float shaper = plus + cross;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -34,13 +39,18 @@ float draw_circle(vec2 coord, float radius) {
     return step(d, radius);
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     float circle_1 = draw_circle(gl_PointCoord, 0.5);
     float circle_2 = 1.0 - draw_circle(gl_PointCoord, 0.4);
     vec3 color = vec3(circle_1 * circle_2);
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color  * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -53,6 +63,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     return step(0.05, length(pa - ba*h));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     
@@ -61,7 +76,7 @@ void main()
     
     float shaper = diag_1 + diag_2;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -74,6 +89,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     return step(0.05, length(pa - ba*h));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     
@@ -84,7 +104,7 @@ void main()
     
     float shaper = side_1 + side_2 + side_3 + side_4;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -98,13 +118,18 @@ float draw_circle(vec2 coord, float radius) {
     return step(d, radius);
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     float circle_1 = draw_circle(gl_PointCoord, 0.25);
     float circle_2 = 1.0 - draw_circle(gl_PointCoord, 0.08);
     vec3 color = vec3(circle_1 * circle_2);
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -117,13 +142,18 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     return step(0.05, length(pa - ba*h));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     float vertical = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.5, 0.95));
     float horizontal = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.5), vec2(0.95, 0.5));
     float shaper = vertical + horizontal;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -136,6 +166,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     return step(0.05, length(pa - ba*h));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     float top = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.05), vec2(0.95, 0.05));
@@ -144,7 +179,7 @@ void main()
     float left = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.95), vec2(0.05, 0.05));
     float shaper = top + right + bottom + left;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -156,6 +191,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
     return step(0.05, length(pa - ba*h));
 }
+
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
 
 void main() 
 {
@@ -192,7 +232,7 @@ void main()
     
     float shaper = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + line_8 + line_9 + line_10 + line_11;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -206,6 +246,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
     return step(0.05, length(pa - ba*h));
 }
+
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
 
 void main() 
 {
@@ -245,7 +290,7 @@ void main()
     
     float shaper = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + line_8 + line_9 + line_10 + line_11 + line_12;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -258,6 +303,11 @@ float lineSegment(vec2 p, vec2 a, vec2 b) {
     return step(0.05, length(pa - ba*h));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {
     float line_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.05), vec2(0.5, 0.95));
@@ -265,7 +315,7 @@ void main()
     float line_3 = 1.0 - lineSegment(gl_PointCoord, vec2(0.95, 0.05), vec2(0.05, 0.05));
     float shaper = line_1 + line_2 + line_3;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -284,6 +334,11 @@ mat2 rot(float a){
     return mat2( cos(a), sin(a), -sin(a), cos(a));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {  
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(PI * 0.5); // rotate
@@ -293,7 +348,7 @@ void main()
     float line_3 = 1.0 - lineSegment(uv, vec2(0.95, 0.05), vec2(0.05, 0.05));
     float shaper = line_1 + line_2 + line_3;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -312,6 +367,11 @@ mat2 rot(float a){
     return mat2( cos(a), sin(a), -sin(a), cos(a));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {  
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(1.5 * PI); // rotate
@@ -321,7 +381,7 @@ void main()
     float line_3 = 1.0 - lineSegment(uv, vec2(0.95, 0.05), vec2(0.05, 0.05));
     float shaper = line_1 + line_2 + line_3;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -340,6 +400,11 @@ mat2 rot(float a){
     return mat2( cos(a), sin(a), -sin(a), cos(a));
 }
 
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+
 void main() 
 {  
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(PI); // rotate
@@ -349,7 +414,7 @@ void main()
     float line_3 = 1.0 - lineSegment(uv, vec2(0.95, 0.05), vec2(0.05, 0.05));
     float shaper = line_1 + line_2 + line_3;
 
-    gl_FragColor = vec4(vec3(shaper), 1.0);
+    gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
 }
 `;
 

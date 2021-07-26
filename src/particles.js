@@ -2,11 +2,13 @@
 function my_particles(positions, gene) {
 
     var glyph = getGlyph(gene),
-        color = getColor(gene),
-        fShader = getShader(glyph);
+        hexCode = getColor(gene);
+
+    var fShader = getShader(glyph),
+        color = hexToRgb(hexCode);
 
     const particleGeometry = new THREE.BufferGeometry();
-     new THREE.PlaneBufferGeometry(1, 1, 32, 32)
+     new THREE.PlaneBufferGeometry(1, 1, 32, 32);
     var scales = new Float32Array(positions.length);
     for (let i = 0; i < positions.length; i++) {
         scales[i] = 1
