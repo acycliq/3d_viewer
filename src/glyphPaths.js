@@ -1,17 +1,5 @@
 
-function ctxPath(glyphName, ctx) {
-    var r = 64;
-    var p = {
-        'x': r,
-        'y': r,
-    };
-
-    var tile_size =  2 * r;
-    ctx.canvas.width = 2 * tile_size;
-    ctx.canvas.height = 2 * tile_size;
-    // ctx.fillStyle = "yellow";
-    ctx.lineWidth = 20;
-    ctx.strokeStyle = "yellow";
+function ctxPath(glyphName, ctx, p, r) {
 
     if (glyphName === 'star6') {
         ctx.beginPath();
@@ -44,8 +32,7 @@ function ctxPath(glyphName, ctx) {
         ctx.lineTo(p.x - 0.5 * r, p.y + 0.27637816 * r);
         ctx.lineTo(p.x - 0.618027443 * r, p.y + 1 * r);
         ctx.lineTo(p.x, p.y + 0.658351875 * r);
-         ctx.closePath();
-
+        ctx.closePath();
     }
 
 
@@ -56,7 +43,7 @@ function ctxPath(glyphName, ctx) {
         ctx.lineTo(p.x + r, p.y);
         ctx.lineTo(p.x, p.y + r);
         ctx.lineTo(p.x - r, p.y);
-         ctx.closePath();
+        ctx.closePath();
     }
 
 
@@ -67,7 +54,7 @@ function ctxPath(glyphName, ctx) {
         ctx.lineTo(p.x + r, p.y + r);
         ctx.lineTo(p.x - r, p.y + r);
         ctx.lineTo(p.x - r, p.y - r);
-         ctx.closePath();
+        ctx.closePath();
     }
 
 
@@ -160,10 +147,9 @@ function ctxPath(glyphName, ctx) {
         console.log('glyph: "' + glyphName + '" not implemented.')
     }
 
-    // ctx.fill()
-    ctx.stroke();
     return ctx
 }
+
 
 
 

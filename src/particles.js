@@ -36,6 +36,7 @@ function my_particles(positions, gene) {
 
     // Points
     const particles = new THREE.Points(particleGeometry, particlesMaterial);
+    particles.name = gene;
 
     return particles
 

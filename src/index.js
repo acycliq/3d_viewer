@@ -1,5 +1,13 @@
 // variables in the global scope
-var camera, scene, renderer, controls, all_geneData, worker, configSettings;
+var camera,
+    scene,
+    renderer,
+    controls,
+    all_geneData,
+    worker,
+    configSettings,
+    legend_added = false, //used to make sure the listener is attached only once
+    genePanel;
 // let raycaster;
 
 let moveForward = false;

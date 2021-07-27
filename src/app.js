@@ -6,6 +6,9 @@ function app(geneData) {
     // get all the gene names
     var geneNames = Object.keys(data).sort();
 
+    // get the gene panel (this is assigned to a global variable)
+    genePanel = getGenePanel(geneData);
+
     // loop over the genes and collect in one array the coords for each spot
     var img_width = configSettings.img_width,
         img_height = configSettings.img_height,

@@ -53,3 +53,34 @@ function hexToRgb(hex) {
         b: parseInt(result[3], 16)
     } : null;
 }
+
+
+function getGenePanel(geneData){
+    var panel = [...new Set(geneData.map(d => d.Gene))].sort();
+
+    // drop a warning if a gene is not set in the configuration file
+    var cfg_genes = glyphSettings().map(d => d.gene).sort();
+    var missing = panel.filter(x => !cfg_genes.includes(x));
+    if (missing.length > 0) {
+        console.log('Waring: These genes have not been assigned color, glyph etc in the glyphConfig.js: ' +  missing);
+    }
+
+   return panel
+}
+
+function legendControl() {
+    var legendLink = document.querySelector(`#legend-link`);
+
+    if (!legend_added) {
+        legendLink.addEventListener(`click`, () => {
+            // Opens the page and stores the opened window instance
+            legendWindow = window.open(`./src/genes_datatable.html`); // <--- THAT NEEDS TO BE EXPOSED TO THE USER. MOVE I INSIDE config.js MAYBE
+            // legendWindow = window.open('./viewer/genes_datatable.html', '_blank','toolbar=yes');
+
+        });
+    }
+    legend_added = true;
+
+    $('#legend').show()
+    console.log('legend added')
+}
