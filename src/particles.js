@@ -8,7 +8,6 @@ function my_particles(positions, gene) {
         color = hexToRgb(hexCode);
 
     const particleGeometry = new THREE.BufferGeometry();
-     new THREE.PlaneBufferGeometry(1, 1, 32, 32);
     var scales = new Float32Array(positions.length);
     for (let i = 0; i < positions.length; i++) {
         scales[i] = 1
