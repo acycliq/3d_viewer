@@ -5,7 +5,7 @@ function config() {
             img_width: 1260,
             img_height: 340,
             img_depth: 60,
-            geneData: 'https://api.github.com/repos/acycliq/3d_viewer/contents/data/geneData?ref=master',
+            geneData: 'https://www.googleapis.com/storage/v1/b/3d-viewer/o/data/geneData/geneData.tsv',
         },
         {   // 1.
             name: 'vizgen',

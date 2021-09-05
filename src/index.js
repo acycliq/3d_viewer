@@ -28,7 +28,7 @@ function run() {
     console.log('app starts');
     configSettings = config().get('default');
 
-    fetcher([configSettings.geneData]).then(
+    fetcher([encode(configSettings.geneData)]).then(
         result => make_package(result),
         error => alert(error) // doesn't run
     );
@@ -44,7 +44,7 @@ const fetcher = (filenames) => {
 
 function make_package(result) {
     var workPackage = result.reduce((a, b) => a.concat(b), []);
-    workPackage.forEach(d => d.root_name = d.name.split('_')[0]);
+    workPackage.forEach(d => d.root_name = strip_url(d.name));
     workPackage.forEach(d => d.bytes_streamed = 0); //will keep how many bytes have been streamed
     workPackage.forEach(d => d.data = []);          //will keep the actual data from the flatfiles
     workPackage.forEach(d => d.data_length = 0);    //will keep the number of points that have been fetched
@@ -53,6 +53,30 @@ function make_package(result) {
     data_loader(workPackage);
 
     console.log(result)
+}
+
+function strip_url(d) {
+    // if the url has / get the last substring
+    fName = d.substring(d.lastIndexOf('/')+1);
+
+    // then strip the extension and return the value
+    return fName.split('.')[0]
+}
+
+function encode(url) {
+    // In google cloud storage, the object must be encoded. That means / must be replaced gy %2F
+
+    if (url.startsWith('https://www.googleapis.com/storage')){
+        // Split the path
+        [root, fName] = url.split('/o/')
+
+        // encode and return
+        return root + '/o/' + encodeURIComponent(fName)
+    }
+    else {
+        return url
+    }
+
 }
 
 function postLoad(arr) {
