@@ -65,7 +65,7 @@ function strip_url(d) {
 
 function encode(url) {
     // In google cloud storage, the object must be encoded. That means / must be replaced gy %2F
-
+    console.log('Encoding the object path of the google cloud storage url')
     if (url.startsWith('https://www.googleapis.com/storage')){
         // Split the path
         [root, fName] = url.split('/o/')
