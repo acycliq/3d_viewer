@@ -1,12 +1,35 @@
-function render_scene(points) {
+function render_scene(points, cells, sphere) {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
     // Scene
     scene = new THREE.Scene();
+    // scene.background = new THREE.Color('white');
 
     // add the points to the scene
     points.map(d => scene.add(d));
+
+    // add the cells too
+    // scene.add(cells);
+
+    scene.add(sphere)
+
+    // const cube = new THREE.Mesh(
+    //     new THREE.BoxGeometry(),
+    //     new THREE.MeshBasicMaterial()
+    // )
+    // scene.add(cube)
+
+    function addLight(x, y, z) {
+        const color = 0xFFFFFF;
+        const intensity = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(x, y, z);
+        scene.add(light);
+    }
+
+    addLight(-1, 2, 4);
+    addLight(1, -1, -2);
 
 
     // Base camera
@@ -25,7 +48,7 @@ function render_scene(points) {
 
     // Renderer
     renderer = new THREE.WebGLRenderer({
-        canvas: canvas
+        canvas: canvas,
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -90,8 +113,4 @@ function showPoints(gene){
         console.log('Gene: ' + gene + ' not in the gene panel')
     }
 
-}
-
-function junk(){
-    var x = 1;
 }
