@@ -9,7 +9,7 @@ void main()
     gl_Position = projectedPosition;
     
     // Size
-    gl_PointSize = 100.0;
+    gl_PointSize = 1000.0;
     
     // Controls the attenuation
     gl_PointSize *= (1.0 / - viewPosition.z);

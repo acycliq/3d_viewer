@@ -5,6 +5,8 @@ var camera,
     controls,
     all_geneData,
     worker,
+    geneNames,
+    coords_arr,
     configSettings,
     legend_added = false, //used to make sure the listener is attached only once
     genePanel;
