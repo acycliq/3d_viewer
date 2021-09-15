@@ -1,5 +1,6 @@
 const vShader_glyphs = `
 uniform float uSize;
+uniform float zThres;
 varying vec3 ndc;
 void main()
 {
@@ -12,7 +13,7 @@ void main()
     ndc = gl_Position.xyz / gl_Position.w;  // NDC in [-1, 1] (by perspective divide)
     
     // Size
-    if (ndc.z < 0.95) {
+    if (ndc.z < zThres) {
         gl_PointSize = 2000.0;
     }
     else {

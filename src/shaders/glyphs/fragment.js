@@ -1,6 +1,7 @@
 
 const fShader_asterisk = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -16,7 +17,7 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -38,6 +39,7 @@ void main() {
 
 const fShader_circle = `
 varying vec3 ndc;
+uniform float zThres;
 
 float draw_circle(vec2 coord, float radius) {
     // calculate the distance from the center(which is at [0.5, 0.5])
@@ -70,6 +72,7 @@ void main() {
 
 const fShader_cross = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -103,6 +106,7 @@ void main() {
 
 const fShader_diamond = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -137,6 +141,7 @@ void main() {
 
 const fShader_point = `
 varying vec3 ndc;
+uniform float zThres;
 
 float draw_circle(vec2 coord, float radius) {
     // calculate the distance from the center(which is at [0.5, 0.5])
@@ -169,6 +174,7 @@ void main() {
 
 const fShader_plus = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -200,6 +206,7 @@ void main() {
 
 const fShader_square = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -233,6 +240,7 @@ void main() {
 
 const fShader_star5 = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -293,6 +301,7 @@ void main() {
 
 const fShader_star6 = `
 varying vec3 ndc;
+uniform float zThres;
 
 // IT'S OK BUT NOT PERFECT. THE TIPS ARE GETTING CLIPPED AND NEEDS SOME REVISION TO FIX THIS 
 
@@ -358,6 +367,7 @@ void main() {
 
 const fShader_triangleDown = `
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -391,6 +401,7 @@ void main() {
 const fShader_triangleLeft = `
 #define PI 3.14159265359
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -430,6 +441,7 @@ void main() {
 const fShader_triangleRight = `
 #define PI 3.14159265359
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -469,6 +481,7 @@ void main() {
 const fShader_triangleUp = `
 #define PI 3.14159265359
 varying vec3 ndc;
+uniform float zThres;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;

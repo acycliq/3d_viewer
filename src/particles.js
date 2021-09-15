@@ -19,13 +19,14 @@ function my_particles(positions, gene) {
     const alpha = 0.8;
     const particlesMaterial = new THREE.ShaderMaterial({
         // depthWrite: false,
-        // blending: THREE.AdditiveBlending,
+        blending: THREE.AdditiveBlending,
         // vertexColors: true,
         vertexShader: vShader_glyphs,
         fragmentShader: fShader,
         uniforms: {
             uSize: {value: 110.0},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
+            zThres: {value: 0.01},
             r: {value: color.r / 255.0},
             g: {value: color.g / 255.0},
             b: {value: color.b / 255.0},
@@ -39,6 +40,14 @@ function my_particles(positions, gene) {
 
     return particles
 
+}
+
+function get_zThres(z_eye){
+    // https://stackoverflow.com/questions/46829113/transpose-z-position-from-perspective-to-orthographic-camera-in-three-js
+    var f = camera.far,
+        n = camera.near;
+    z_ndc = ( -z_eye * (f+n)/(f-n) - 2*f*n/(f-n) ) / -z_eye;
+    return z_ndc
 }
 
 
