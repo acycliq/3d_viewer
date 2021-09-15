@@ -1,5 +1,6 @@
 const vShader_glyphs = `
 uniform float uSize;
+varying vec3 ndc;
 void main()
 {
     // Position
@@ -8,10 +9,17 @@ void main()
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
     
+    ndc = gl_Position.xyz / gl_Position.w;  // NDC in [-1, 1] (by perspective divide)
+    
     // Size
-    gl_PointSize = 1000.0;
+    if (ndc.z < 0.95) {
+        gl_PointSize = 2000.0;
+    }
+    else {
+        gl_PointSize = 500.0;
+    }
     
     // Controls the attenuation
-    gl_PointSize *= (1.0 / - viewPosition.z);
+     gl_PointSize *= (1.0 / - viewPosition.z);
 }
 `;

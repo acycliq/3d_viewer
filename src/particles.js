@@ -18,9 +18,9 @@ function my_particles(positions, gene) {
 
     const alpha = 0.8;
     const particlesMaterial = new THREE.ShaderMaterial({
-        depthWrite: false,
+        // depthWrite: false,
         // blending: THREE.AdditiveBlending,
-        vertexColors: true,
+        // vertexColors: true,
         vertexShader: vShader_glyphs,
         fragmentShader: fShader,
         uniforms: {
@@ -130,4 +130,83 @@ function my_sphere(radius, position, color) {
     let mesh = new THREE.Mesh(geometry, material);
     return mesh;
 }
+
+
+function add_spheres() {
+    //setup
+    options = {
+        dynamic: false,
+        uniformScale: false,
+        material: 'phong',
+        instanceNumber: 2000,
+        geometry: 'sphere'
+    };
+
+    var geometries = {
+        sphere: new THREE.SphereBufferGeometry(1, 12, 8),
+    };
+
+    var instanceNumbers = 2000;
+    var phong_material = new THREE.MeshPhongMaterial({
+            color: 0xff0000,
+            shininess: 150,
+            specular: 0x222222,
+            shading: THREE.SmoothShading,
+        });
+
+
+    //mesh wrapper
+    objectWrapper = new THREE.Object3D();
+    objectWrapper.position.y = 3;
+
+    trsCache = [];
+    console.log('Initializing object cache for 100k objects...');
+    console.time('Object cache initialized.');
+
+    for (var i = 0; i < instanceNumbers; i++) {
+        trsCache.push({
+            position: new THREE.Vector3(Math.random() * 20 - 10, Math.random() * 2 - 1, 0).multiplyScalar(14),
+            scale: new THREE.Vector3(Math.random() + .5, Math.random() + .5, Math.random() + .5)
+        });
+
+    }
+    console.timeEnd('Object cache initialized.');
+    console.log('Initializing instanced mesh permutations...');
+    console.time('Instanced mesh permutations initialized.');
+
+
+    var uScale = 0;
+    var instancedMesh = new THREE.InstancedMesh(
+        //provide geometry
+        geometries['sphere'],
+
+        //provide material
+        phong_material,
+
+        //how many instances to allocate
+        instanceNumbers,
+
+        //is the scale known to be uniform, will do less shader work, improperly applying this will result in wrong shading
+        !!uScale
+    );
+
+    var ss = new THREE.Vector3(1, 1, 1);
+    var dummy = new THREE.Object3D();
+    for (var i = 0; i < instanceNumbers; i++) {
+        var coords = trsCache[i].position;
+        dummy.position.set(coords.x, coords.y, coords.z);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+
+        // instancedMesh.geometry.setPositionAt(i, trsCache[i].position);
+        // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);
+    }
+    instancedMesh.visible = true;
+    instancedMesh.castShadow = true;
+    instancedMesh.receiveShadow = true;
+    objectWrapper.add(instancedMesh);
+    return objectWrapper
+
+}
+
 

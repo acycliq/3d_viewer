@@ -22,23 +22,28 @@ function app(geneData) {
         // var temp = new Float32Array(data[g].map(d => [d.x - img_width/2, img_height - d.y - img_height/2, (1.5 * (1 + d.z_stack)) - img_depth/2]).flat());
 
         //for ucl
-        var temp = new Float32Array(data[g].map(d => [d.x - img_width / 2,  d.z - img_depth / 2, img_height - d.y - img_height / 2]).flat());
+        var temp = new Float32Array(data[g].map(d => [d.x - img_width / 2,   img_height - d.y - img_height / 2, d.z - img_depth / 2]).flat());
         coords_arr.push(temp)
 
         // rgb_arr.push(hexToRgb(getColor(g)))
     }
 
-    render_scene_2().initScene()
-    render_scene_2().initMisc()
-    render_scene_2().initExample(null)
-    render_scene_2().animate();
-    document.body.appendChild( renderer.domElement );
+    // render_scene_2().initScene()
+    // render_scene_2().initMisc()
+    // render_scene_2().initExample(null)
+    // render_scene_2().animate();
+    // document.body.appendChild( renderer.domElement );
 
     // var points = geneNames.map((d, i) => my_particles(coords_arr[i], d));
-    // var cells = my_cells(0, 0, 0)
-    // var s = make_sphere({r:0.0, g:0.0, b:1.0}, 2, 0)
-    // render_scene(points, cells, s);
-    console.log(geneNames)
+    // // var cells = my_cells(0, 0, 0)
+    // // var s = make_sphere({r:0.0, g:0.0, b:1.0}, 2, 0)
+    // var sphere = add_spheres()
+    // render_scene(points, null, sphere);
+    // console.log(geneNames)
+
+    plotData(coords_arr)
+
+
 }
 
 function make_sphere(color, radius) {

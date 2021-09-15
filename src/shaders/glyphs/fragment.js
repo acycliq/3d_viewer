@@ -1,5 +1,7 @@
 
 const fShader_asterisk = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -12,9 +14,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
-    
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float diag_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.30, 0.30), vec2(0.70, 0.70));
     float diag_2 = 1.0 - lineSegment(gl_PointCoord, vec2(0.30, 0.70), vec2(0.70, 0.30));
     float cross = diag_1 + diag_2;
@@ -26,11 +31,14 @@ void main()
     float shaper = plus + cross;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_circle = `
+varying vec3 ndc;
+
 float draw_circle(vec2 coord, float radius) {
     // calculate the distance from the center(which is at [0.5, 0.5])
     float d = distance(gl_PointCoord, vec2(0.5));
@@ -44,18 +52,25 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float circle_1 = draw_circle(gl_PointCoord, 0.5);
     float circle_2 = 1.0 - draw_circle(gl_PointCoord, 0.4);
     vec3 color = vec3(circle_1 * circle_2);
 
     gl_FragColor = vec4(color  * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_cross = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -68,8 +83,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     
     float diag_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.05), vec2(0.95, 0.95));
     float diag_2 = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.95), vec2(0.95, 0.05));
@@ -77,11 +96,14 @@ void main()
     float shaper = diag_1 + diag_2;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_diamond = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -94,9 +116,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
-    
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float side_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.9, 0.5));
     float side_2 = 1.0 - lineSegment(gl_PointCoord, vec2(0.9, 0.5), vec2(0.5, 0.95));
     float side_3 = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.95), vec2(0.1, 0.5));
@@ -105,11 +130,14 @@ void main()
     float shaper = side_1 + side_2 + side_3 + side_4;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_point = `
+varying vec3 ndc;
+
 float draw_circle(vec2 coord, float radius) {
     // calculate the distance from the center(which is at [0.5, 0.5])
     float d = distance(gl_PointCoord, vec2(0.5));
@@ -123,18 +151,25 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float circle_1 = draw_circle(gl_PointCoord, 0.25);
     float circle_2 = 1.0 - draw_circle(gl_PointCoord, 0.08);
     vec3 color = vec3(circle_1 * circle_2);
 
     gl_FragColor = vec4(color * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_plus = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -147,18 +182,25 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float vertical = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.5, 0.95));
     float horizontal = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.5), vec2(0.95, 0.5));
     float shaper = vertical + horizontal;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_square = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -171,8 +213,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float top = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.05), vec2(0.95, 0.05));
     float right = 1.0 - lineSegment(gl_PointCoord, vec2(0.95, 0.05), vec2(0.95, 0.95));
     float bottom = 1.0 - lineSegment(gl_PointCoord, vec2(0.95, 0.95), vec2(0.05, 0.95));
@@ -180,11 +226,14 @@ void main()
     float shaper = top + right + bottom + left;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_star5 = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -197,8 +246,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float side = 1.0;  // fragment has side length = 1.0
     float r = side/2.0;
     vec2 p = vec2(r);  // center of the fragment
@@ -233,11 +286,14 @@ void main()
     float shaper = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + line_8 + line_9 + line_10 + line_11;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_star6 = `
+varying vec3 ndc;
+
 // IT'S OK BUT NOT PERFECT. THE TIPS ARE GETTING CLIPPED AND NEEDS SOME REVISION TO FIX THIS 
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
@@ -252,8 +308,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float side = 1.0;  // fragment has side length = 1.0
     float r = side/2.0;
     vec2 p = vec2(r);  // center of the fragment
@@ -291,11 +351,14 @@ void main()
     float shaper = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + line_8 + line_9 + line_10 + line_11 + line_12;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_triangleDown = `
+varying vec3 ndc;
+
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
     vec2 pa = p - a, ba = b - a;
@@ -308,20 +371,26 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     float line_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.05), vec2(0.5, 0.95));
     float line_2 = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.95), vec2(0.95, 0.05));
     float line_3 = 1.0 - lineSegment(gl_PointCoord, vec2(0.95, 0.05), vec2(0.05, 0.05));
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_triangleLeft = `
 #define PI 3.14159265359
+varying vec3 ndc;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -339,8 +408,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{  
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(PI * 0.5); // rotate
     uv = uv + vec2(0.5);
     float line_1 = 1.0 - lineSegment(uv, vec2(0.05), vec2(0.5, 0.95));
@@ -349,12 +422,14 @@ void main()
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_triangleRight = `
 #define PI 3.14159265359
+varying vec3 ndc;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -372,8 +447,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{  
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(1.5 * PI); // rotate
     uv = uv + vec2(0.5);
     float line_1 = 1.0 - lineSegment(uv, vec2(0.05), vec2(0.5, 0.95));
@@ -382,12 +461,14 @@ void main()
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }  
 }
 `;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const fShader_triangleUp = `
 #define PI 3.14159265359
+varying vec3 ndc;
 
 float lineSegment(vec2 p, vec2 a, vec2 b) {
     float thickness = 1.0/100.0;
@@ -405,8 +486,12 @@ uniform float g;
 uniform float b;
 uniform float a;
 
-void main() 
-{  
+void main() {
+  // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
+  if (ndc.z > 0.95){
+    gl_FragColor = vec4(r, g, b, a);
+  }
+  else {
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(PI); // rotate
     uv = uv + vec2(0.5);
     float line_1 = 1.0 - lineSegment(uv, vec2(0.05), vec2(0.5, 0.95));
@@ -415,6 +500,6 @@ void main()
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+  }
 }
 `;
-
