@@ -7,7 +7,7 @@ function addScene() {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
     var z_near = 100,
-        z_far = 15000;
+        z_far = 10000;
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, z_near, z_far);
     camera.position.set(0, 0, 3000);
