@@ -1,4 +1,3 @@
-
 function my_particles(positions, gene) {
 
     var glyph = getGlyph(gene),
@@ -42,11 +41,11 @@ function my_particles(positions, gene) {
 
 }
 
-function get_zThres(z_eye){
+function get_zThres(z_eye) {
     // https://stackoverflow.com/questions/46829113/transpose-z-position-from-perspective-to-orthographic-camera-in-three-js
     var f = camera.far,
         n = camera.near;
-    z_ndc = ( -z_eye * (f+n)/(f-n) - 2*f*n/(f-n) ) / -z_eye;
+    z_ndc = (-z_eye * (f + n) / (f - n) - 2 * f * n / (f - n)) / -z_eye;
     return z_ndc
 }
 
@@ -142,84 +141,135 @@ function my_sphere(radius, position, color) {
 
 
 function add_spheres() {
-        //setup
-        options = {
-            dynamic: false,
-            uniformScale: false,
-            material: 'phong',
-            instanceNumber: 200,
-            geometry: 'sphere',
-        };
+    var my_spheres = [
+            {x: 35, y: 15, z: 17.5},
+            {x: -44, y: 23, z: -2.5},
+            {x: 43, y: 100, z: -3.5},
+            {x: 43, y: 88, z: -15.5},
+            {x: 43, y: 126.5, z: 15},
+            {x: -5, y: 115.5, z: 7},
+        ],
+        sphere_scale = [
+            {x: 7.5, y: 10, z: 3.0},
+            {x: 15, y: 25, z: 10},
+            {x: 13, y: 8, z: 4},
+            {x: 12, y: 8, z: 2},
+            {x: 8, y: 8, z: 8},
+            {x: 12, y: 12, z: 8},
+        ],
+        sphere_rotation = [
+            {x: 0.0, y: 0.0, z: 0.0},
+            {x: -Math.PI / 8, y: 0, z: -Math.PI / 4},
+            {x: 0, y: 0, z: 0},
+            {x: 0, y: 0, z: 0},
+            {x: 0, y: 0, z: 0},
+            {x: -Math.PI / 8, y: Math.PI / 8, z: 0},
+        ],
+        sphere_color = [
+            {r: 0, g: 0, b: 1},
+            {r: 0, g: 0, b: 1},
+            {r: 0, g: 0.701960, b: 1},
+            {r:1, g:0, b:230/255},
+            {r:1, g:0, b:230/255},
+            {r: 0, g: 0.701960, b: 1},
+        ];
 
-        var geometries = {
-            sphere: new THREE.SphereBufferGeometry(1, 12, 8),
-        };
 
-        // var instanceNumbers = options.instanceNumber;
-        var phong_material = new THREE.MeshPhongMaterial({
-            color: 0xffcccc,
-            shininess: 150,
-            specular: 0x222222,
-            shading: THREE.SmoothShading,
-            // wireframe: true,
-            transparent: true,
-            opacity: 0.3,
+    //setup
+    options = {
+        dynamic: false,
+        uniformScale: false,
+        material: 'phong',
+        instanceNumber: my_spheres.length,
+        geometry: 'sphere',
+    };
+
+    var geometries = {
+        sphere: new THREE.SphereBufferGeometry(1, 12, 8),
+    };
+
+    // var instanceNumbers = options.instanceNumber;
+    var phong_material = new THREE.MeshPhongMaterial({
+        // color: 0x0000ff,
+        shininess: 150,
+        specular: 0x222222,
+        shading: THREE.SmoothShading,
+        // wireframe: true,
+        transparent: true,
+        opacity: 0.3,
+    });
+
+
+    //mesh wrapper
+    objectWrapper = new THREE.Object3D();
+    objectWrapper.position.y = 16;
+    scene.add(objectWrapper);
+
+    trsCache = [];
+    console.log('Initializing object cache for 100k objects...');
+    console.time('Object cache initialized.');
+
+
+    // for (var i = 0; i < options.instanceNumber; i++) {
+    //     trsCache.push({
+    //         // position: new THREE.Vector3(Math.random() * 90 - 90/2, Math.random() * 20 - 10, Math.random()).multiplyScalar(14),
+    //         // scale: new THREE.Vector3(10*(Math.random() + .5), 10*(Math.random() + .5), 10*(Math.random() + .5)),
+    //         position: new THREE.Vector3(35, 15, 17.5, -35, -15, -17.5),
+    //         scale: new THREE.Vector3(7.5, 10, 3, 7.5, 10, 3)
+    //     });
+    // }
+    for (var i = 0; i < options.instanceNumber; i++) {
+        var d = my_spheres[i],
+            ds = sphere_scale[i],
+            dr = sphere_rotation[i];
+        trsCache.push({
+            position: new THREE.Vector3(d.x, d.y, d.z),
+            scale: new THREE.Vector3(ds.x, ds.y, ds.z),
+            rotation: new THREE.Vector3(dr.x, dr.y, dr.z),
         });
 
-
-        //mesh wrapper
-        objectWrapper = new THREE.Object3D();
-        objectWrapper.position.y = 16;
-        scene.add(objectWrapper);
-
-        trsCache = [];
-        console.log('Initializing object cache for 100k objects...');
-        console.time('Object cache initialized.');
-
-        for (var i = 0; i < options.instanceNumber; i++) {
-            trsCache.push({
-                position: new THREE.Vector3(Math.random() * 90 - 90/2, Math.random() * 20 - 10, Math.random()).multiplyScalar(14),
-                scale: new THREE.Vector3(10*(Math.random() + .5), 10*(Math.random() + .5), 10*(Math.random() + .5))
-            });
-
-        }
-        console.timeEnd('Object cache initialized.');
-        console.log('Initializing instanced mesh permutations...');
-        console.time('Instanced mesh permutations initialized.');
+    }
+    console.timeEnd('Object cache initialized.');
+    console.log('Initializing instanced mesh permutations...');
+    console.time('Instanced mesh permutations initialized.');
 
 
-        var uScale = 0;
-        var instancedMesh = new THREE.InstancedMesh(
-            //provide geometry
-            geometries['sphere'],
+    var uScale = 0;
+    var instancedMesh = new THREE.InstancedMesh(
+        //provide geometry
+        geometries['sphere'],
 
-            //provide material
-            phong_material,
+        //provide material
+        phong_material,
 
-            //how many instances to allocate
-            options.instanceNumber,
+        //how many instances to allocate
+        options.instanceNumber,
 
-            //is the scale known to be uniform, will do less shader work, improperly applying this will result in wrong shading
-            !!uScale
-        );
+        //is the scale known to be uniform, will do less shader work, improperly applying this will result in wrong shading
+        !!uScale
+    );
 
-        var ss = new THREE.Vector3(1, 1, 1);
-        var dummy = new THREE.Object3D();
-        for (var i = 0; i < options.instanceNumber; i++) {
-            var coords = trsCache[i].position;
-            var scales = trsCache[i].scale;
-            dummy.position.set(coords.x, coords.y, coords.z);
-            dummy.scale.set(scales.x, scales.y, scales.z);
-            dummy.updateMatrix();
-            instancedMesh.setMatrixAt(i, dummy.matrix);
+    var ss = new THREE.Vector3(1, 1, 1);
+    var dummy = new THREE.Object3D();
+    for (var i = 0; i < options.instanceNumber; i++) {
+        var coords = trsCache[i].position,
+            scales = trsCache[i].scale,
+            rot = trsCache[i].rotation;
+        dummy.position.set(coords.x, coords.y, coords.z);
+        dummy.scale.set(scales.x, scales.y, scales.z);
+        dummy.rotation.set(rot.x, rot.y, rot.z);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+        instancedMesh.setColorAt(i, new THREE.Color( sphere_color[i].r, sphere_color[i].g, sphere_color[i].b ))
 
-            // instancedMesh.geometry.setPositionAt(i, trsCache[i].position);
-            // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);
-        }
-        instancedMesh.visible = true;
-        instancedMesh.castShadow = true;
-        instancedMesh.receiveShadow = true;
-        objectWrapper.add(instancedMesh);
+        // instancedMesh.geometry.setPositionAt(i, trsCache[i].position);
+        // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);
+    }
+    instancedMesh.instanceColor.needsUpdate = true;
+    instancedMesh.visible = true;
+    instancedMesh.castShadow = true;
+    instancedMesh.receiveShadow = true;
+    objectWrapper.add(instancedMesh);
 
 }
 
