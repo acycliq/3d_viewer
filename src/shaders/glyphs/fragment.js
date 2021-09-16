@@ -18,6 +18,7 @@ uniform float a;
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -56,7 +57,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -88,7 +90,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -122,7 +125,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -158,7 +162,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -190,7 +195,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -222,7 +228,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -256,7 +263,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -319,7 +327,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -383,7 +392,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -421,7 +431,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -461,7 +472,8 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
+    // points at the far back
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -501,7 +513,7 @@ uniform float a;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
-  if (ndc.z > 0.95){
+  if (ndc.z > zThres){
     gl_FragColor = vec4(r, g, b, a);
   }
   else {
@@ -514,5 +526,46 @@ void main() {
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
   }
+}
+`;
+
+const fShader_solidSquare = `
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+uniform float zThres;
+uniform float r;
+uniform float g;
+uniform float b;
+uniform float a;
+varying vec3 ndc;
+
+
+void main(){
+      if (ndc.z > zThres){
+      // points at the far back
+        gl_FragColor = vec4(r, g, b, a);
+      }
+      else {
+      // points close to the camera
+        vec2 st = gl_FragCoord.xy/u_resolution;
+        float pct = 0.0;
+    
+        // a. The DISTANCE from the pixel to the center
+        pct = distance(st, vec2(0.5));
+    
+        // b. The LENGTH of the vector
+        //    from the pixel to the center
+        // vec2 toCenter = vec2(0.5)-st;
+        // pct = length(toCenter);
+    
+        // c. The SQUARE ROOT of the vector
+        //    from the pixel to the center
+        // vec2 tC = vec2(0.5)-st;
+        // pct = sqrt(tC.x*tC.x+tC.y*tC.y);
+    
+        vec3 color = vec3(pct);
+        gl_FragColor = vec4(1.0, 0.0, 0.0, a);
+      }
 }
 `;

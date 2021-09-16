@@ -14,10 +14,10 @@ void main()
     
     // Size
     if (ndc.z < zThres) {
-        gl_PointSize = 2000.0;
+        gl_PointSize = 1500.0;
     }
     else {
-        gl_PointSize = 500.0;
+        gl_PointSize = 800.0;
     }
     
     // Controls the attenuation
