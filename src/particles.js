@@ -155,7 +155,7 @@ function add_spheres() {
             sphere: new THREE.SphereBufferGeometry(1, 12, 8),
         };
 
-        var instanceNumbers = options.instanceNumber;
+        // var instanceNumbers = options.instanceNumber;
         var phong_material = new THREE.MeshPhongMaterial({
             color: 0xffcccc,
             shininess: 150,
@@ -176,7 +176,7 @@ function add_spheres() {
         console.log('Initializing object cache for 100k objects...');
         console.time('Object cache initialized.');
 
-        for (var i = 0; i < instanceNumbers; i++) {
+        for (var i = 0; i < options.instanceNumber; i++) {
             trsCache.push({
                 position: new THREE.Vector3(Math.random() * 90 - 90/2, Math.random() * 20 - 10, Math.random()).multiplyScalar(14),
                 scale: new THREE.Vector3(10*(Math.random() + .5), 10*(Math.random() + .5), 10*(Math.random() + .5))
@@ -197,7 +197,7 @@ function add_spheres() {
             phong_material,
 
             //how many instances to allocate
-            instanceNumbers,
+            options.instanceNumber,
 
             //is the scale known to be uniform, will do less shader work, improperly applying this will result in wrong shading
             !!uScale
@@ -205,7 +205,7 @@ function add_spheres() {
 
         var ss = new THREE.Vector3(1, 1, 1);
         var dummy = new THREE.Object3D();
-        for (var i = 0; i < instanceNumbers; i++) {
+        for (var i = 0; i < options.instanceNumber; i++) {
             var coords = trsCache[i].position;
             var scales = trsCache[i].scale;
             dummy.position.set(coords.x, coords.y, coords.z);
