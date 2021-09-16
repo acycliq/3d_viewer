@@ -13,14 +13,17 @@ void main()
     ndc = gl_Position.xyz / gl_Position.w;  // NDC in [-1, 1] (by perspective divide)
     
     // Size
-    if (ndc.z < zThres) {
-        gl_PointSize = 1500.0;
+    if (ndc.z > zThres) {
+        // points at the far back
+        gl_PointSize = 800.0;
     }
     else {
-        gl_PointSize = 800.0;
+        // points close to the camera
+        gl_PointSize = 1500.0;
     }
     
     // Controls the attenuation
      gl_PointSize *= (1.0 / - viewPosition.z);
 }
 `;
+
