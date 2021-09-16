@@ -147,7 +147,7 @@ function add_spheres() {
             dynamic: false,
             uniformScale: false,
             material: 'phong',
-            instanceNumber: 2000,
+            instanceNumber: 200,
             geometry: 'sphere',
         };
 
@@ -155,7 +155,7 @@ function add_spheres() {
             sphere: new THREE.SphereBufferGeometry(1, 12, 8),
         };
 
-        var instanceNumbers = 100;
+        var instanceNumbers = options.instanceNumber;
         var phong_material = new THREE.MeshPhongMaterial({
             color: 0xffcccc,
             shininess: 150,
