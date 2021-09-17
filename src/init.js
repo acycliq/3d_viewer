@@ -58,7 +58,7 @@ function addScene() {
     ground.scale.multiplyScalar(3);
     ground.castShadow = false;
     ground.receiveShadow = true;
-    scene.add(ground);
+    // scene.add(ground);
 
     // Controls
     controls = new THREE.OrbitControls(camera, canvas);
