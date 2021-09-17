@@ -154,6 +154,7 @@ function add_spheres() {
             {x: 10, y: -95, z: -3},
             {x: -20, y: -90, z: -12},
             {x: -13, y: -175, z: -3},
+            {x: -125, y: -15, z: 20},
         ],
         sphere_scale = [
             {x: 7.5, y: 10, z: 3.0},
@@ -168,6 +169,7 @@ function add_spheres() {
             {x: 13, y: 8, z: 8},
             {x: 8, y: 8, z: 8},
             {x: 12, y: 8, z: 8},
+            {x: 8, y: 35, z: 8},
         ],
         sphere_rotation = [
             {x: 0.0, y: 0.0, z: 0.0},
@@ -182,6 +184,7 @@ function add_spheres() {
             {x: 0, y: 0, z: 0},
             {x: 0, y: 0, z: 0},
             {x: -Math.PI / 8, y: 0, z: Math.PI / 4},
+            {x: 0, y: -Math.PI, z: Math.PI / 10},
         ],
         sphere_color = [
             {r: 0, g: 0, b: 1},
@@ -196,6 +199,7 @@ function add_spheres() {
             {r: 0, g: 1, b: 0},
             {r: 100/255, g: 0, b: 90/255},
             {r: 100/255, g: 0, b: 90/255},
+            {r: 1, g: 1, b: 1},
         ];
 
 
