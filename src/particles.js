@@ -151,6 +151,7 @@ function add_spheres() {
             {x: -73, y: -121.5, z: 5.5},
             {x: -66, y: -150.5, z: 17.5},
             {x: -53, y: -27, z: -7.5},
+            {x: 10, y: -95, z: -3},
         ],
         sphere_scale = [
             {x: 7.5, y: 10, z: 3.0},
@@ -162,6 +163,7 @@ function add_spheres() {
             {x: 17, y: 12, z: 6},
             {x: 12, y: 10, z: 8},
             {x: 14, y: 13, z: 10},
+            {x: 13, y: 8, z: 8},
         ],
         sphere_rotation = [
             {x: 0.0, y: 0.0, z: 0.0},
@@ -171,6 +173,7 @@ function add_spheres() {
             {x: 0, y: 0, z: 0},
             {x: -Math.PI / 8, y: Math.PI / 8, z: 0},
             {x: 0, y: Math.PI / 8, z: Math.PI / 6},
+            {x: 0, y: 0, z: 0},
             {x: 0, y: 0, z: 0},
             {x: 0, y: 0, z: 0},
         ],
@@ -184,6 +187,7 @@ function add_spheres() {
             {r: 0, g: 0.701960, b: 1},
             {r:1, g:0, b:230/255},
             {r: 0, g: 0.701960, b: 1},
+             {r: 0, g: 1, b: 0},
         ];
 
 
