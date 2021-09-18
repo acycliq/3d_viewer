@@ -19,10 +19,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float diag_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.30, 0.30), vec2(0.70, 0.70));
@@ -62,10 +59,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float circle_1 = draw_circle(gl_PointCoord, 0.5);
@@ -98,10 +92,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     
@@ -136,10 +127,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float side_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.9, 0.5));
@@ -176,10 +164,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float circle_1 = draw_circle(gl_PointCoord, 0.25);
@@ -212,10 +197,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float vertical = 1.0 - lineSegment(gl_PointCoord, vec2(0.5, 0.05), vec2(0.5, 0.95));
@@ -248,10 +230,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float top = 1.0 - lineSegment(gl_PointCoord, vec2(0.05, 0.05), vec2(0.95, 0.05));
@@ -286,10 +265,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float side = 1.0;  // fragment has side length = 1.0
@@ -353,10 +329,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float side = 1.0;  // fragment has side length = 1.0
@@ -421,10 +394,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     float line_1 = 1.0 - lineSegment(gl_PointCoord, vec2(0.05), vec2(0.5, 0.95));
@@ -463,10 +433,7 @@ void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
     // points at the far back
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(PI * 0.5); // rotate
@@ -502,15 +469,12 @@ uniform float r;
 uniform float g;
 uniform float b;
 uniform float a;
-uniform vec2 u_resolution;
 
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    // points at the far back
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(1.5 * PI); // rotate
@@ -550,10 +514,7 @@ uniform float a;
 void main() {
   // gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5);
   if (ndc.z > zThres){
-    float strength = distance(gl_PointCoord, vec2(0.5));
-    strength *= 2.0;
-    strength = 1.0 - strength;
-    gl_FragColor = vec4(strength * r, strength * g, strength * b, 1.0);
+    gl_FragColor = vec4(r, g, b, a);
   }
   else {
     vec2 uv = (gl_PointCoord - vec2(0.5)) * rot(PI); // rotate
