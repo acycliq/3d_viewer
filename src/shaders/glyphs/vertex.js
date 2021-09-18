@@ -15,7 +15,7 @@ void main()
     // Size
     if (ndc.z > zThres) {
         // points at the far back
-        gl_PointSize = 800.0;
+        gl_PointSize = 2000.0;
     }
     else {
         // points close to the camera
