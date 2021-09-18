@@ -1,9 +1,9 @@
 function plotData(data) {
-    addScene();
+    initScene();
     addContent(data);
 }
 
-function addScene() {
+function initScene() {
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
     var z_near = 100,
