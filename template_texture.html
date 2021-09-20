@@ -103,7 +103,7 @@
         light_2.shadow.camera.far = 100;
         // light.shadowDarkness = 0.2;
         scene.add(light_2);
-
+        //
         var helper_2 = new THREE.CameraHelper(light_2.shadow.camera);
         // scene.add(helper_2);
 
@@ -128,42 +128,24 @@
 
         const flakesTexture = loader.load('./src/flakes.png')
 
-        var boxgeometry = new THREE.SphereGeometry( 15, 32, 16 );
-        var front_material = new THREE.MeshStandardMaterial({
-            side: THREE.FrontSide,
-            // clearcoat: 1.0,
-            // clearcoatRoughness: 0,
+        var sphere_geometry = new THREE.SphereGeometry( 15, 32, 16 );
+        var props = {
             metalness: 0.65,
             roughness: 0.3,
-            color: 'black',
             normalMap: flakesTexture,
             normalScale: new THREE.Vector2(0.3, 0.3),
-            // normalMap.wrapS: THREE.RepeatWrapping,
-            // normalMap.wrapT: THREE.RepeatWrapping,
-            // normalMap.repeat: [30, 30],
-            // normalMap-anisotropy': 16,
-            // transmission: 0.6,
             transparent: true,
-            opacity: 0.4
-        });
-        var back_material = new THREE.MeshStandardMaterial({
-            side: THREE.BackSide,
-            color: 0x0aeedf,
-            // clearcoat: 1.0,
-            // clearcoatRoughness: 0,
-            metalness: 0.65,
-            roughness: 0.3,
-            color: 'red',
-            normalMap: flakesTexture,
-            normalScale: new THREE.Vector2(0.3, 0.3),
-            // normalMap.wrapS: THREE.RepeatWrapping,
-            // normalMap.wrapT: THREE.RepeatWrapping,
-            // normalMap.repeat: [30, 30],
-            // normalMap-anisotropy': 16,
-            // transmission: 0.6,
-            transparent: true,
-            opacity: 0.8
-        });
+        };
+        var front_material = new THREE.MeshStandardMaterial(props);
+        front_material.side = THREE.FrontSide;
+        front_material.color = new THREE.Color('black');
+        front_material.opacity = 0.4;
+
+        var back_material = new THREE.MeshStandardMaterial(props);
+        back_material.side = THREE.BackSide;
+        back_material.color = new THREE.Color('red');
+        back_material.opacity = 0.8;
+
         front_material.normalMap.wrapS = front_material.normalMap.wrapT = THREE.RepeatWrapping
         front_material.normalMap.repeat = new THREE.Vector2(30, 30)
 
@@ -177,9 +159,9 @@
         // // opacity: 0.4
         // });
 
-        var f_cube = new THREE.Mesh(boxgeometry, front_material);
+        var f_cube = new THREE.Mesh(sphere_geometry, front_material);
         f_cube.renderOrder = 2;
-        var b_cube = new THREE.Mesh(boxgeometry, back_material);
+        var b_cube = new THREE.Mesh(sphere_geometry, back_material);
         b_cube.renderOrder = 1;
         group.add(f_cube)
         group.add(b_cube)
