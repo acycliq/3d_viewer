@@ -8,6 +8,9 @@
     <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script>
     <script src='three.js/examples/js/controls/PointerLockControls.js'></script>
     <script src="three.js/examples/js/loaders/RGBELoader.js"></script>
+    <script src="three.js/examples/js/libs/dat.gui.min.js"></script>
+    <script src="three.js/examples/js/libs/stats.min.js"></script>
+
 
 </head><!--from   ww w  .  de  mo 2  s  .  c  om-->
 <body>
@@ -17,6 +20,22 @@
     var container, mesh, geometry, plane;
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
+    var container, stats;
+    var group;
+    var envMap;
+
+    const params = {
+        clearcoat: 1.0,
+        clearcoatRoughness: 0,
+        roughness: 0.3,
+        metalness: 0.65,
+        normalScale: 0.3,
+        transmission: 0.0,
+        transparent: true,
+        repeat: 30,
+        envMap: true,
+    };
+
     init();
     animate();
 
@@ -128,14 +147,14 @@
 
         var sphere_geometry = new THREE.SphereGeometry(15, 32, 16);
         var props = {
-            clearcoat: 1.0,
-            clearcoatRoughness: 0,
-            metalness: 0.65,
-            roughness: 0.3,
+            clearcoat: params.clearcoat,
+            clearcoatRoughness: params.clearcoatRoughness,
+            metalness: params.metalness,
+            roughness: params.roughness,
             normalMap: flakesTexture,
-            normalScale: new THREE.Vector2(0.3, 0.3),
-            transmission: 0.0,
-            transparent: true,
+            normalScale: new THREE.Vector2(params.normalScale, params.normalScale),
+            transmission: params.transmission,
+            transparent: params.transparent,
         };
         var front_material = new THREE.MeshPhysicalMaterial(props);
         front_material.side = THREE.FrontSide;
@@ -147,12 +166,12 @@
         back_material.color = new THREE.Color('red');
         back_material.opacity = 0.8;
 
-        front_material.normalMap.wrapS = front_material.normalMap.wrapT = THREE.RepeatWrapping
-        front_material.normalMap.repeat = new THREE.Vector2(30, 30)
+        front_material.normalMap.wrapS = front_material.normalMap.wrapT = THREE.RepeatWrapping;
+        front_material.normalMap.repeat = new THREE.Vector2(params.repeat, params.repeat);
 
-        back_material.normalMap.wrapS = back_material.normalMap.wrapT = THREE.RepeatWrapping
-        back_material.normalMap.repeat = new THREE.Vector2(30, 30)
-        var group = new THREE.Group();
+        back_material.normalMap.wrapS = back_material.normalMap.wrapT = THREE.RepeatWrapping;
+        back_material.normalMap.repeat = new THREE.Vector2(params.repeat, params.repeat);
+        group = new THREE.Group();
 
         // var glass_material = new THREE.MeshBasicMaterial({
         // color: 'cyan',
@@ -188,7 +207,7 @@
                 .setPath('https://threejs.org/examples/textures/equirectangular/')
                 .load('royal_esplanade_1k.hdr', function (texture) {
 
-                    var envMap = pmremGenerator.fromEquirectangular(texture).texture;
+                    envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
                     // scene.background = envMap;
                     scene.environment = envMap;
@@ -200,9 +219,32 @@
             pmremGenerator.compileEquirectangularShader();
 
         }
+
         setLighting()
 
+        stats = new Stats();
+        container.appendChild(stats.dom);
+
         controls = new THREE.OrbitControls(camera, webglRenderer.domElement);
+
+        const gui = new dat.GUI();
+
+        // gui.add(params, 'envMap', ['EXR', 'PNG']);
+        // gui.add(params, 'roughness', 0, 1, 0.01);
+        // gui.add(params, 'metalness', 0, 1, 0.01);
+        // gui.add(params, 'exposure', 0, 2, 0.01);
+        // gui.add(params, 'debug', false);
+
+        gui.add(params, 'clearcoat', 0, 1, 0.01);
+        gui.add(params, 'clearcoatRoughness', 0, 1, 0.01);
+        gui.add(params, 'roughness', 0, 1, 0.01);
+        gui.add(params, 'metalness', 0, 1, 0.01);
+        gui.add(params, 'normalScale', 0, 1, 0.01);
+        gui.add(params, 'transmission', 0, 1, 0.01);
+        gui.add(params, 'transparent', true);
+        gui.add(params, 'repeat', 0, 100, 1);
+        gui.add(params, 'envMap', true );
+        gui.open();
     }
 
     function onWindowResize() {
@@ -222,6 +264,20 @@
     }
 
     function render() {
+        group.children.map(d => d.material.clearcoat = params.clearcoat);
+        group.children.map(d => d.material.clearcoatRoughness = params.clearcoatRoughness);
+        group.children.map(d => d.material.roughness = params.roughness);
+        group.children.map(d => d.material.metalness = params.metalness);
+        group.children.map(d => d.material.normalScale = new THREE.Vector2(params.normalScale, params.normalScale));
+        group.children.map(d => d.material.transmission = params.transmission);
+        group.children.map(d => d.material.normalMap.repeat = new THREE.Vector2(params.repeat, params.repeat));
+        if (params.envMap){
+            scene.environment = envMap
+        }
+        else {
+            scene.environment = null
+        }
+
         camera.lookAt(scene.position);
         webglRenderer.render(scene, camera);
     }
