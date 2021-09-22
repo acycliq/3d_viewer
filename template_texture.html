@@ -27,12 +27,11 @@
     const params = {
         clearcoat: 1.0,
         clearcoatRoughness: 0,
+        metalness: 0.065,
         roughness: 0.3,
-        metalness: 0.65,
-        normalScale: 0.3,
+        normalScale: new THREE.Vector2(0.3, 0.3),
         transmission: 0.0,
         transparent: true,
-        repeat: 30,
         envMap: true,
     };
 
@@ -84,7 +83,7 @@
         // LIGHTS
         scene.add(new THREE.AmbientLight(0x666666));
         var light;
-        light = new THREE.DirectionalLight(0xdfebff, 1.0);
+        light = new THREE.DirectionalLight(0xdfebff, 1.75);
         light.position.set(30, 40, 5);
         light.position.multiplyScalar(1.3);
         light.castShadow = true;
@@ -105,7 +104,7 @@
 
 
         var light_2;
-        light_2 = new THREE.DirectionalLight(0xdfebff, 1.0);
+        light_2 = new THREE.DirectionalLight(0xdfebff, 1.75);
         light_2.position.set(-30, -40, -5);
         light_2.position.multiplyScalar(1.3);
         light_2.castShadow = true;
@@ -152,7 +151,7 @@
             metalness: params.metalness,
             roughness: params.roughness,
             normalMap: flakesTexture,
-            normalScale: new THREE.Vector2(params.normalScale, params.normalScale),
+            normalScale: params.normalScale,
             transmission: params.transmission,
             transparent: params.transparent,
         };
@@ -167,10 +166,10 @@
         back_material.opacity = 0.8;
 
         front_material.normalMap.wrapS = front_material.normalMap.wrapT = THREE.RepeatWrapping;
-        front_material.normalMap.repeat = new THREE.Vector2(params.repeat, params.repeat);
+        front_material.normalMap.repeat = new THREE.Vector2(30, 30)
 
         back_material.normalMap.wrapS = back_material.normalMap.wrapT = THREE.RepeatWrapping;
-        back_material.normalMap.repeat = new THREE.Vector2(params.repeat, params.repeat);
+        back_material.normalMap.repeat = new THREE.Vector2(30, 30)
         group = new THREE.Group();
 
         // var glass_material = new THREE.MeshBasicMaterial({
@@ -229,20 +228,11 @@
 
         const gui = new dat.GUI();
 
-        // gui.add(params, 'envMap', ['EXR', 'PNG']);
-        // gui.add(params, 'roughness', 0, 1, 0.01);
-        // gui.add(params, 'metalness', 0, 1, 0.01);
-        // gui.add(params, 'exposure', 0, 2, 0.01);
-        // gui.add(params, 'debug', false);
-
         gui.add(params, 'clearcoat', 0, 1, 0.01);
         gui.add(params, 'clearcoatRoughness', 0, 1, 0.01);
         gui.add(params, 'roughness', 0, 1, 0.01);
         gui.add(params, 'metalness', 0, 1, 0.01);
-        gui.add(params, 'normalScale', 0, 1, 0.01);
         gui.add(params, 'transmission', 0, 1, 0.01);
-        gui.add(params, 'transparent', true);
-        gui.add(params, 'repeat', 0, 100, 1);
         gui.add(params, 'envMap', true );
         gui.open();
     }
@@ -268,9 +258,7 @@
         group.children.map(d => d.material.clearcoatRoughness = params.clearcoatRoughness);
         group.children.map(d => d.material.roughness = params.roughness);
         group.children.map(d => d.material.metalness = params.metalness);
-        group.children.map(d => d.material.normalScale = new THREE.Vector2(params.normalScale, params.normalScale));
         group.children.map(d => d.material.transmission = params.transmission);
-        group.children.map(d => d.material.normalMap.repeat = new THREE.Vector2(params.repeat, params.repeat));
         if (params.envMap){
             scene.environment = envMap
         }
