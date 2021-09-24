@@ -15,15 +15,15 @@ void main()
     // Size
     if (ndc.z > zThres) {
         // points at the far back
-        gl_PointSize = 800.0;
+        gl_PointSize = 2.0;
     }
     else {
         // points close to the camera
-        gl_PointSize = 1500.0;
+        gl_PointSize = 13.0; //1500.0;
     }
     
     // Controls the attenuation
-     gl_PointSize *= (1.0 / - viewPosition.z);
+    //  gl_PointSize *= (1.0 / - viewPosition.z);
 }
 `;
 
