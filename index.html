@@ -17,7 +17,7 @@
         }
     </script>
 
-    <title>3d viewer draft</title>
+    <title>front visible</title>
 
     <!--This is important to get a correct canvas size on mobile-->
     <meta name='viewport' content='width=device-width, user-scalable=no'/>
@@ -40,7 +40,8 @@
 
     <script src='https://threejs.org/build/three.min.js'></script>
     <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script>
-    <script src='three.js/examples/js/controls/PointerLockControls.js'></script>
+    <script src="three.js/examples/js/loaders/RGBELoader.js"></script>
+<!--    <script src='three.js/examples/js/controls/PointerLockControls.js'></script>-->
 
     <link rel="stylesheet" href="src/lib/css/index.css">
     <script src="src/index.js"></script>
@@ -54,13 +55,15 @@
     <script src="src/particles.js"></script>
     <script src="src/dataLoader.js"></script>
     <script src="src/config.js"></script>
-    <script src="src/main.js"></script>
+    <script src="src/scene.js"></script>
     <script src="src/content.js"></script>
+    <script src="src/sphere_data.js"></script>
+    <script src="src/cell_maker.js"></script>
     <script src="src/app.js"></script>
+    <script src="src/lights.js"></script>
     <script src="src/renderScene.js"></script>
     <script src="src/shaders/glyphs/vertex.js"></script>
     <script src="src/shaders/glyphs/fragment.js"></script>
-
 
 </head>
 <body>

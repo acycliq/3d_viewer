@@ -1,5 +1,5 @@
 function app(geneData) {
-    geneData = geneData .sort((a, b) => (a.z > b.z) ? 1 : -1)
+    geneData = geneData.sort((a, b) => (a.z > b.z) ? 1 : -1)
 
     // group by gene name
     var data = groupBy(geneData, 'Gene');
@@ -22,7 +22,7 @@ function app(geneData) {
         // var temp = new Float32Array(data[g].map(d => [d.x - img_width/2, img_height - d.y - img_height/2, (1.5 * (1 + d.z_stack)) - img_depth/2]).flat());
 
         //for ucl
-        var temp = new Float32Array(data[g].map(d => [d.x - img_width / 2,   img_height - d.y - img_height / 2, d.z - img_depth / 2]).flat());
+        var temp = new Float32Array(data[g].map(d => [d.x - img_width / 2, img_height - d.y - img_height / 2, d.z - img_depth / 2]).flat());
         coords_arr.push(temp)
 
         // rgb_arr.push(hexToRgb(getColor(g)))
@@ -41,7 +41,9 @@ function app(geneData) {
     // render_scene(points, null, sphere);
     // console.log(geneNames)
 
-    plotData(coords_arr)
+    iniScene();
+    iniLights();
+    addContent(coords_arr);
 
 
 }
