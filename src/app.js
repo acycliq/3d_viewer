@@ -43,7 +43,7 @@ function app(geneData) {
 
     iniScene();
     iniLights();
-    addContent(coords_arr);
+    iniContent(coords_arr);
 
 
 }

@@ -1,4 +1,4 @@
-function addContent(data) {
+function iniContent(data) {
     console.log('Init Viewer')
 
     var points = geneNames.map((d, i) => my_particles(data[i], d));
