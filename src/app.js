@@ -1,4 +1,5 @@
 function app(geneData) {
+
     geneData = geneData.sort((a, b) => (a.z > b.z) ? 1 : -1)
 
     // group by gene name
@@ -28,25 +29,11 @@ function app(geneData) {
         // rgb_arr.push(hexToRgb(getColor(g)))
     }
 
-    // render_scene_2().initScene()
-    // render_scene_2().initMisc()
-    // render_scene_2().initExample(null)
-    // render_scene_2().animate();
-    // document.body.appendChild( renderer.domElement );
-
-    // var points = geneNames.map((d, i) => my_particles(coords_arr[i], d));
-    // // var cells = my_cells(0, 0, 0)
-    // // var s = make_sphere({r:0.0, g:0.0, b:1.0}, 2, 0)
-    // var sphere = add_spheres()
-    // render_scene(points, null, sphere);
-    // console.log(geneNames)
-
     iniScene();
     iniLights();
     iniContent(coords_arr);
-
-
 }
+
 
 function make_sphere(color, radius) {
     var sphereGeometry = new THREE.SphereGeometry(radius, 50, 50);
