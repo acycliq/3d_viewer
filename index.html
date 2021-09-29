@@ -41,7 +41,9 @@
     <script src='https://threejs.org/build/three.min.js'></script>
     <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script>
     <script src="three.js/examples/js/loaders/RGBELoader.js"></script>
-<!--    <script src='three.js/examples/js/controls/PointerLockControls.js'></script>-->
+    <script src="three.js/examples/js/libs/dat.gui.min.js"></script>
+    <script src="three.js/examples/js/libs/stats.min.js"></script>
+    <!--    <script src='three.js/examples/js/controls/PointerLockControls.js'></script>-->
 
     <link rel="stylesheet" href="src/lib/css/index.css">
     <script src="src/index.js"></script>
@@ -111,8 +113,21 @@
     localStorage.clear();
     console.log('Local storage cleared');
 
-    // // variables in the global scope
-    // var camera, scene, renderer, controls, all_geneData, worker;
+    // variables in the global scope
+    var camera,
+        scene,
+        renderer,
+        controls,
+        envMap,
+        all_geneData,
+        worker,
+        geneNames,
+        coords_arr,
+        configSettings,
+        legend_added = false, //used to make sure the listener is attached only once
+        genePanel,
+        light,
+        params;
     run();
 
     function removePreloader() {
