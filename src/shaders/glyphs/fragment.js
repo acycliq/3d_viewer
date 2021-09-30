@@ -33,6 +33,7 @@ void main() {
     float shaper = plus + cross;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }
 }
 `;
@@ -67,6 +68,7 @@ void main() {
     vec3 color = vec3(circle_1 * circle_2);
 
     gl_FragColor = vec4(color  * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -102,6 +104,7 @@ void main() {
     float shaper = diag_1 + diag_2;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -138,6 +141,7 @@ void main() {
     float shaper = side_1 + side_2 + side_3 + side_4;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }
 }
 `;
@@ -172,6 +176,7 @@ void main() {
     vec3 color = vec3(circle_1 * circle_2);
 
     gl_FragColor = vec4(color * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -205,6 +210,7 @@ void main() {
     float shaper = vertical + horizontal;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -240,6 +246,7 @@ void main() {
     float shaper = top + right + bottom + left;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }
 }
 `;
@@ -302,6 +309,7 @@ void main() {
     float shaper = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + line_8 + line_9 + line_10 + line_11;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }
 }
 `;
@@ -369,6 +377,7 @@ void main() {
     float shaper = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + line_8 + line_9 + line_10 + line_11 + line_12;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -403,6 +412,7 @@ void main() {
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }
 }
 `;
@@ -444,6 +454,7 @@ void main() {
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -485,6 +496,7 @@ void main() {
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }  
 }
 `;
@@ -525,6 +537,7 @@ void main() {
     float shaper = line_1 + line_2 + line_3;
 
     gl_FragColor = vec4(vec3(shaper) * vec3(r, g, b), a);
+    if (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b == 0.0) discard;
   }
 }
 `;
