@@ -24,7 +24,7 @@ function my_particles(positions, gene) {
         fragmentShader: fShader,
         uniformsNeedUpdate: true,
         uniforms: {
-            glyphSize: {value: paramsGUI.particleSize},
+            glyphSize: {value: paramsGUI.glyphSize},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
             zThres: {value: 100.0},
             r: {value: color.r / 255.0},
