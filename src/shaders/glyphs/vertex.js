@@ -1,5 +1,5 @@
 const vShader_glyphs = `
-uniform float uSize;
+uniform float glyphSize;
 uniform float zThres;
 varying vec3 view;
 void main()
@@ -19,7 +19,7 @@ void main()
     }
     else {
         // points close to the camera
-        gl_PointSize = uSize; //1500.0;
+        gl_PointSize = glyphSize; //1500.0;
     }
     
     // Controls the attenuation
