@@ -16,16 +16,17 @@ function my_particles(positions, gene) {
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
     const alpha = 0.8;
-    const particlesMaterial = new THREE.ShaderMaterial({
+    particlesMaterial = new THREE.ShaderMaterial({
         // depthWrite: false,
         blending: THREE.NormalBlending,
         // vertexColors: true,
         vertexShader: vShader_glyphs,
         fragmentShader: fShader,
+        uniformsNeedUpdate: true,
         uniforms: {
-            uSize: {value: 110.0},
+            uSize: {value: paramsGUI.particleSize},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
-            zThres: {value: 0.01},
+            zThres: {value: 100.0},
             r: {value: color.r / 255.0},
             g: {value: color.g / 255.0},
             b: {value: color.b / 255.0},

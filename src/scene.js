@@ -1,11 +1,21 @@
-
 function iniScene() {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+
+    paramsGUI = {
+        near: 20.0,
+        far: 10000.0,
+        envMap: true,
+        metalness: 0.5,
+        transmission: 0.5,
+        intensity: 0.1,
+        particleSize: 12,
+    };
+
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
-    var z_near = 20,
-        z_far = 10000;
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, z_near, z_far);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, paramsGUI.near, paramsGUI.far);
     camera.position.set(0, 0, 3000);
 
     scene = new THREE.Scene();
@@ -43,18 +53,23 @@ function iniScene() {
     // Animate
     const clock = new THREE.Clock();
 
-    const tick = () => {
-        // Update controls
-        controls.update();
+    stats = new Stats();
+    container.appendChild(stats.dom);
 
-        // Render
-        renderer.render(scene, camera);
+    const gui = new dat.GUI();
 
-        // Call tick again on the next frame
-        window.requestAnimationFrame(tick)
-    };
+    // Three different ways to update a parameter using the GUI
+    gui.add(paramsGUI, 'envMap', true); // 1. Add the paramasGUI object to the gui but the you have to update it inside the animate loop
+    gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
+    gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
+    gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
+    gui.add(paramsGUI, "intensity", 0, 10).onChange(d => {light.intensity = d}); // 3. chaining a function
+    gui.add(paramsGUI, 'particleSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.uSize.value = d)});
 
-    tick();
+    gui.open();
+
+
+    animate();
 
     // adjust the scene if the browser's window is resized
     window.addEventListener('resize', onWindowResize);
@@ -65,7 +80,30 @@ function iniScene() {
     // and show the gene panel button
     legendControl();
 
+}
 
+function animate() {
+    // var timer = Date.now() * 0.0002;
+    // camera.position.x = Math.cos(timer) * 10000;
+    // camera.position.z = Math.sin(timer) * 10000;
+    requestAnimationFrame(animate);
+    render();
+}
+
+function render() {
+    camera.updateProjectionMatrix();
+    scene.children.filter(d => d.type === 'Mesh').map(d => d.material.metalness = paramsGUI.metalness);
+    // particlesMaterial.size = paramsGUI.particleSize;
+    // camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, params.near, params.far);
+    // camera.near = paramsGUI.near;
+    if (paramsGUI.envMap) {
+        scene.environment = envMap
+    } else {
+        scene.environment = null
+    }
+
+    // camera.lookAt(scene.position);
+    renderer.render(scene, camera);
 }
 
 
@@ -73,6 +111,8 @@ function onWindowResize() {
     // Update camera
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+
+    particlesMaterial.uniforms
 
     // Update renderer
     renderer.setSize(window.innerWidth, window.innerHeight);

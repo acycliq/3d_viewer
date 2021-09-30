@@ -2,7 +2,6 @@ function iniLights() {
     // LIGHTS
     scene.add(new THREE.AmbientLight(0x666666));
 
-    var light;
     light = new THREE.DirectionalLight(0xfcfcfc, 1.0);
     light.position.set(90, 120, 5);
     light.position.multiplyScalar(1.3);

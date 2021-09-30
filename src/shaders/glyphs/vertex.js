@@ -10,7 +10,7 @@ void main()
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
     
-    ndc = gl_Position.xyz / gl_Position.w;  // NDC in [-1, 1] (by perspective divide)
+    ndc = -1.0 * viewPosition.xyz;  // NDC in [-1, 1] (by perspective divide)
     
     // Size
     if (ndc.z > zThres) {
@@ -19,7 +19,7 @@ void main()
     }
     else {
         // points close to the camera
-        gl_PointSize = 13.0; //1500.0;
+        gl_PointSize = uSize; //1500.0;
     }
     
     // Controls the attenuation

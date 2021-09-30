@@ -5,7 +5,7 @@ function iniContent(data) {
     points.map(d => scene.add(d));
 
     // add_spheres();
-    var instancedMesh = make_cells();
+    instancedMesh = make_cells();
     scene.add(instancedMesh.back); // needs to be rendered first
     scene.add(instancedMesh.front);
 
