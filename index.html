@@ -128,9 +128,15 @@
         genePanel,
         light,
         instancedMesh,
+        particles,
         particlesMaterial,
-        paramsGUI;
-    run();
+        paramsGUI,
+        mouse,
+        raycaster;
+
+    mouse = new THREE.Vector2();
+    raycaster = new THREE.Raycaster();
+    window.onload = run();
 
     function removePreloader() {
         $('#preloader').delay(350).fadeOut(250); // will fade out the white DIV that covers the website.
