@@ -1,7 +1,7 @@
 const vShader_glyphs = `
 uniform float uSize;
 uniform float zThres;
-varying vec3 ndc;
+varying vec3 view;
 void main()
 {
     // Position
@@ -10,10 +10,10 @@ void main()
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
     
-    ndc = -1.0 * viewPosition.xyz;  // NDC in [-1, 1] (by perspective divide)
+    view = -1.0 * viewPosition.xyz;  // NDC in [-1, 1] (by perspective divide)
     
     // Size
-    if (ndc.z > zThres) {
+    if (view.z > zThres) {
         // points at the far back
         gl_PointSize = 2.0;
     }
