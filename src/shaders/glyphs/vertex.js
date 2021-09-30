@@ -1,5 +1,6 @@
 const vShader_glyphs = `
 uniform float glyphSize;
+uniform float dotSize;
 uniform float zThres;
 varying vec3 view;
 void main()
@@ -15,7 +16,7 @@ void main()
     // Size
     if (view.z > zThres) {
         // points at the far back
-        gl_PointSize = 2.0;
+        gl_PointSize = dotSize;
     }
     else {
         // points close to the camera

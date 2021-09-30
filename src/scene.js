@@ -10,6 +10,7 @@ function iniScene() {
         transmission: 0.5,
         intensity: 0.1,
         glyphSize: 12,
+        dotSize: 2,
     };
 
     // Canvas
@@ -65,7 +66,7 @@ function iniScene() {
     gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
     gui.add(paramsGUI, "intensity", 0, 10).onChange(d => {light.intensity = d}); // 3. chaining a function
     gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
-
+    gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
     gui.open();
 
 
