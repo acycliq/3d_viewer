@@ -1,4 +1,5 @@
 function my_particles(positions, gene) {
+    console.log('Doing particles for ' + gene)
 
     var glyph = getGlyph(gene),
         hexCode = getColor(gene);
@@ -6,40 +7,57 @@ function my_particles(positions, gene) {
     var fShader = getShader(glyph),
         color = hexToRgb(hexCode);
 
-    const particleGeometry = new THREE.BufferGeometry();
-    var scales = new Float32Array(positions.length);
+    particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.name = gene
+    // var scales = new Float32Array(positions.length);
+    var colors = new Float32Array(positions.length);
     for (let i = 0; i < positions.length; i++) {
-        scales[i] = 1
+        // scales[i] = 10;
+        colors[i] = color.r;
+        colors[i + 1] = color.g;
+        colors[i + 2] = color.b;
     }
 
     // const mypositions = new Float32Array([0,0,1.5]) ;
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    // particleGeometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
+    // particleGeometry.setAttribute('scale', new THREE.BufferAttribute(scales, 3));
 
-    const alpha = 0.8;
+    var numVertices = particlesGeometry.attributes.position.count;
+    var scales = new Float32Array(numVertices * 1);
+    for (var i = 0; i < numVertices; i++) {
+        // set alpha randomly
+        scales[i] = 1.0;
+    }
+    particlesGeometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+    // particlesGeometry.attributes.alpha.needsUpdate = true; // important!
+
+    const opacity = 0.8;
     particlesMaterial = new THREE.ShaderMaterial({
         // depthWrite: false,
         blending: THREE.NormalBlending,
         // vertexColors: true,
         vertexShader: vShader_glyphs,
         fragmentShader: fShader,
-        uniformsNeedUpdate: true,
+        // uniformsNeedUpdate: true,
         uniforms: {
             glyphSize: {value: paramsGUI.glyphSize},
             dotSize: {value: paramsGUI.dotSize},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
-            zThres: {value: 100.0},
+            zThres: {value: configSettings.zThres},
             r: {value: color.r / 255.0},
             g: {value: color.g / 255.0},
             b: {value: color.b / 255.0},
-            a: {value: alpha}
+            a: {value: opacity}
         }
     });
 
     // Points
-    particles = new THREE.Points(particleGeometry, particlesMaterial);
+    particles = new THREE.Points(particlesGeometry, particlesMaterial);
     particles.name = gene;
 
     return particles
+
 
 }
 
@@ -192,15 +210,15 @@ function add_spheres() {
             {r: 0, g: 0, b: 1},
             {r: 0, g: 0, b: 1},
             {r: 0, g: 0.701960, b: 1},
-            {r:1, g:0, b:230/255},
-            {r:1, g:0, b:230/255},
+            {r: 1, g: 0, b: 230 / 255},
+            {r: 1, g: 0, b: 230 / 255},
             {r: 0, g: 0.701960, b: 1},
             {r: 0, g: 0.701960, b: 1},
-            {r:1, g:0, b:230/255},
+            {r: 1, g: 0, b: 230 / 255},
             {r: 0, g: 0.701960, b: 1},
             {r: 0, g: 1, b: 0},
-            {r: 100/255, g: 0, b: 90/255},
-            {r: 100/255, g: 0, b: 90/255},
+            {r: 100 / 255, g: 0, b: 90 / 255},
+            {r: 100 / 255, g: 0, b: 90 / 255},
             {r: 1, g: 1, b: 1},
         ];
 
@@ -290,7 +308,7 @@ function add_spheres() {
         dummy.rotation.set(rot.x, rot.y, rot.z);
         dummy.updateMatrix();
         instancedMesh.setMatrixAt(i, dummy.matrix);
-        instancedMesh.setColorAt(i, new THREE.Color( sphere_color[i].r, sphere_color[i].g, sphere_color[i].b ))
+        instancedMesh.setColorAt(i, new THREE.Color(sphere_color[i].r, sphere_color[i].g, sphere_color[i].b))
 
         // instancedMesh.geometry.setPositionAt(i, trsCache[i].position);
         // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);

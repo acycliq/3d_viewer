@@ -3,6 +3,7 @@ uniform float glyphSize;
 uniform float dotSize;
 uniform float zThres;
 varying vec3 view;
+attribute float scale;
 void main()
 {
     // Position
@@ -20,7 +21,7 @@ void main()
     }
     else {
         // points close to the camera
-        gl_PointSize = glyphSize; //1500.0;
+        gl_PointSize = scale * glyphSize; //1500.0;
     }
     
     // Controls the attenuation
