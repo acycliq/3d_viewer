@@ -144,10 +144,6 @@ function render() {
     renderer.render(scene, camera);
 }
 
-var intersected,
-    _index,
-    _scales,
-    x0;
 
 function hoverPieces() {
     raycaster.setFromCamera(mouse, camera);
@@ -156,39 +152,51 @@ function hoverPieces() {
     const intersects = raycaster.intersectObjects(scene.children);
     if (intersects.length) {
         console.log('Intersects')
-        $('html,body').css('cursor', 'pointer');
         if (intersected != intersects[0].object) {
-            if (intersected) {
-                _scales.array[_index] = 1.0;
-                 _scales.needsUpdate = true;
-                // intersected.material.uniforms.glyphSize.value = paramsGUI.glyphSize;
-            }
+            var index = intersects[0].index;
             intersected = intersects[0].object;
-            _index = intersects[0].index
-            _scales = intersected.geometry.attributes.scale;
-            x0 = _scales.array[_index]
-            _scales.array[_index] = x0 * 1.5;
-            _scales.needsUpdate = true;
-            // console.log('index is: ' + intersects[0].index);
-            // console.log('scale is ' + intersects[0].object.geometry.attributes.scale.array[_index])
-            // intersected = intersects[0].object;
-            // intersected.material.uniforms.glyphSize.value = 2 * paramsGUI.glyphSize;
+            var name = intersected.name,
+                uid = name + "_" + index;
+            reset_scale(intersected)
+            highlight(intersected, name, index);
+            console.log('mouseover Gene: ' + name + ' index: ' + index);
+            console.log(uid)
+            $('html,body').css('cursor', 'pointer');
         }
-    } else {
-        $('html,body').css('cursor', 'default');
-        if (intersected) {
-            // intersected.material.uniforms.glyphSize.value = paramsGUI.glyphSize;
-            _scales.array[_index] = 1.0;
-            _scales.needsUpdate = true;
-            _scales = null;
-            _index = null;
-            intersected = null;
-        }
-        console.log('Does not intersect')
     }
-    for (let i = 0; i < intersects.length; i++) {
-        intersects[i].object.material.transparent = true;
-        intersects[i].object.material.opacity = 0.5;
+    else{
+        console.log('does not intersect')
+        if (intersected){
+            $('html,body').css('cursor', 'default');
+            reset_scale(intersected)
+            intersected = null
+        }
+    }
+
+    // for (let i = 0; i < intersects.length; i++) {
+    //     intersects[i].object.material.transparent = true;
+    //     intersects[i].object.material.opacity = 0.5;
+    // }
+}
+
+function highlight(intersected, name, index){
+    var scales = intersected.geometry.attributes.scale;
+    scales.array[index] = 2.0;
+    scales.needsUpdate = true;
+    console.log('scale ' + name + '_' + index + ' is: ' + intersected.geometry.attributes.scale.array[index])
+}
+
+function reset_scale(intersected) {
+    if (intersected){
+        var scales = intersected.geometry.attributes.scale;
+        console.log('gene is: ' + intersected.name)
+        for (var i = 0; i < scales.count; i++) {
+            if (scales.array[i] != 1.0) {
+                console.log('resetting at position: ' + i)
+                scales.array[i] = 1.0;
+            }
+        }
+        scales.needsUpdate = true;
     }
 }
 
