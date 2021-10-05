@@ -5,6 +5,7 @@ function config() {
             img_width: 1260,
             img_height: 340,
             img_depth: 60,
+            zThres: 100.0,
             geneData: 'https://www.googleapis.com/storage/v1/b/3d-viewer/o/data/geneData/geneData.tsv',
         },
         {   // 1.
