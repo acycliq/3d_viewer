@@ -39,12 +39,14 @@ function app(geneData) {
         glyphSize: 12,
         dotSize: 2,
         numSpots: 10000,
+        mouseEvents: false,
     };
-    var numSpots = [0, 100000, 1000000, 2000000];
+    var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000];
+
 
     if (!gui){
         gui = new dat.GUI();
-        gui.add(paramsGUI, 'numSpots', numSpots).onChange(onSelectCounts)
+        gui.add(paramsGUI, 'numSpots', numSpots).name('Num sim spots').onChange(onSelectCounts)
     }
 
     function onSelectCounts() {
@@ -67,16 +69,25 @@ function app(geneData) {
         }
     }
 
+    (function (){
+        console.log('Immediately-Invoked Function Expression')
+        iniScene();
+        iniLights();
+        iniContent(coords_arr);
+    })();
+
+
     function simulate_data(counts) {
         var nG = geneNames.length;
-        var N = Math.floor(counts / nG);
+        var N = Math.ceil(counts / nG);
         var _sim_data = [];
         for (var i = 0; i < geneNames.length; i++) {
             var temp = new Float32Array(N * 3);
             for (var j = 0; j < 3 * N; j++) {
-                temp[j] = img_width * Math.random() - img_width / 2;
-                temp[j + 1] = img_height * Math.random() - img_height / 2;
-                temp[j + 2] = img_depth * Math.random() - img_depth / 2;
+                var cur = 3 * j;
+                temp[3*j] = img_width * Math.random() - img_width / 2;
+                temp[3*j + 1] = img_height * Math.random() - img_height / 2;
+                temp[3*j + 2] = img_depth * Math.random() - img_depth / 2;
             }
             _sim_data[i] = temp
         }

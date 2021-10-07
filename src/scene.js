@@ -49,6 +49,7 @@ function iniScene() {
     // Three different ways to update a parameter using the GUI
     var gui_properties = gui.__controllers.map(d => d.property)
     if (!gui_properties.includes('envMap')){
+        gui.add(paramsGUI, 'mouseEvents', true);
         gui.add(paramsGUI, 'envMap', true); // 1. Add the paramasGUI object to the gui but the you have to update it inside the animate loop
         gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
         gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
@@ -79,7 +80,9 @@ function animate() {
     // var timer = Date.now() * 0.0002;
     // camera.position.x = Math.cos(timer) * 10000;
     // camera.position.z = Math.sin(timer) * 10000;
-    hoverPieces();
+    if (paramsGUI.mouseEvents){
+        hoverPieces();
+    }
     requestAnimationFrame(animate);
     render();
     stats.update();
