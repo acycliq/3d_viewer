@@ -46,7 +46,7 @@ function app(geneData) {
 
     if (!gui){
         gui = new dat.GUI();
-        gui.add(paramsGUI, 'numSpots', numSpots).name('Num sim spots').onChange(onSelectCounts)
+        gui.add(paramsGUI, 'numSpots', numSpots).name('Num simulated spots').onChange(onSelectCounts)
     }
 
     function onSelectCounts() {
