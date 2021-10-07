@@ -38,7 +38,7 @@ function app(geneData) {
         intensity: 0.1,
         glyphSize: 12,
         dotSize: 2,
-        numSpots: 10000,
+        numSpots: 0,
         mouseEvents: false,
     };
     var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000];
