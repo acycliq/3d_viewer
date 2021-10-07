@@ -2,17 +2,6 @@ function iniScene() {
     container = document.createElement('div');
     document.body.appendChild(container);
 
-    paramsGUI = {
-        near: 20.0,
-        far: 10000.0,
-        envMap: true,
-        metalness: 0.5,
-        transmission: 0.5,
-        intensity: 0.1,
-        glyphSize: 12,
-        dotSize: 2,
-    };
-
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
 
@@ -57,17 +46,18 @@ function iniScene() {
     stats = new Stats();
     container.appendChild(stats.dom);
 
-    const gui = new dat.GUI();
-
     // Three different ways to update a parameter using the GUI
-    gui.add(paramsGUI, 'envMap', true); // 1. Add the paramasGUI object to the gui but the you have to update it inside the animate loop
-    gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
-    gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
-    gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
-    gui.add(paramsGUI, "intensity", 0, 10).onChange(d => {light.intensity = d}); // 3. chaining a function
-    gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
-    gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
-    gui.open();
+    var gui_properties = gui.__controllers.map(d => d.property)
+    if (!gui_properties.includes('envMap')){
+        gui.add(paramsGUI, 'envMap', true); // 1. Add the paramasGUI object to the gui but the you have to update it inside the animate loop
+        gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
+        gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
+        gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
+        gui.add(paramsGUI, "intensity", 0, 10).onChange(d => {light.intensity = d}); // 3. chaining a function
+        gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
+        gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
+        // gui.open();
+    }
 
 
     animate();
@@ -180,14 +170,16 @@ function hoverPieces() {
 }
 
 function highlight(intersected, name, index){
-    var scales = intersected.geometry.attributes.scale;
-    scales.array[index] = 2.0;
-    scales.needsUpdate = true;
-    console.log('scale ' + name + '_' + index + ' is: ' + intersected.geometry.attributes.scale.array[index])
+    if (intersected.type === 'Points') {
+        var scales = intersected.geometry.attributes.scale;
+        scales.array[index] = 2.0;
+        scales.needsUpdate = true;
+        console.log('scale ' + name + '_' + index + ' is: ' + intersected.geometry.attributes.scale.array[index])
+    }
 }
 
 function reset_scale(intersected) {
-    if (intersected){
+    if (intersected && intersected.type === 'Points'){
         var scales = intersected.geometry.attributes.scale;
         console.log('gene is: ' + intersected.name)
         for (var i = 0; i < scales.count; i++) {

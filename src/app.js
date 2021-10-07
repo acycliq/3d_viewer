@@ -29,9 +29,61 @@ function app(geneData) {
         // rgb_arr.push(hexToRgb(getColor(g)))
     }
 
-    iniScene();
-    iniLights();
-    iniContent(coords_arr);
+    paramsGUI = {
+        near: 20.0,
+        far: 10000.0,
+        envMap: true,
+        metalness: 0.5,
+        transmission: 0.5,
+        intensity: 0.1,
+        glyphSize: 12,
+        dotSize: 2,
+        numSpots: 10000,
+    };
+    var numSpots = [0, 100000, 1000000, 2000000];
+
+    if (!gui){
+        gui = new dat.GUI();
+        gui.add(paramsGUI, 'numSpots', numSpots).onChange(onSelectCounts)
+    }
+
+    function onSelectCounts() {
+        console.log('Selected: ' + paramsGUI.numSpots + ' number of spots')
+        var sim_data;
+        if (+paramsGUI.numSpots) {
+            sim_data = simulate_data(paramsGUI.numSpots);
+            console.log(sim_data);
+        }
+        else{
+            sim_data = coords_arr
+        }
+
+        iniScene();
+        iniLights();
+        iniContent(sim_data);
+
+        if (!gui) {
+            gui.open();
+        }
+    }
+
+    function simulate_data(counts) {
+        var nG = geneNames.length;
+        var N = Math.floor(counts / nG);
+        var _sim_data = [];
+        for (var i = 0; i < geneNames.length; i++) {
+            var temp = new Float32Array(N * 3);
+            for (var j = 0; j < 3 * N; j++) {
+                temp[j] = img_width * Math.random() - img_width / 2;
+                temp[j + 1] = img_height * Math.random() - img_height / 2;
+                temp[j + 2] = img_depth * Math.random() - img_depth / 2;
+            }
+            _sim_data[i] = temp
+        }
+        return _sim_data
+    }
+
+
 }
 
 
