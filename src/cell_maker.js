@@ -1,5 +1,6 @@
 function make_cells() {
     var data = get_data(),
+        // data = get_sim_celldata(100000),
         front_props = {
             side: THREE.FrontSide,
             opacity: 0.4,
