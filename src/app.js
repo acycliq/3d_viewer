@@ -69,6 +69,7 @@ function app(geneData) {
         }
     }
 
+    // if the page loads for the very first time, load the actual dataset
     (function (){
         console.log('Immediately-Invoked Function Expression')
         iniScene();
