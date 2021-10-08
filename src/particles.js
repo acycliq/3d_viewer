@@ -44,7 +44,7 @@ function my_particles(positions, gene) {
             glyphSize: {value: paramsGUI.glyphSize},
             dotSize: {value: paramsGUI.dotSize},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
-            zThres: {value: configSettings.zThres},
+            zThres: {value: paramsGUI.glyphSwitch},
             r: {value: color.r / 255.0},
             g: {value: color.g / 255.0},
             b: {value: color.b / 255.0},

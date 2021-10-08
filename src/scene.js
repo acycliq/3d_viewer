@@ -54,10 +54,12 @@ function iniScene() {
         // gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
         // gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
         // gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
-        gui.add(paramsGUI, 'near', 1, 100).name('min visible plane').onChange(d => {camera.near = d})
+        // gui.add(paramsGUI, 'near', 1, 100).name('min visible plane').onChange(d => {camera.near = d})
         gui.add(paramsGUI, "intensity", 0, 10).name('light intensity, top-right').onChange(d => {light.intensity = d}); // 3. chaining a function
         gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
         gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
+        gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5*paramsGUI.far).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d)});
+
         // gui.open();
     }
 

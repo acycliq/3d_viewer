@@ -33,6 +33,7 @@ function app(geneData) {
         intensity: 0.1,
         glyphSize: 12,
         dotSize: 2,
+        glyphSwitch: 100,
         numSpots: 0,
         mouseEvents: false,
     };
