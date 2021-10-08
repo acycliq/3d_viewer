@@ -49,11 +49,12 @@ function iniScene() {
     // Three different ways to update a parameter using the GUI
     var gui_properties = gui.__controllers.map(d => d.property)
     if (!gui_properties.includes('envMap')){
-        gui.add(paramsGUI, 'mouseEvents', true);
+        gui.add(paramsGUI, 'mouseEvents', true).name("glyph mouse hover");
         gui.add(paramsGUI, 'envMap', true); // 1. Add the paramasGUI object to the gui but the you have to update it inside the animate loop
         gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
         gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
-        gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
+        // gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
+        gui.add(paramsGUI, 'near', 1, 100).onChange(d => {camera.near = d})
         gui.add(paramsGUI, "intensity", 0, 10).onChange(d => {light.intensity = d}); // 3. chaining a function
         gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
         gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
@@ -105,6 +106,9 @@ function scale_helper(points){
 
 
 function render() {
+        // adjust wth width of the gui
+    document.getElementsByClassName('dg main a')[0].style.width = "285px"
+
     camera.updateProjectionMatrix();
     scene.children.filter(d => d.type === 'Mesh').map(d => d.material.metalness = paramsGUI.metalness);
     // particlesMaterial.size = paramsGUI.particleSize;
