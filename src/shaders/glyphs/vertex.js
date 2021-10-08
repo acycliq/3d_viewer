@@ -22,10 +22,12 @@ void main()
     else {
         // points close to the camera
         gl_PointSize = scale * glyphSize; //1500.0;
+        // gl_PointSize = 1000.0 * (1. / - viewPosition.z);
     }
     
     // Controls the attenuation
     //  gl_PointSize *= (1.0 / - viewPosition.z);
+    
 }
 `;
 
