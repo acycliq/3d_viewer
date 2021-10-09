@@ -40,6 +40,7 @@ function app(geneData) {
         numSpots: 0,
         numCells: 0,
         mouseEvents: false,
+        addAxes: false,
     };
     var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000],
         numCells = [0, 100, 1000, 100000, 150000];

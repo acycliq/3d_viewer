@@ -40,7 +40,7 @@ function iniScene() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.BasicShadowMap;
 
-    addDebugAxisToObject( 1000, scene );
+    axes = createAxes( 1000, scene );
 
     // Animate
     const clock = new THREE.Clock();
@@ -61,6 +61,7 @@ function iniScene() {
         gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
         gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
         gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5*paramsGUI.far).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d)});
+        gui.add(paramsGUI, 'addAxes', false).onChange(d => {scene.children.filter(d => d.name === "xyz_axes").length? axes.visible = d: scene.add(axes)})
 
         // gui.open();
     }
@@ -224,14 +225,33 @@ function onWindowResize() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 }
 
+function hideAxes(){
+    for (var i=0; i<scene.children.length; i++){
+        if (scene.children[i].name === 'xyz_axes'){
+            scene.children[i].visible = false;
+            console.log('Axes are switched off.')
+        }
+    }
+}
 
-function addDebugAxisToObject( axisLength, target )
+
+function showAxes(){
+    for (var i=0; i<scene.children.length; i++){
+        if (scene.children[i].name === 'xyz_axes'){
+            scene.children[i].visible = true;
+            console.log('Axes are switched on.')
+        }
+    }
+}
+
+
+function createAxes( axisLength, target )
 {
     function v( x, y, z )
     {
         return new THREE.Vector3(x,y,z);
     }
-    function createAxis( p1, p2, color, target )
+    function axis( p1, p2, color, target )
     {
         var line;
         var points = [];
@@ -242,9 +262,17 @@ function addDebugAxisToObject( axisLength, target )
         lineMat = new THREE.LineBasicMaterial( { color: color, lineWidth: 1 } );
         // lineGeometry.vertices.push( p1, p2 );
         line = new THREE.Line( lineGeometry, lineMat );
-        target.add( line );
+        return line
+        // target.add( line );
     }
-    createAxis( v( -axisLength, 0, 0 ), v( axisLength, 0, 0 ), 0xFF0000, target );
-    createAxis( v( 0, -axisLength, 0 ), v( 0, axisLength, 0 ), 0x00FF00, target );
-    createAxis( v( 0, 0, -axisLength ), v( 0, 0, axisLength ), 0x0000FF, target );
+    var group = new THREE.Group();
+    group.name = 'xyz_axes'
+    var axis_x = axis( v( -axisLength, 0, 0 ), v( axisLength, 0, 0 ), 0xFF0000, target );
+    var axis_y = axis( v( 0, -axisLength, 0 ), v( 0, axisLength, 0 ), 0x00FF00, target );
+    var axis_z = axis( v( 0, 0, -axisLength ), v( 0, 0, axisLength ), 0x0000FF, target );
+    group.add(axis_x);
+    group.add(axis_y);
+    group.add(axis_z);
+
+    return group
 }
