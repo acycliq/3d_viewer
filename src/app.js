@@ -24,6 +24,9 @@ function app(geneData) {
         coords_arr.push(temp)
     }
 
+    cells_arr = get_cell_xyz();
+
+
     paramsGUI = {
         near: 20.0,
         far: 10000.0,
@@ -35,30 +38,36 @@ function app(geneData) {
         dotSize: 2,
         glyphSwitch: 100,
         numSpots: 0,
+        numCells: 0,
         mouseEvents: false,
     };
-    var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000];
+    var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000],
+        numCells = [0, 100, 1000, 100000, 150000];
 
 
     if (!gui){
         gui = new dat.GUI();
-        gui.add(paramsGUI, 'numSpots', numSpots).name('Num simulated spots').onChange(onSelectCounts)
+        gui.add(paramsGUI, 'numSpots', numSpots).name('Num simulated spots').onChange(onSelectCounts);
+        gui.add(paramsGUI, 'numCells', numCells).name('Num simulated cells').onChange(onSelectCounts);
     }
 
     function onSelectCounts() {
-        console.log('Selected: ' + paramsGUI.numSpots + ' number of spots')
-        var sim_data;
-        if (+paramsGUI.numSpots) {
-            sim_data = simulate_data(paramsGUI.numSpots);
-            console.log(sim_data);
+        console.log('Selected: ' + paramsGUI.numSpots + ' number of spots');
+        var spots_xyz,
+            cells_xyz;
+        if (+paramsGUI.numSpots || +paramsGUI.numCells) {
+            paramsGUI.numSpots? spots_xyz = simulate_spots(paramsGUI.numSpots) : spots_xyz = coords_arr;
+            paramsGUI.numCells? cells_xyz = get_sim_cell_xyz(paramsGUI.numCells) : cells_xyz = cells_arr;
+            // console.log(spots_xyz);
         }
         else{
-            sim_data = coords_arr
+            spots_xyz = coords_arr;
+            cells_xyz = cells_arr;
         }
 
         iniScene();
         iniLights();
-        iniContent(sim_data);
+        iniContent(spots_xyz, cells_xyz);
 
         if (!gui) {
             gui.open();
@@ -67,14 +76,14 @@ function app(geneData) {
 
     // if the page loads for the very first time, load the actual dataset
     (function (){
-        console.log('Immediately-Invoked Function Expression')
+        console.log('Immediately-Invoked Function Expression');
         iniScene();
         iniLights();
-        iniContent(coords_arr);
+        iniContent(coords_arr, cells_arr);
     })();
 
 
-    function simulate_data(counts) {
+    function simulate_spots(counts) {
         var nG = geneNames.length;
         var N = Math.ceil(counts / nG);
         var _sim_data = [];

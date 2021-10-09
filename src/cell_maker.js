@@ -1,7 +1,5 @@
-function make_cells() {
-    var data = get_data(),
-        // data = get_sim_celldata(100000),
-        front_props = {
+function make_cells(data) {
+    var front_props = {
             side: THREE.FrontSide,
             opacity: 0.4,
         },
@@ -17,7 +15,6 @@ function make_cells() {
 }
 
 function _make_cells(data, props) {
-
     var counts = data.length,
         loader = new THREE.TextureLoader();
 
@@ -43,9 +40,12 @@ function _make_cells(data, props) {
 
 
     var uScale = 0;
+    var geometry =  new THREE.SphereBufferGeometry(1, 8, 4);
+    var _n = geometry.index.count/3;
+    console.log('triangles: ' + (_n * counts).toLocaleString());
     var instancedMesh = new THREE.InstancedMesh(
         //provide geometry
-        new THREE.SphereBufferGeometry(1, 64, 32),
+        geometry,
 
         //provide material
         material,
@@ -80,5 +80,4 @@ function _make_cells(data, props) {
     // objectWrapper.add(instancedMesh);
 
     return instancedMesh
-
 }

@@ -1,4 +1,4 @@
-function get_sim_celldata(n) {
+function get_sim_cell_xyz(n) {
     var data = [],
         sphere_position = sim_sphere_position(n),
         sphere_scale = sim_sphere_scale(n),
@@ -51,7 +51,7 @@ function sim_sphere_rotation(n){
 function sim_sphere_color(n){
     var out = [];
     for (var i=0; i<n; ++i){
-        out.push({x: Math.random(), y: Math.random(), z: Math.random()})
+        out.push({r: Math.random(), g: Math.random(), b: Math.random()})
     }
     return out
 }

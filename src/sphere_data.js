@@ -1,4 +1,4 @@
-function get_data() {
+function get_cell_xyz() {
     var data = [],
         sphere_position = [
             {x: 35, y: 15, z: 17.5},
