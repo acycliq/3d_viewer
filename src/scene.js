@@ -40,6 +40,8 @@ function iniScene() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.BasicShadowMap;
 
+    addDebugAxisToObject( 1000, scene );
+
     // Animate
     const clock = new THREE.Clock();
 
@@ -220,4 +222,29 @@ function onWindowResize() {
     // Update renderer
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+}
+
+
+function addDebugAxisToObject( axisLength, target )
+{
+    function v( x, y, z )
+    {
+        return new THREE.Vector3(x,y,z);
+    }
+    function createAxis( p1, p2, color, target )
+    {
+        var line;
+        var points = [];
+        points.push(p1);
+        points.push(p2);
+        var lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
+            // lineGeometry = new THREE.Geometry(),
+        lineMat = new THREE.LineBasicMaterial( { color: color, lineWidth: 1 } );
+        // lineGeometry.vertices.push( p1, p2 );
+        line = new THREE.Line( lineGeometry, lineMat );
+        target.add( line );
+    }
+    createAxis( v( -axisLength, 0, 0 ), v( axisLength, 0, 0 ), 0xFF0000, target );
+    createAxis( v( 0, -axisLength, 0 ), v( 0, axisLength, 0 ), 0x00FF00, target );
+    createAxis( v( 0, 0, -axisLength ), v( 0, 0, axisLength ), 0x0000FF, target );
 }
