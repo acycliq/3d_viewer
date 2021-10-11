@@ -40,7 +40,9 @@ function _make_cells(data, props) {
 
 
     var uScale = 0;
-    var geometry =  new THREE.SphereBufferGeometry(1, 8, 4);
+    var widthSegments = paramsGUI.smoothness,
+        heightSegments = 0.5 * widthSegments;
+    var geometry =  new THREE.SphereBufferGeometry(1, widthSegments, heightSegments);
     var _n = geometry.index.count/3;
     console.log('triangles: ' + (_n * counts).toLocaleString());
     var instancedMesh = new THREE.InstancedMesh(
@@ -80,4 +82,11 @@ function _make_cells(data, props) {
     // objectWrapper.add(instancedMesh);
 
     return instancedMesh
+}
+
+function count_triangles(m){
+    // input m is the mesh
+    var _n = m.geometry.index.count/3;
+    var count = m.count;
+    console.log('triangles: ' + (_n * count).toLocaleString());
 }

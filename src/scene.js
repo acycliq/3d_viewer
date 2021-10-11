@@ -63,7 +63,24 @@ function iniScene() {
         gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5*paramsGUI.far).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d)});
         gui.add(paramsGUI, 'addAxes', false).onChange(d => {scene.children.filter(d => d.name === "xyz_axes").length? axes.visible = d: scene.add(axes)})
 
+        gui.add(paramsGUI, 'smoothness', 1, 64).onChange(regenerateSphereGeometry);
+        // gui.add(paramsGUI, 'heightSegments', 1, 32).onChange(d => {scene.children.filter(v => v.type === 'Mesh').map(v => v.geometry.parameters.heightSegments  = d)});
+
         // gui.open();
+    }
+
+    function regenerateSphereGeometry() {
+        var meshes = scene.children.filter(v => v.type === 'Mesh');
+        meshes.forEach(d => {
+            var w = paramsGUI.smoothness,
+                h = 0.5 * w; // set the height  to be the half of width
+            const clonedGeometry = new THREE.SphereBufferGeometry(1, w, h);
+            // clonedGeometry.parameters.widthSegments = paramsGUI.widthSegments;
+            d.geometry.dispose();
+            d.geometry = clonedGeometry;
+
+            count_triangles(d)
+        })
     }
 
 
