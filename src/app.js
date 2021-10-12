@@ -58,8 +58,8 @@ function app(geneData) {
         var spots_xyz,
             cells_xyz;
         if (+paramsGUI.numSpots || +paramsGUI.numCells) {
-            paramsGUI.numSpots? spots_xyz = simulate_spots(paramsGUI.numSpots) : spots_xyz = coords_arr;
-            paramsGUI.numCells? cells_xyz = get_sim_cell_xyz(paramsGUI.numCells) : cells_xyz = cells_arr;
+            +paramsGUI.numSpots? spots_xyz = simulate_spots(+paramsGUI.numSpots) : spots_xyz = coords_arr;
+            +paramsGUI.numCells? cells_xyz = get_sim_cell_xyz(+paramsGUI.numCells) : cells_xyz = cells_arr;
             // console.log(spots_xyz);
         }
         else{
