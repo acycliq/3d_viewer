@@ -51,32 +51,21 @@ function iniScene() {
     // Three different ways to update a parameter using the GUI
     var gui_properties = gui.__controllers.map(d => d.property)
     if (!gui_properties.includes('envMap')) {
+        gui.add(paramsGUI, 'smoothness', 1, 32).name("cell smoothness").onChange(regenerateSphereGeometry);
         gui.add(paramsGUI, 'mouseEvents', true).name("glyph mouse hover");
         gui.add(paramsGUI, 'envMap', true); // 1. Add the paramasGUI object to the gui but the you have to update it inside the animate loop
         // gui.add(paramsGUI, 'metalness', 0, 1, 0.01);
         // gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
         // gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
         // gui.add(paramsGUI, 'near', 1, 100).name('min visible plane').onChange(d => {camera.near = d})
-        gui.add(paramsGUI, "intensity", 0, 10).name('light intensity, top-right').onChange(d => {
-            light.intensity = d
-        }); // 3. chaining a function
-        gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {
-            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)
-        });
-        gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {
-            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)
-        });
-        gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5 * paramsGUI.far).onChange(d => {
-            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d)
-        });
-        gui.add(paramsGUI, 'addAxes', false).onChange(d => {
-            scene.children.filter(d => d.name === "xyz_axes").length ? axes.visible = d : scene.add(axes)
-        });
-        gui.add(paramsGUI, 'attenuation', false).name("glyph attenuation").onChange(d => {
-            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.attenuate.value = d)
-        });
+        gui.add(paramsGUI, "intensity", 0, 10).name('light intensity, top-right').onChange(d => {light.intensity = d}); // 3. chaining a function
+        gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
+        gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
+        gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5 * paramsGUI.far).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d) });
+        gui.add(paramsGUI, 'addAxes', false).onChange(d => {scene.children.filter(d => d.name === "xyz_axes").length ? axes.visible = d : scene.add(axes) });
+        gui.add(paramsGUI, 'attenuation', false).name("glyph attenuation").onChange(d => { scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.attenuate.value = d)});
 
-        gui.add(paramsGUI, 'smoothness', 1, 32).name("cell smoothness").onChange(regenerateSphereGeometry);
+
         // gui.add(paramsGUI, 'heightSegments', 1, 32).onChange(d => {scene.children.filter(v => v.type === 'Mesh').map(v => v.geometry.parameters.heightSegments  = d)});
 
         // gui.open();
