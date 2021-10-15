@@ -42,6 +42,7 @@ function app(geneData) {
         mouseEvents: false,
         addAxes: false,
         smoothness: 8,
+        attenuation: 1,
     };
     var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000],
         numCells = [0, 100, 1000, 100000, 150000];
