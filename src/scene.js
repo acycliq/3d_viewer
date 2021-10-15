@@ -72,7 +72,7 @@ function iniScene() {
         gui.add(paramsGUI, 'addAxes', false).onChange(d => {
             scene.children.filter(d => d.name === "xyz_axes").length ? axes.visible = d : scene.add(axes)
         });
-        gui.add(paramsGUI, 'attenuation', [0, 1]).onChange(d => {
+        gui.add(paramsGUI, 'attenuation', false).name("glyph attenuation").onChange(d => {
             scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.attenuate.value = d)
         });
 
