@@ -76,7 +76,7 @@ function iniScene() {
             scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.attenuate.value = d)
         });
 
-        gui.add(paramsGUI, 'smoothness', 1, 32).onChange(regenerateSphereGeometry);
+        gui.add(paramsGUI, 'smoothness', 1, 32).name("cell smoothness").onChange(regenerateSphereGeometry);
         // gui.add(paramsGUI, 'heightSegments', 1, 32).onChange(d => {scene.children.filter(v => v.type === 'Mesh').map(v => v.geometry.parameters.heightSegments  = d)});
 
         // gui.open();
