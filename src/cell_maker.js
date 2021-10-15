@@ -60,6 +60,10 @@ function _make_cells(data, props) {
     );
 
     var dummy = new THREE.Object3D();
+    var bbox_items = [];
+    var tree = new RBush3D.RBush3D(16)
+    console.log('tic')
+    var temp_obj = new THREE.Mesh(new THREE.SphereGeometry(), new THREE.MeshBasicMaterial());
     for (var i = 0; i < counts; i++) {
         var coords = data[i].position,
             scales = data[i].scale,
@@ -71,16 +75,20 @@ function _make_cells(data, props) {
         dummy.updateMatrix();
         instancedMesh.setMatrixAt(i, dummy.matrix);
         instancedMesh.setColorAt(i, new THREE.Color( color.r, color.g, color.b ));
-
+        temp_obj.applyMatrix4(dummy.matrix)
+        var bbox = new THREE.Box3().setFromObject(temp_obj);
+        bbox_items.push({minX: bbox.min.x, minY: bbox.min.y, minZ: bbox.min.z, maxX: bbox.max.x, maxY: bbox.max.y, maxZ: bbox.max.z, name: 'item_' + i});
         // instancedMesh.geometry.setPositionAt(i, trsCache[i].position);
         // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);
     }
+    console.log('toc')
     instancedMesh.instanceColor.needsUpdate = true;
     instancedMesh.visible = true;
     instancedMesh.castShadow = true;
     instancedMesh.receiveShadow = false; // if you turn this on, you may need to tweak the light shadow bias to avoid artifacts
     // objectWrapper.add(instancedMesh);
 
+    tree.load(bbox_items);
     return instancedMesh
 }
 
