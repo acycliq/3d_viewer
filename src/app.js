@@ -45,7 +45,7 @@ function app(geneData) {
         attenuation: true,
     };
     var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000],
-        numCells = [0, 100, 1000, 100000, 150000];
+        numCells = [0, 100, 1000, 100000, 150000, 200000];
 
 
     if (!gui){
