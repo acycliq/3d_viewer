@@ -7,6 +7,6 @@ function iniContent(spots, cells) {
     // add_spheres();
     instancedMesh = make_cells(cells);
     scene.add(instancedMesh.back); // needs to be rendered first
-    scene.add(instancedMesh.front);
+    scene.add(instancedMesh.front_face.instancedMesh);
 
 }

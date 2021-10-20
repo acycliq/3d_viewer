@@ -2,19 +2,26 @@ function make_cells(data) {
     var front_props = {
             side: THREE.FrontSide,
             opacity: 0.4,
+            name: 'front_mesh'
         },
         back_props = {
             side: THREE.BackSide,
             opacity: 0.9,
+            name: 'back_mesh'
         },
     instancedMesh = {};
 
-    instancedMesh.front = _make_cells(data, front_props);
-    instancedMesh.back = _make_cells(data, back_props);
-    return instancedMesh
+    var front_face = ellipsoids(data, front_props),
+        back_face = ellipsoids(data, back_props);
+        cells = {};
+    // instancedMesh.front = front_face.instancedMesh;
+    // instancedMesh.back = back_face.instancedMesh;
+    cells.front_face = front_face;
+    cells.back_face = back_face;
+    return cells
 }
 
-function _make_cells(data, props) {
+function ellipsoids(data, props) {
     var counts = data.length,
         loader = new THREE.TextureLoader();
 
@@ -73,6 +80,7 @@ function _make_cells(data, props) {
         dummy.scale.set(scales.x, scales.y, scales.z);
         dummy.rotation.set(rot.x, rot.y, rot.z);
         dummy.updateMatrix();
+        instancedMesh.name = props.name;
         instancedMesh.setMatrixAt(i, dummy.matrix);
         instancedMesh.setColorAt(i, new THREE.Color( color.r, color.g, color.b ));
         temp_obj.applyMatrix4(dummy.matrix)
@@ -89,7 +97,22 @@ function _make_cells(data, props) {
     // objectWrapper.add(instancedMesh);
 
     tree.load(bbox_items);
-    return instancedMesh
+
+
+    function LOD_ramp() {
+        // camera.position.distanceTo(scene.position) < 300? mesh_LOD(): null
+        if (camera.position.distanceTo(scene.position) < 300) {
+            console.log('Less than 300')
+        }
+
+    }
+
+
+    var ellipsoidData = {};
+    ellipsoidData.instancedMesh = instancedMesh;
+    ellipsoidData.LOD_ramp = LOD_ramp;
+
+    return ellipsoidData
 }
 
 function count_triangles(m){

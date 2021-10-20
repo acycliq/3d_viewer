@@ -28,7 +28,7 @@ function iniScene() {
 
     // Controls
     controls = new THREE.OrbitControls(camera, canvas);
-    controls.enableDamping = true;
+    // controls.enableDamping = true;
 
     // Renderer
     renderer = new THREE.WebGLRenderer({
@@ -58,12 +58,24 @@ function iniScene() {
         // gui.add(paramsGUI, 'transmission', 0, 1, 0.01);
         // gui.add(camera, 'near', 1, 100);   // 2. directly adding it to the gui. No need to anything more in the the animate loop
         // gui.add(paramsGUI, 'near', 1, 100).name('min visible plane').onChange(d => {camera.near = d})
-        gui.add(paramsGUI, "intensity", 0, 10).name('light intensity, top-right').onChange(d => {light.intensity = d}); // 3. chaining a function
-        gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)});
-        gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)});
-        gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5 * paramsGUI.far).onChange(d => {scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d) });
-        gui.add(paramsGUI, 'addAxes', false).onChange(d => {scene.children.filter(d => d.name === "xyz_axes").length ? axes.visible = d : scene.add(axes) });
-        gui.add(paramsGUI, 'attenuation', false).name("glyph attenuation").onChange(d => { scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.attenuate.value = d)});
+        gui.add(paramsGUI, "intensity", 0, 10).name('light intensity, top-right').onChange(d => {
+            light.intensity = d
+        }); // 3. chaining a function
+        gui.add(paramsGUI, 'glyphSize', 1, 100).onChange(d => {
+            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = d)
+        });
+        gui.add(paramsGUI, 'dotSize', 1, 100).onChange(d => {
+            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.dotSize.value = d)
+        });
+        gui.add(paramsGUI, 'glyphSwitch', paramsGUI.near, 0.5 * paramsGUI.far).onChange(d => {
+            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.zThres.value = d)
+        });
+        gui.add(paramsGUI, 'addAxes', false).onChange(d => {
+            scene.children.filter(d => d.name === "xyz_axes").length ? axes.visible = d : scene.add(axes)
+        });
+        gui.add(paramsGUI, 'attenuation', false).name("glyph attenuation").onChange(d => {
+            scene.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.attenuate.value = d)
+        });
 
 
         // gui.add(paramsGUI, 'heightSegments', 1, 32).onChange(d => {scene.children.filter(v => v.type === 'Mesh').map(v => v.geometry.parameters.heightSegments  = d)});
@@ -132,6 +144,65 @@ function scale_helper(points) {
 }
 
 
+function LOD_ramp(x) {
+    // inpout x is camera.position.distanceTo(scene.position)
+    var lod = {};
+    if (x > 1000) {
+        lod.level = 'level_0';
+        lod.w = 4;
+        lod.h = 4;
+    } else if (x > 500) {
+        lod.level = 'level_1';
+        lod.w = 6;
+        lod.h = 4;
+    } else if (x > 300) {
+        lod.level = 'level_2';
+        lod.w = 8;
+        lod.h = 4;
+    } else if (x > 100) {
+        lod.level = 'level_3';
+        lod.w = 10;
+        lod.h = 5;
+        if (scene.children.filter(d => d.name === 'back_mesh').length) {
+            scene.children.filter(d => d.name === 'back_mesh').forEach(d => {
+                scene.remove(d);
+                console.log('back_mesh removed')
+            })
+        }
+    } else {
+        lod.level = 'level_4';
+        lod.w = 12;
+        lod.h = 8;
+        if (!scene.children.filter(d => d.name === 'back_mesh').length) {
+            scene.add(instancedMesh.back_face.instancedMesh);
+            console.info('back face added')
+        }
+    }
+    return lod
+}
+
+function mesh_LOD(w, h) {
+    var meshes = scene.children.filter(v => v.type === 'Mesh');
+    meshes.forEach(d => {
+        const clonedGeometry = new THREE.SphereBufferGeometry(1, w, h);
+        // clonedGeometry.parameters.widthSegments = paramsGUI.widthSegments;
+        d.geometry.dispose();
+        d.geometry = clonedGeometry;
+
+        count_triangles(d)
+    })
+}
+
+
+function hide_back_face() {
+    console.log('Hiding back face')
+    scene.children.forEach(d => {
+        if ((d.type === 'Mesh') & (d.name === 'back_mesh')) {
+            d.visible = false
+        }
+    })
+}
+
 function render() {
     // adjust wth width of the gui
     document.getElementsByClassName('dg main a')[0].style.width = "305px"
@@ -146,6 +217,26 @@ function render() {
     } else {
         scene.environment = null
     }
+
+    // LOD_ramp()
+    scene.children.forEach(d => {
+        c2s = camera.position.distanceTo(scene.position);
+        var lod = LOD_ramp(c2s);
+        if ((d.type === 'Mesh') & (d.name === 'front_mesh')) {
+            if (lod.level !== _c2s) {
+                console.log('Switching to ' + lod.level)
+                mesh_LOD(lod.w, lod.h)
+                _c2s = lod.level;
+            }
+        } else if ((d.type === 'Mesh') & (d.name === 'back_mesh')) {
+            if (lod.level !== _c2s) {
+                console.log('Switching to ' + lod.level)
+                mesh_LOD( 4, 4)
+                _c2s = lod.level;
+            }
+
+        }
+    });
 
 
     // if (particlesGeometry) {
