@@ -84,3 +84,225 @@ function legendControl() {
     $('#legend').show()
     console.log('legend added')
 }
+
+function hoverPieces() {
+    raycaster.setFromCamera(mouse, camera);
+    raycaster.far = configSettings.zThres;
+    raycaster.params.Points.threshold = 0.5;
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length) {
+        console.log('Intersects')
+        if (intersected != intersects[0].object) {
+            var index = intersects[0].index;
+            intersected = intersects[0].object;
+            var name = intersected.name,
+                uid = name + "_" + index;
+            reset_scale(intersected)
+            highlight(intersected, name, index);
+            console.log('mouseover Gene: ' + name + ' index: ' + index);
+            console.log(uid)
+            $('html,body').css('cursor', 'pointer');
+        }
+    } else {
+        console.log('does not intersect')
+        if (intersected) {
+            $('html,body').css('cursor', 'default');
+            reset_scale(intersected)
+            intersected = null
+        }
+    }
+
+    // for (let i = 0; i < intersects.length; i++) {
+    //     intersects[i].object.material.transparent = true;
+    //     intersects[i].object.material.opacity = 0.5;
+    // }
+}
+
+function highlight(intersected, name, index) {
+    if (intersected.type === 'Points') {
+        var scales = intersected.geometry.attributes.scale;
+        scales.array[index] = 2.0;
+        scales.needsUpdate = true;
+        console.log('scale ' + name + '_' + index + ' is: ' + intersected.geometry.attributes.scale.array[index])
+    }
+}
+
+function reset_scale(intersected) {
+    if (intersected && intersected.type === 'Points') {
+        var scales = intersected.geometry.attributes.scale;
+        console.log('gene is: ' + intersected.name)
+        for (var i = 0; i < scales.count; i++) {
+            if (scales.array[i] != 1.0) {
+                console.log('resetting at position: ' + i)
+                scales.array[i] = 1.0;
+            }
+        }
+        scales.needsUpdate = true;
+    }
+}
+
+function onMouseMove(event) {
+
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+}
+
+// window.addEventListener('mousemove', (e) => {
+//     var vec = new THREE.Vector3(); // create once and reuse
+//     var pos = new THREE.Vector3(); // create once and reuse
+//
+//     vec.set(
+//         ( event.clientX / window.innerWidth ) * 2 - 1,
+//         - ( event.clientY / window.innerHeight ) * 2 + 1,
+//         0.5 );
+//
+//     vec.unproject( camera );
+//
+//     vec.sub( camera.position ).normalize();
+//
+//     var distance = - camera.position.z / vec.z;
+//
+//     pos.copy( camera.position ).add( vec.multiplyScalar( distance ) );
+//     console.log('mouse x: ' + pos.x)
+//     console.log('mouse y: ' + pos.y)
+//
+// });
+
+
+function onWindowResize() {
+    // Update camera
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    // Update renderer
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+}
+
+function hideAxes() {
+    for (var i = 0; i < scene.children.length; i++) {
+        if (scene.children[i].name === 'xyz_axes') {
+            scene.children[i].visible = false;
+            console.log('Axes are switched off.')
+        }
+    }
+}
+
+
+function showAxes() {
+    for (var i = 0; i < scene.children.length; i++) {
+        if (scene.children[i].name === 'xyz_axes') {
+            scene.children[i].visible = true;
+            console.log('Axes are switched on.')
+        }
+    }
+}
+
+
+function createAxes(axisLength, target) {
+    function v(x, y, z) {
+        return new THREE.Vector3(x, y, z);
+    }
+
+    function axis(p1, p2, color, target) {
+        var line;
+        var points = [];
+        points.push(p1);
+        points.push(p2);
+        var lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+        // lineGeometry = new THREE.Geometry(),
+        lineMat = new THREE.LineBasicMaterial({color: color, lineWidth: 1});
+        // lineGeometry.vertices.push( p1, p2 );
+        line = new THREE.Line(lineGeometry, lineMat);
+        return line
+        // target.add( line );
+    }
+
+    var group = new THREE.Group();
+    group.name = 'xyz_axes'
+    var axis_x = axis(v(-axisLength, 0, 0), v(axisLength, 0, 0), 0xFF0000, target);
+    var axis_y = axis(v(0, -axisLength, 0), v(0, axisLength, 0), 0x00FF00, target);
+    var axis_z = axis(v(0, 0, -axisLength), v(0, 0, axisLength), 0x0000FF, target);
+    group.add(axis_x);
+    group.add(axis_y);
+    group.add(axis_z);
+
+    return group
+}
+
+function LOD_ramp(x) {
+    // inpout x is camera.position.distanceTo(scene.position)
+    var lod = {};
+    if (x > 1000) {
+        lod.level = 'level_0';
+        lod.w = 4;
+        lod.h = 4;
+    } else if (x > 500) {
+        lod.level = 'level_1';
+        lod.w = 6;
+        lod.h = 4;
+    } else if (x > 300) {
+        lod.level = 'level_2';
+        lod.w = 8;
+        lod.h = 4;
+    } else if (x > 100) {
+        lod.level = 'level_3';
+        lod.w = 10;
+        lod.h = 5;
+        if (scene.children.filter(d => d.name === 'back_mesh').length) {
+            scene.children.filter(d => d.name === 'back_mesh').forEach(d => {
+                scene.remove(d);
+                console.log('back_mesh removed')
+            })
+        }
+    } else {
+        lod.level = 'level_4';
+        lod.w = 12;
+        lod.h = 8;
+        if (!scene.children.filter(d => d.name === 'back_mesh').length) {
+            scene.add(instancedMesh.back_face.instancedMesh);
+            console.info('back face added')
+        }
+    }
+    return lod
+}
+
+function mesh_LOD(w, h) {
+    var meshes = scene.children.filter(v => v.type === 'Mesh');
+    meshes.forEach(d => {
+        const clonedGeometry = new THREE.SphereBufferGeometry(1, w, h);
+        // clonedGeometry.parameters.widthSegments = paramsGUI.widthSegments;
+        d.geometry.dispose();
+        d.geometry = clonedGeometry;
+
+        count_triangles(d)
+    })
+}
+
+// function hide_back_face() {
+//     console.log('Hiding back face')
+//     scene.children.forEach(d => {
+//         if ((d.type === 'Mesh') & (d.name === 'back_mesh')) {
+//             d.visible = false
+//         }
+//     })
+// }
+
+// function scale_helper(points) {
+//     var scales = points.geometry.attributes.scale;
+//     var count = scales.count;
+//
+//     for (var i = 0; i < count; i++) {
+//         // dynamically change alphas
+//         scales.array[i] *= 0.95;
+//         if (scales.array[i] < 0.10) {
+//             console.log('dynamically change alphas')
+//             scales.array[i] = 1.0;
+//         }
+//     }
+//     scales.needsUpdate = true; // important!
+// }
