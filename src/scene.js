@@ -106,12 +106,13 @@ function iniScene() {
     controls.panSpeed = 0.8;
     $('.clicks').click(function () {
     		var from = camera.position.clone();
-				var to = camera.position.clone().subScalar(100);
+    		var to = new THREE.Vector3(35, 31, 17);
+    		// var to = camera.position.clone().subScalar(100);
         // initially, camera looks at the center of the scene
         // next line makes it to look at the top of the torus
         controls.target = new THREE.Vector3(0, 120, 0); // set target once, not in .onUpdate
         var tween = new TWEEN.Tween(from)
-            .to(to, 600)
+            .to(to, 1600)
             .easing(TWEEN.Easing.Linear.None)
             .onUpdate( function(){
             	camera.position.copy(this);
