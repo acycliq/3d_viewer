@@ -9,7 +9,7 @@ function iniScene() {
     camera.position.set(0, 0, 3000);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xdddddd);
+    // scene.background = new THREE.Color(0xdddddd);
 
     // ground
     var geometry = new THREE.BoxGeometry(10, 0.15, 10);
