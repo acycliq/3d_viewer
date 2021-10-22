@@ -368,6 +368,17 @@ table.no-spacing td {
     cursor: pointer;
 }
 
+.clicks {
+    position:absolute;
+    top:60px;
+    width:auto;
+    height:20px;
+    border:1px solid red;
+    cursor:pointer;
+    color:black;
+    background-color:white;
+}
+
 #hideDapiAndPanels {
     top: 9px;
     left: 50px;
