@@ -3,7 +3,7 @@ function iniScene() {
     document.body.appendChild(container);
 
     // Canvas
-    const canvas = document.querySelector('canvas.webgl')
+    canvas = document.querySelector('canvas.webgl')
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, paramsGUI.near, paramsGUI.far);
     camera.position.set(0, 0, 3000);
