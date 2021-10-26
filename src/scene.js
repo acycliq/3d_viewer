@@ -40,9 +40,8 @@ function iniScene() {
     RENDERER.shadowMap.enabled = true;
     RENDERER.shadowMap.type = THREE.BasicShadowMap;
 
-    axes = createAxes(1000, SCENE);
-
-
+    // var axes = createAxes(1000, SCENE);
+    // SCENE.add(axes)
 
 }
 

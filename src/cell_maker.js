@@ -49,7 +49,7 @@ function ellipsoids(data, props) {
     var geometry =  new THREE.SphereBufferGeometry(1, widthSegments, heightSegments);
     var _n = geometry.index.count/3;
     console.log('triangles: ' + (_n * counts).toLocaleString());
-    var instancedMesh = new THREE.InstancedMesh(
+    var INSTANCEDMESH = new THREE.InstancedMesh(
         //provide geometry
         geometry,
 
@@ -77,9 +77,9 @@ function ellipsoids(data, props) {
         dummy.scale.set(scales.x, scales.y, scales.z);
         dummy.rotation.set(rot.x, rot.y, rot.z);
         dummy.updateMatrix();
-        instancedMesh.name = props.name;
-        instancedMesh.setMatrixAt(i, dummy.matrix);
-        instancedMesh.setColorAt(i, new THREE.Color( color.r, color.g, color.b ));
+        INSTANCEDMESH.name = props.name;
+        INSTANCEDMESH.setMatrixAt(i, dummy.matrix);
+        INSTANCEDMESH.setColorAt(i, new THREE.Color( color.r, color.g, color.b ));
         temp_obj.applyMatrix4(dummy.matrix)
         var bbox = new THREE.Box3().setFromObject(temp_obj);
         bbox_items.push({minX: bbox.min.x, minY: bbox.min.y, minZ: bbox.min.z, maxX: bbox.max.x, maxY: bbox.max.y, maxZ: bbox.max.z, name: 'item_' + i});
@@ -87,10 +87,10 @@ function ellipsoids(data, props) {
         // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);
     }
     console.log('toc')
-    instancedMesh.instanceColor.needsUpdate = true;
-    instancedMesh.visible = true;
-    instancedMesh.castShadow = true;
-    instancedMesh.receiveShadow = false; // if you turn this on, you may need to tweak the light shadow bias to avoid artifacts
+    INSTANCEDMESH.instanceColor.needsUpdate = true;
+    INSTANCEDMESH.visible = true;
+    INSTANCEDMESH.castShadow = true;
+    INSTANCEDMESH.receiveShadow = false; // if you turn this on, you may need to tweak the light shadow bias to avoid artifacts
     // objectWrapper.add(instancedMesh);
 
     tree.load(bbox_items);
@@ -106,7 +106,7 @@ function ellipsoids(data, props) {
 
 
     var ellipsoidData = {};
-    ellipsoidData.instancedMesh = instancedMesh;
+    ellipsoidData.instancedMesh = INSTANCEDMESH;
     ellipsoidData.LOD_ramp = LOD_ramp;
 
     return ellipsoidData

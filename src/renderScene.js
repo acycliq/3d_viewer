@@ -105,7 +105,7 @@ function hidePoints(gene){
 }
 
 function showPoints(gene){
-    if (genePanel.includes(gene)){
+    if (GENEPANEL.includes(gene)){
         var points = scene.children;
         points.filter(d => d.name === gene)[0].visible = true;
     }
@@ -270,7 +270,7 @@ function render_scene_2() {
         instancedMesh.receiveShadow = true;
         objectWrapper.add(instancedMesh);
 
-        var points = geneNames.map((d, i) => my_particles(coords_arr[i], d));
+        var points = GENEPANEL.map((d, i) => my_particles(coords_arr[i], d));
         // add the points to the scene
         points.map(d => scene.add(d));
 

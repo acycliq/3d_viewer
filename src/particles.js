@@ -7,7 +7,7 @@ function my_particles(positions, gene) {
     var fShader = getShader(glyph),
         color = hexToRgb(hexCode);
 
-    particlesGeometry = new THREE.BufferGeometry();
+    var particlesGeometry = new THREE.BufferGeometry();
     particlesGeometry.name = gene
     // var scales = new Float32Array(positions.length);
     var colors = new Float32Array(positions.length);
@@ -33,7 +33,7 @@ function my_particles(positions, gene) {
     // particlesGeometry.attributes.alpha.needsUpdate = true; // important!
 
     const opacity = 0.8;
-    particlesMaterial = new THREE.ShaderMaterial({
+    var particlesMaterial = new THREE.ShaderMaterial({
         // depthWrite: false,
         blending: THREE.NormalBlending,
         // vertexColors: true,
@@ -54,12 +54,10 @@ function my_particles(positions, gene) {
     });
 
     // Points
-    particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    particles.name = gene;
+    PARTICLES = new THREE.Points(particlesGeometry, particlesMaterial);
+    PARTICLES.name = gene;
 
-    return particles
-
-
+    return PARTICLES
 }
 
 function get_zThres(z_eye) {

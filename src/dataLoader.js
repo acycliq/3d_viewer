@@ -1,9 +1,13 @@
 function data_loader(workPackage) {
+    var worker = new Worker("./src/streaming-tsv-parser.js");
     var data = [],
         agg_data,
         previous_avg = 0;
     var average = list => list.reduce((prev, curr) => prev + curr) / list.length;
     workPackage = workPackage.sort((a,b) =>  a.size-b.size); //order by size (hemmm...doest really matter, does it?? Everything happens in parallel)
+
+    setupWorker(worker);
+    worker.postMessage(workPackage);
 
     function aggregate_stats(workPackage){
         out = [];
@@ -44,28 +48,18 @@ function data_loader(workPackage) {
         return innerHtml
     }
 
-    function setupWorker() {
-        // create a web worker that streams the chart data
-        worker = new Worker("./src/streaming-tsv-parser.js");
-        worker.onmessage = function (event) {
+    function setupWorker(my_worker) {
+        my_worker.onmessage = function (event) {
             if (event.data.finished) {
                 console.log(agg_data);
                 data = aggregate_data(workPackage);
                 onDataLoaded(data);
-                // redraw(stats);
                 return
             }
             var i = event.data.i;
             workPackage[i].bytes_streamed += event.data.bytes_streamed;
             workPackage[i].data = workPackage[i].data.concat(event.data.items);
             workPackage[i].data_length += event.data.items.length;
-            // if (i === 0) {
-            //     console.log('i: ' + i)
-            //     console.log('bytes_streamed: ' + workPackage[i].bytes_streamed)
-            //     console.log('size: ' + workPackage[i].size)
-            //     console.log('data length: ' + workPackage[i].data.length)
-            //     console.log('')
-            // }
             agg_data = aggregate_stats(workPackage);
 
             redraw(agg_data);
@@ -75,19 +69,9 @@ function data_loader(workPackage) {
     function redraw(data) {
         // console.log(data[0])
         // console.log(data[1])
-        // innerHtml = makeInnerHtml(data.map(d => d3.format(",")(d.data_length)));
-        // document.getElementById("loading").innerHTML = innerHtml;
-        //
-        // innerHtml = makeInnerHtml(data.map(d => d3.format(".0%")(d.progress) ));
-        // innerHtml = innerHtml.replace(/% \//g, '% ');
-        // document.getElementById("loading_perc").innerHTML = innerHtml;
-        //
-        // innerHtml = makeInnerHtml(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() + 'MB' ));
-        // document.getElementById("loading_mb").innerHTML = innerHtml;
-
 
         var avg = average(data.map(d => d.progress));
-        var avg_mb = average(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() ));
+        // var avg_mb = average(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() ));
         var progress_1 = data[0].progress;
 
         var inc = 0.0; // controls how often it will be update. Every 2% set inc = 0.02
@@ -106,23 +90,13 @@ function data_loader(workPackage) {
     }
 
     function onDataLoaded(data) {
-        // [cellBoundaries, cellData] = postLoad([data.cellBoundaries, data.cellData]);
-
-        // // sort cellBoundaries and cellData. These two should be aligned
-        // cellBoundaries.sort((a, b) => a.cell_id - b.cell_id);
-        // cellData.sort((a, b) => a.cell_id - b.cell_id);
-
-        all_geneData = data.geneData;
+        ALL_GENEDATA = data.geneData;
         console.log('loading data finished');
-        console.log('num of genes loaded: ' + all_geneData.length);
-        // console.log('num of cells loaded: ' + cellData.length);
+        console.log('num of genes loaded: ' + ALL_GENEDATA.length);
 
         // do now the chart
-        // dapiChart(configSettings);
-        app(all_geneData)
-
+        app(ALL_GENEDATA)
     }
 
-    setupWorker();
-    worker.postMessage(workPackage);
+
 }

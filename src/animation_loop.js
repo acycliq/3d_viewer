@@ -6,6 +6,8 @@ function animate() {
 }
 
 function render() {
+    var c2s,
+        _c2s;
 
     // LOD_ramp()
     SCENE.children.forEach(d => {
@@ -23,8 +25,8 @@ function render() {
                 mesh_LOD( 4, 4);
                 _c2s = lod.level;
             }
-
         }
     });
+
     RENDERER.render(SCENE, CAMERA);
 }

@@ -1,9 +1,9 @@
 
 function run() {
     console.log('app starts');
-    configSettings = config().get('default');
+    CONFIGSETTINGS = config().get('default');
 
-    fetcher([encode(configSettings.geneData)]).then(
+    fetcher([encode(CONFIGSETTINGS.geneData)]).then(
         result => make_package(result),
         error => alert(error) // doesn't run
     );

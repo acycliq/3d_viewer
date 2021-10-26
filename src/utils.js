@@ -75,8 +75,6 @@ function legendControl() {
         legendLink.addEventListener(`click`, () => {
             // Opens the page and stores the opened window instance
             legendWindow = window.open(`./src/genes_datatable.html`); // <--- THAT NEEDS TO BE EXPOSED TO THE USER. MOVE I INSIDE config.js MAYBE
-            // legendWindow = window.open('./viewer/genes_datatable.html', '_blank','toolbar=yes');
-
         });
     }
     legend_added = true;
@@ -248,7 +246,7 @@ function LOD_ramp(x) {
         lod.w = 12;
         lod.h = 8;
         if (!SCENE.children.filter(d => d.name === 'back_mesh').length) {
-            SCENE.add(instancedMesh.back_face.instancedMesh);
+            SCENE.add(INSTANCEDMESH.back_face.instancedMesh);
             console.info('back face added')
         }
     }

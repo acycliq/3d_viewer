@@ -2,7 +2,7 @@ function iniLights() {
     // LIGHTS
     SCENE.add(new THREE.AmbientLight(0x666666));
 
-    light = new THREE.DirectionalLight(0xfcfcfc, 1.0);
+    var light = new THREE.DirectionalLight(0xfcfcfc, 1.0);
     light.position.set(90, 120, 5);
     light.position.multiplyScalar(1.3);
     light.castShadow = true;

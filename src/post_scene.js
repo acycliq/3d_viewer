@@ -1,6 +1,6 @@
 // Put here event listeners and other stuff to be called when everything else on the scene is ready
 
-function post_scene() {
+function postScene() {
 
     // adjust the scene if the browser's window is resized
     window.addEventListener('resize', onWindowResize);

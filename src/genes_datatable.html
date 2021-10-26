@@ -135,17 +135,17 @@
     function onSelect() {
         console.log('I dont think the outer function is needed anynore')
         return function () {
-            // var genePanel = table.columns(1).data()[0];
-            // var _previousLegend = {'selected': genePanel, 'deselected': [] };
+            // var GENEPANEL = table.columns(1).data()[0];
+            // var _previousLegend = {'selected': GENEPANEL, 'deselected': [] };
             var cookie = +sessionStorage['dtCompleted']; // cookie is a misnomer here!
             if (cookie){
                 console.log('ok');
-                var genePanel = table.columns(1).data()[0];
+                var GENEPANEL = table.columns(1).data()[0];
                 var previous_state = getPreviousSelection(table);
                 var selectedRows = table.columns().checkboxes.selected()[0];
 
                 var selectedGenes = selectedRows.map(d => table.rows(d).data()[0][1]);
-                var deSelectedGenes = genePanel.filter(d => !selectedGenes.includes(d));
+                var deSelectedGenes = GENEPANEL.filter(d => !selectedGenes.includes(d));
 
                 var enter = selectedGenes.filter(d => previous_state.deselected.includes(d));
                 var exit = deSelectedGenes.filter(d => previous_state.selected.includes(d));
