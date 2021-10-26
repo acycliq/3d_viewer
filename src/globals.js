@@ -15,8 +15,8 @@ var CAMERA,
     particles,
     particlesMaterial,
     particlesGeometry,
-    mouse,
-    raycaster,
+    MOUSE = new THREE.Vector2(),
+    RAYCASTER = new THREE.Raycaster(),
     axes,
     c2s, //camera to scene distance
     _c2s = NaN;

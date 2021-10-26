@@ -18,18 +18,18 @@ function post_scene() {
         // calculate mouse position in normalized device coordinates
         // (-1 to +1) for both components
 
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        MOUSE.x = (event.clientX / window.innerWidth) * 2 - 1;
+        MOUSE.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
     function onWindowResize() {
         // Update camera
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+        CAMERA.aspect = window.innerWidth / window.innerHeight;
+        CAMERA.updateProjectionMatrix();
 
         // Update renderer
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        RENDERER.setSize(window.innerWidth, window.innerHeight);
+        RENDERER.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     }
 
 }
