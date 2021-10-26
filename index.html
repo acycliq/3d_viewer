@@ -56,6 +56,7 @@
 
     <link rel="stylesheet" href="src/lib/css/progress.css">
     <script src="src/lib/js/progress.js"></script>
+    <script src="src/globals.js"></script>
     <script src="src/utils.js"></script>
     <script src="src/glyphPaths.js"></script>
     <script src="src/glyphConfig.js"></script>
@@ -73,6 +74,8 @@
     <script src="src/renderScene.js"></script>
     <script src="src/shaders/glyphs/vertex.js"></script>
     <script src="src/shaders/glyphs/fragment.js"></script>
+    <script src="src/animation_loop.js"></script>
+    <script src="src/post_scene.js"></script>
 
     <style>
         button, input, optgroup, select, textarea {color: #1b1b1b;}
@@ -119,40 +122,10 @@
 </div>
 
 <canvas class="webgl"></canvas>
-<div class="clicks">Move Camera</div>
-
 <script>
     localStorage.clear();
     console.log('Local storage cleared');
 
-    // variables in the global scope
-    var camera,
-        scene,
-        renderer,
-        controls,
-        canvas,
-        envMap,
-        all_geneData,
-        worker,
-        geneNames,
-        coords_arr,
-        cells_arr,
-        configSettings,
-        legend_added = false, //used to make sure the listener is attached only once
-        genePanel,
-        light,
-        instancedMesh,
-        particles,
-        particlesMaterial,
-        particlesGeometry,
-        gui,
-        paramsGUI,
-        mouse,
-        raycaster,
-        axes,
-        c2s, //camera to scene distance
-        _c2s = NaN,
-        intersected = null;
 
     mouse = new THREE.Vector2();
     raycaster = new THREE.Raycaster();

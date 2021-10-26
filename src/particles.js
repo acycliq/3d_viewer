@@ -41,10 +41,10 @@ function my_particles(positions, gene) {
         fragmentShader: fShader,
         // uniformsNeedUpdate: true,
         uniforms: {
-            glyphSize: {value: paramsGUI.glyphSize},
-            dotSize: {value: paramsGUI.dotSize},
+            glyphSize: {value: 12},
+            dotSize: {value: 2},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
-            zThres: {value: paramsGUI.glyphSwitch},
+            zThres: {value: 100},
             attenuate: {value: true},
             r: {value: color.r / 255.0},
             g: {value: color.g / 255.0},

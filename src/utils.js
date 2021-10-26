@@ -141,15 +141,7 @@ function reset_scale(intersected) {
     }
 }
 
-function onMouseMove(event) {
 
-    // calculate mouse position in normalized device coordinates
-    // (-1 to +1) for both components
-
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-}
 
 // window.addEventListener('mousemove', (e) => {
 //     var vec = new THREE.Vector3(); // create once and reuse
@@ -173,15 +165,7 @@ function onMouseMove(event) {
 // });
 
 
-function onWindowResize() {
-    // Update camera
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
 
-    // Update renderer
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-}
 
 function hideAxes() {
     for (var i = 0; i < scene.children.length; i++) {
@@ -253,9 +237,9 @@ function LOD_ramp(x) {
         lod.level = 'level_3';
         lod.w = 10;
         lod.h = 5;
-        if (scene.children.filter(d => d.name === 'back_mesh').length) {
-            scene.children.filter(d => d.name === 'back_mesh').forEach(d => {
-                scene.remove(d);
+        if (SCENE.children.filter(d => d.name === 'back_mesh').length) {
+            SCENE.children.filter(d => d.name === 'back_mesh').forEach(d => {
+                SCENE.remove(d);
                 console.log('back_mesh removed')
             })
         }
@@ -263,8 +247,8 @@ function LOD_ramp(x) {
         lod.level = 'level_4';
         lod.w = 12;
         lod.h = 8;
-        if (!scene.children.filter(d => d.name === 'back_mesh').length) {
-            scene.add(instancedMesh.back_face.instancedMesh);
+        if (!SCENE.children.filter(d => d.name === 'back_mesh').length) {
+            SCENE.add(instancedMesh.back_face.instancedMesh);
             console.info('back face added')
         }
     }
@@ -272,7 +256,7 @@ function LOD_ramp(x) {
 }
 
 function mesh_LOD(w, h) {
-    var meshes = scene.children.filter(v => v.type === 'Mesh');
+    var meshes = SCENE.children.filter(v => v.type === 'Mesh');
     meshes.forEach(d => {
         const clonedGeometry = new THREE.SphereBufferGeometry(1, w, h);
         // clonedGeometry.parameters.widthSegments = paramsGUI.widthSegments;

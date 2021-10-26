@@ -1,6 +1,6 @@
 function iniLights() {
     // LIGHTS
-    scene.add(new THREE.AmbientLight(0x666666));
+    SCENE.add(new THREE.AmbientLight(0x666666));
 
     light = new THREE.DirectionalLight(0xfcfcfc, 1.0);
     light.position.set(90, 120, 5);
@@ -15,7 +15,7 @@ function iniLights() {
     light.shadow.camera.far = 400;
     // light.shadow.bias = -0.01; // You may need to tweak this to avoid artifacts if the mesh is receiving shadows
     // light.shadowDarkness = 0.2;
-    scene.add(light);
+    SCENE.add(light);
 
     // var helper = new THREE.CameraHelper(light.shadow.camera);
     // scene.add(helper);
@@ -35,7 +35,7 @@ function iniLights() {
     light_2.shadow.camera.far = 400;
     // light_2.shadow.bias = -0.01; // You may need to tweak this to avoid artifacts if the mesh is receiving shadows
     // light.shadowDarkness = 0.2;
-    scene.add(light_2);
+    SCENE.add(light_2);
 
     // var helper_2 = new THREE.CameraHelper(light_2.shadow.camera);
     // scene.add(helper_2);
@@ -69,15 +69,15 @@ function add_envmap() {
         .setPath('https://threejs.org/examples/textures/equirectangular/')
         .load('royal_esplanade_1k.hdr', function (texture) {
 
-            envMap = pmremGenerator.fromEquirectangular(texture).texture;
+            var envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
             // scene.background = envMap;
-            scene.environment = envMap;
+            SCENE.environment = envMap;
 
             texture.dispose();
             pmremGenerator.dispose();
         })
-    var pmremGenerator = new THREE.PMREMGenerator(renderer);
+    var pmremGenerator = new THREE.PMREMGenerator(RENDERER);
     pmremGenerator.compileEquirectangularShader();
 
 }

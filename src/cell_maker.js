@@ -8,14 +8,11 @@ function make_cells(data) {
             side: THREE.BackSide,
             opacity: 0.9,
             name: 'back_mesh'
-        },
-    instancedMesh = {};
+        };
 
     var front_face = ellipsoids(data, front_props),
         back_face = ellipsoids(data, back_props);
         cells = {};
-    // instancedMesh.front = front_face.instancedMesh;
-    // instancedMesh.back = back_face.instancedMesh;
     cells.front_face = front_face;
     cells.back_face = back_face;
     return cells
@@ -47,7 +44,7 @@ function ellipsoids(data, props) {
 
 
     var uScale = 0;
-    var widthSegments = paramsGUI.smoothness,
+    var widthSegments = 8,
         heightSegments = 0.5 * widthSegments;
     var geometry =  new THREE.SphereBufferGeometry(1, widthSegments, heightSegments);
     var _n = geometry.index.count/3;
