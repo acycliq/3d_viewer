@@ -11,4 +11,5 @@ var CAMERA = null,
     INSTANCEDMESH = null,
     PARTICLES = null,
     MOUSE = new THREE.Vector2(),
-    RAYCASTER = new THREE.Raycaster();
+    RAYCASTER = new THREE.Raycaster(),
+    COLOR = new THREE.Color();

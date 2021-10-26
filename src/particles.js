@@ -60,6 +60,29 @@ function my_particles(positions, gene) {
     return PARTICLES
 }
 
+function hideParticles(gene){
+    var points = SCENE.children;
+    for (var i=0; i<points.length; i++){
+        if (points[i].name === gene){
+            points[i].visible = false;
+            console.log('Gene: ' + gene + ' is switched off.')
+        }
+    }
+//     // points.filter(d => d.name === gene)[0].visible = false;
+}
+
+function showParticles(gene){
+    if (GENEPANEL.includes(gene)){
+        var points = SCENE.children;
+        points.filter(d => d.name === gene)[0].visible = true;
+    }
+    else{
+        console.log('Gene: ' + gene + ' not in the gene panel')
+    }
+
+}
+
+
 function get_zThres(z_eye) {
     // https://stackoverflow.com/questions/46829113/transpose-z-position-from-perspective-to-orthographic-camera-in-three-js
     var f = camera.far,

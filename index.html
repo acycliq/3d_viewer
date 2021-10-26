@@ -71,7 +71,6 @@
     <script src="src/cell_maker.js"></script>
     <script src="src/app.js"></script>
     <script src="src/lights.js"></script>
-    <script src="src/renderScene.js"></script>
     <script src="src/shaders/glyphs/vertex.js"></script>
     <script src="src/shaders/glyphs/fragment.js"></script>
     <script src="src/animation_loop.js"></script>
@@ -143,8 +142,8 @@
             var enter = state.enter, // data to add
                 exit = state.exit;   // data to remove
 
-            exit.forEach(d => hidePoints(d));
-            enter.forEach(d => showPoints(d));
+            exit.forEach(d => hideParticles(d));
+            enter.forEach(d => showParticles(d));
 
         };
     }();
