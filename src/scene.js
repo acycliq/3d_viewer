@@ -3,6 +3,9 @@ function iniScene() {
     // Canvas
     CANVAS = document.querySelector('canvas.webgl')
 
+    var container = document.createElement('div');
+    document.body.appendChild(container);
+
     var near = 20,
         far = 10000;
     CAMERA = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, near, far);
@@ -39,6 +42,9 @@ function iniScene() {
     RENDERER.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     RENDERER.shadowMap.enabled = true;
     RENDERER.shadowMap.type = THREE.BasicShadowMap;
+
+    stats = new Stats();
+    container.appendChild(stats.dom);
 
     // var axes = createAxes(1000, SCENE);
     // SCENE.add(axes)
