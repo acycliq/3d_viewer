@@ -16,6 +16,10 @@ function render() {
         const instanceId = intersection[0].instanceId;
         INSTANCEDMESH.front_face.instancedMesh.setColorAt(instanceId, COLOR.setHex(Math.random() * 0xffffff));
         INSTANCEDMESH.front_face.instancedMesh.instanceColor.needsUpdate = true;
+        $('html,body').css('cursor', 'pointer');
+    }
+    else {
+        $('html,body').css('cursor', 'default');
     }
 
     // LOD_ramp()
