@@ -226,12 +226,12 @@ function LOD_ramp(x) {
         lod.h = 4;
     } else if (x > 300) {
         lod.level = 'level_2';
-        lod.w = 8;
-        lod.h = 4;
+        lod.w = 12;
+        lod.h = 6;
     } else if (x > 100) {
         lod.level = 'level_3';
-        lod.w = 10;
-        lod.h = 5;
+        lod.w = 18;
+        lod.h = 8;
         if (SCENE.children.filter(d => d.name === 'back_mesh').length) {
             SCENE.children.filter(d => d.name === 'back_mesh').forEach(d => {
                 SCENE.remove(d);
@@ -240,8 +240,8 @@ function LOD_ramp(x) {
         }
     } else {
         lod.level = 'level_4';
-        lod.w = 12;
-        lod.h = 8;
+        lod.w = 24;
+        lod.h = 12;
         if (!SCENE.children.filter(d => d.name === 'back_mesh').length) {
             SCENE.add(INSTANCEDMESH.back_face.instancedMesh);
             console.info('back face added')
