@@ -61,12 +61,7 @@ function postScene() {
         iniScene();
         iniLights();
         iniContent(spots_xyz, cells_xyz);
-        // adjust wth width of the gui
-        // document.getElementsByClassName('dg main a')[0].style.width = "305px"
-
-
     }
 
     gui.open();
-
 }
