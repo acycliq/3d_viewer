@@ -28,20 +28,20 @@ function getColor(gene) {
     return glyphColor(t)
 }
 
-function getShader(glyph){
-    return glyph === 'star6'? fShader_star6:
-        glyph==='star5'? fShader_star5:
-            glyph === 'diamond'? fShader_diamond:
-                glyph === 'square'? fShader_square:
-                    glyph === 'triangleUp'? fShader_triangleUp:
-                        glyph === 'triangleDown'? fShader_triangleDown:
-                            glyph === 'triangleRight'? fShader_triangleRight:
-                                glyph === 'triangleLeft'? fShader_triangleLeft:
-                                    glyph === 'cross'? fShader_cross:
-                                        glyph === 'plus'? fShader_plus:
-                                            glyph === 'asterisk'? fShader_asterisk:
-                                                glyph === 'circle'? fShader_circle:
-                                                    glyph === 'point'? fShader_point:
+function getShader(glyph) {
+    return glyph === 'star6' ? fShader_star6 :
+        glyph === 'star5' ? fShader_star5 :
+            glyph === 'diamond' ? fShader_diamond :
+                glyph === 'square' ? fShader_square :
+                    glyph === 'triangleUp' ? fShader_triangleUp :
+                        glyph === 'triangleDown' ? fShader_triangleDown :
+                            glyph === 'triangleRight' ? fShader_triangleRight :
+                                glyph === 'triangleLeft' ? fShader_triangleLeft :
+                                    glyph === 'cross' ? fShader_cross :
+                                        glyph === 'plus' ? fShader_plus :
+                                            glyph === 'asterisk' ? fShader_asterisk :
+                                                glyph === 'circle' ? fShader_circle :
+                                                    glyph === 'point' ? fShader_point :
                                                         console.log('Shader for ' + glyph + ' is missing.')
 }
 
@@ -55,17 +55,17 @@ function hexToRgb(hex) {
 }
 
 
-function getGenePanel(geneData){
+function getGenePanel(geneData) {
     var panel = [...new Set(geneData.map(d => d.Gene))].sort();
 
     // drop a warning if a gene is not set in the configuration file
     var cfg_genes = glyphSettings().map(d => d.gene).sort();
     var missing = panel.filter(x => !cfg_genes.includes(x));
     if (missing.length > 0) {
-        console.log('Waring: These genes have not been assigned color, glyph etc in the glyphConfig.js: ' +  missing);
+        console.log('Waring: These genes have not been assigned color, glyph etc in the glyphConfig.js: ' + missing);
     }
 
-   return panel
+    return panel
 }
 
 function legendControl() {
@@ -140,7 +140,6 @@ function reset_scale(intersected) {
 }
 
 
-
 // window.addEventListener('mousemove', (e) => {
 //     var vec = new THREE.Vector3(); // create once and reuse
 //     var pos = new THREE.Vector3(); // create once and reuse
@@ -161,8 +160,6 @@ function reset_scale(intersected) {
 //     console.log('mouse y: ' + pos.y)
 //
 // });
-
-
 
 
 function hideAxes() {
@@ -263,6 +260,24 @@ function mesh_LOD(w, h) {
 
         count_triangles(d)
     })
+}
+
+
+function simulate_spots(counts) {
+    var nG = GENEPANEL.length;
+    var N = Math.ceil(counts / nG);
+    var _sim_data = [];
+    for (var i = 0; i < GENEPANEL.length; i++) {
+        var temp = new Float32Array(N * 3);
+        for (var j = 0; j < 3 * N; j++) {
+            var cur = 3 * j;
+            temp[3 * j] = CONFIGSETTINGS.img_width * Math.random() - CONFIGSETTINGS.img_width / 2;
+            temp[3 * j + 1] = CONFIGSETTINGS.img_height * Math.random() - CONFIGSETTINGS.img_height / 2;
+            temp[3 * j + 2] = CONFIGSETTINGS.img_depth * Math.random() - CONFIGSETTINGS.img_depth / 2;
+        }
+        _sim_data[i] = temp
+    }
+    return _sim_data
 }
 
 // function hide_back_face() {

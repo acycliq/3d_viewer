@@ -32,4 +32,41 @@ function postScene() {
         RENDERER.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     }
 
+
+    var paramsGUI = {
+        numSpots: 0,
+        numCells: 0,
+    };
+
+    gui = new dat.GUI();
+
+    var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000],
+        numCells = [0, 100, 1000, 100000, 150000, 200000];
+    gui.add(paramsGUI, 'numSpots', numSpots).name('Num simulated spots').onChange(onSelectCounts);
+    gui.add(paramsGUI, 'numCells', numCells).name('Num simulated cells').onChange(onSelectCounts);
+
+    function onSelectCounts() {
+        console.log('Selected: ' + paramsGUI.numSpots + ' number of spots');
+        var spots_xyz,
+            cells_xyz;
+        if (+paramsGUI.numSpots || +paramsGUI.numCells) {
+            +paramsGUI.numSpots ? spots_xyz = simulate_spots(+paramsGUI.numSpots) : spots_xyz = SPOTS_ARR;
+            +paramsGUI.numCells ? cells_xyz = get_sim_cell_xyz(+paramsGUI.numCells) : cells_xyz = CELLS_ARR;
+            // console.log(spots_xyz);
+        } else {
+            spots_xyz = SPOTS_ARR;
+            cells_xyz = CELLS_ARR;
+        }
+
+        iniScene();
+        iniLights();
+        iniContent(spots_xyz, cells_xyz);
+        // adjust wth width of the gui
+        // document.getElementsByClassName('dg main a')[0].style.width = "305px"
+
+
+    }
+
+    gui.open();
+
 }

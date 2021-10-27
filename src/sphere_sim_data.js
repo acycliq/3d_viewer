@@ -24,9 +24,9 @@ function get_sim_cell_xyz(n) {
 function sim_sphere_position(n){
     var out = [];
     for (var i=0; i<n; ++i){
-        var _x = configSettings.img_width * Math.random() - configSettings.img_width / 2,
-            _y = configSettings.img_height * Math.random() - configSettings.img_height / 2,
-            _z = configSettings.img_depth * Math.random() - configSettings.img_depth / 2;
+        var _x = CONFIGSETTINGS.img_width * Math.random() - CONFIGSETTINGS.img_width / 2,
+            _y = CONFIGSETTINGS.img_height * Math.random() - CONFIGSETTINGS.img_height / 2,
+            _z = CONFIGSETTINGS.img_depth * Math.random() - CONFIGSETTINGS.img_depth / 2;
         out.push({x: _x, y: _y, z: _z})
     }
     return out
