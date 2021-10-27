@@ -39,5 +39,9 @@ function render() {
 
     RENDERER.render(SCENE, CAMERA);
 
-
+    // adjust wth width of the gui
+    var gui_w = document.getElementsByClassName('dg main a');
+    for (var i = 0; i < gui_w.length; i++) {
+        gui_w[0].style.width = "305px"
+    }
 }
