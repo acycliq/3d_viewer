@@ -12,6 +12,7 @@ var CAMERA = null,
     GENEPANEL = null,
     INSTANCEDMESH = null,
     PARTICLES = null,
+    PREV_INSTANCE_ID = -1;
     MOUSE = new THREE.Vector2(),
     RAYCASTER = new THREE.Raycaster(),
     COLOR = new THREE.Color();
