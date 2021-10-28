@@ -251,7 +251,8 @@ function LOD_ramp(x) {
 }
 
 function mesh_LOD(w, h) {
-    var meshes = SCENE.children.filter(v => v.type === 'Mesh');
+    // NEEDS TO BE CHECKED AGAIN. DO i HAVE TO LOOP OVER ALL CHILDREN??
+    var meshes = SCENE.children.filter(v => ( (v.type === 'Mesh') && (v.name !== 'cell_highlight') ) );
     meshes.forEach(d => {
         const clonedGeometry = new THREE.SphereBufferGeometry(1, w, h);
         // clonedGeometry.parameters.widthSegments = paramsGUI.widthSegments;
