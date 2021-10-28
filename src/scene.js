@@ -41,7 +41,7 @@ function iniScene() {
     RENDERER.setSize(window.innerWidth, window.innerHeight);
     RENDERER.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     RENDERER.shadowMap.enabled = true;
-    RENDERER.shadowMap.type = THREE.BasicShadowMap;
+    RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
 
     stats = new Stats();
     container.appendChild(stats.dom);

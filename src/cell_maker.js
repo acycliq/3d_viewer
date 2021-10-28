@@ -74,7 +74,7 @@ function ellipsoids(data, props) {
             rot = data[i].rotation,
             color = data[i].color;
         dummy.position.set(coords.x, coords.y, coords.z);
-        dummy.scale.set(scales.x, scales.y, scales.z);
+        dummy.scale.set(scales.x*0.99, scales.y*0.99, scales.z*0.99);
         dummy.rotation.set(rot.x, rot.y, rot.z);
         dummy.updateMatrix();
         INSTANCEDMESH.name = props.name;

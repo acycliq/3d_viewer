@@ -22,12 +22,28 @@ function setInstanceColor(instanceId, isHighlighting) {
 function setHightlightSphere(instanceId, isHighlighting) {
     if (instanceId == -1) return;
     var dummy = new THREE.Object3D();
+    var loader = new THREE.TextureLoader();
+    var props =  {
+        clearcoat: 1.0,
+        clearcoatRoughness: 0,
+        metalness: 0.065,
+        roughness: 0.3,
+        normalMap: loader.load('./src/flakes.png'),
+        normalScale: new THREE.Vector2(0.1, 0.1),
+        transmission: 0.0,
+        transparent: true,
+    };
+    var material = new THREE.MeshPhysicalMaterial(props);
+    material.opacity = 0.5;
+    material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
+    material.normalMap.repeat = new THREE.Vector2(30, 30);
+
     var highlighter = new THREE.InstancedMesh(
         //provide geometry
         new THREE.SphereBufferGeometry(1, 36, 18),
 
         //provide material
-         new THREE.MeshPhysicalMaterial(),
+         material,
 
         //how many instances to allocate
         1
@@ -44,6 +60,8 @@ function setHightlightSphere(instanceId, isHighlighting) {
     highlighter.name = 'cell_highlight';
     highlighter.setMatrixAt(0, dummy.matrix);
     highlighter.setColorAt(0, new THREE.Color( color.r, color.g, color.b ));
+    highlighter.receiveShadow = false;
+    highlighter.castShadow = true;
 
     if (isHighlighting) {
         SCENE.add(highlighter)
