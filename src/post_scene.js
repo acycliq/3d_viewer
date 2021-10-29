@@ -70,8 +70,8 @@ function postScene() {
             +paramsGUI.numSpots ? spots_xyz = simulate_spots(+paramsGUI.numSpots) : spots_xyz = SPOTS_ARR;
             +paramsGUI.numCells ? cells_xyz = get_sim_cell_xyz(+paramsGUI.numCells) : cells_xyz = CELLS_ARR;
 
-            SPOTS_ARR = spots_xyz;
-            CELLS_ARR = cells_xyz;
+            // SPOTS_ARR = spots_xyz;
+            // CELLS_ARR = cells_xyz;
             // console.log(spots_xyz);
         } else {
             spots_xyz = SPOTS_ARR;
