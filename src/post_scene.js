@@ -8,6 +8,9 @@ function postScene() {
     // mouse move
     window.addEventListener('mousemove', onMouseMove, false);
 
+    // when the mouse moves, call the given function
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
+
     // finally remove the preloader
     removePreloader();
 
@@ -30,6 +33,20 @@ function postScene() {
         // Update renderer
         RENDERER.setSize(window.innerWidth, window.innerHeight);
         RENDERER.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    }
+
+
+    function onDocumentMouseDown(event) {
+        // the following line would stop any other event handler from firing
+        // (such as the mouse's TrackballControls)
+        // event.preventDefault();
+
+        console.log("Click.");
+
+        // update the mouse variable
+        MOUSE.x = (event.clientX / window.innerWidth) * 2 - 1;
+        MOUSE.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
     }
 
 
