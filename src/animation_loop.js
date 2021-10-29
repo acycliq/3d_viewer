@@ -32,6 +32,7 @@ function setHightlightSphere(instanceId, isHighlighting) {
         normalScale: new THREE.Vector2(0.1, 0.1),
         transmission: 0.0,
         transparent: true,
+        side: THREE.BackSide,
     };
     var material = new THREE.MeshPhysicalMaterial(props);
     material.opacity = 0.5;
@@ -79,6 +80,14 @@ function remove_highlight_sphere(){
         .filter(d => d.name === 'cell_highlight')
         .forEach(d => SCENE.remove(d))
 }
+
+//oscillate between zero and max
+function osc(input, max) {
+    const capped = input % (max*2)
+    return (capped <= max) ? capped : max-(input%max)
+}
+
+const clock = new THREE.Clock();
 
 function render() {
     var c2s,
@@ -138,6 +147,8 @@ function render() {
         }
     });
 
+    var gs = 4 + osc(6*clock.getElapsedTime(), 1.5);
+    SCENE.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = 5*gs)
     RENDERER.render(SCENE, CAMERA);
 
     // adjust wth width of the gui
