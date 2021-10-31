@@ -44,7 +44,7 @@ function ellipsoids(data, props) {
 
 
     var uScale = 0;
-    var widthSegments = 8,
+    var widthSegments = 16,
         heightSegments = 0.5 * widthSegments;
     var geometry =  new THREE.SphereBufferGeometry(1, widthSegments, heightSegments);
     var _n = geometry.index.count/3;

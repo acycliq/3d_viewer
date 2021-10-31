@@ -24,7 +24,7 @@ void main()
         // points close to the camera
         gl_PointSize = scale * glyphSize; //1500.0;
         if (attenuate){
-            gl_PointSize = glyphSize * 40.0 * (1. / - viewPosition.z);
+            gl_PointSize = glyphSize * 60.0 * (1. / - viewPosition.z);
         }
     }
     

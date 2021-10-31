@@ -281,6 +281,31 @@ function simulate_spots(counts) {
     return _sim_data
 }
 
+
+function labelSpots(){
+    // NOTE: Rewrite this. Loop first over the spots, then the cells. If a spots in not labelled, that give it
+    // the label = 0. The way it is now, if you try to label the unassigned to 0 then all the previously assigned labels
+    // will be overwritten and a good label will be set to zero
+    // 1. loop over the cells
+    CELLS_ARR.forEach((c, i) => {
+        var cell = setHightlightSphere_2(i, false)
+        var bb = new THREE.Box3()
+        bb.setFromObject(cell);
+        ALL_GENEDATA.forEach((d, j) => {
+            var x = d.x - CONFIGSETTINGS.img_width / 2,
+                y =  CONFIGSETTINGS.img_height / 2 - d.y,
+                z = d.z - CONFIGSETTINGS.img_depth / 2;
+            var mask = bb.containsPoint(new THREE.Vector3(x, y, z));
+            if (mask){
+                ALL_GENEDATA[j].cell_label = i+1
+                console.log('point ' + j + 'in cell ' + i)
+            }
+            // mask? ALL_GENEDATA[j].cell_label = i+1: ALL_GENEDATA[j].cell_label = 0
+        })
+    });
+
+    return groupBy(ALL_GENEDATA, 'cell_label')
+}
 // function hide_back_face() {
 //     console.log('Hiding back face')
 //     scene.children.forEach(d => {

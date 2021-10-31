@@ -23,7 +23,7 @@ function setHightlightSphere(instanceId, isHighlighting) {
     if (instanceId == -1) return;
     var dummy = new THREE.Object3D();
     var loader = new THREE.TextureLoader();
-    var props =  {
+    var props = {
         clearcoat: 1.0,
         clearcoatRoughness: 0,
         metalness: 0.065,
@@ -44,7 +44,7 @@ function setHightlightSphere(instanceId, isHighlighting) {
         new THREE.SphereBufferGeometry(1, 36, 18),
 
         //provide material
-         material,
+        material,
 
         //how many instances to allocate
         1
@@ -60,7 +60,7 @@ function setHightlightSphere(instanceId, isHighlighting) {
     dummy.updateMatrix();
     highlighter.name = 'cell_highlight';
     highlighter.setMatrixAt(0, dummy.matrix);
-    highlighter.setColorAt(0, new THREE.Color( color.r, color.g, color.b ));
+    highlighter.setColorAt(0, new THREE.Color(color.r, color.g, color.b));
     highlighter.receiveShadow = false;
     highlighter.castShadow = true;
 
@@ -74,17 +74,115 @@ function setHightlightSphere(instanceId, isHighlighting) {
     // // instancedMesh.geometry.setScaleAt(i, uScale ? ss : trsCache[i].scale);
 }
 
-function remove_highlight_sphere(){
-    SCENE
-        .children
+function setHightlightSphere_2(instanceId, isHighlighting) {
+    if (instanceId == -1) return;
+    var instanceColor = CELLS_ARR[instanceId].color;
+
+    let texture = new THREE.CanvasTexture(new THREE.FlakesTexture());
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+
+    //repeat the wrapping 10 (x) and 6 (y) times
+    texture.repeat.x = 10;
+    texture.repeat.y = 6;
+
+    var props = {
+        clearcoat: 1.0,
+        cleacoatRoughness: 0.1,
+        metalness: 0.9,
+        roughness: 0.5,
+        color: new THREE.Color(instanceColor.r, instanceColor.g, instanceColor.b),
+        normalMap: texture,
+        normalScale: new THREE.Vector2(0.15, 0.15),
+        side: THREE.BackSide,
+    };
+    var material = new THREE.MeshPhysicalMaterial(props);
+    var geometry = new THREE.SphereBufferGeometry(1, 36, 18)
+    var highlighter = new THREE.Mesh(geometry, material);
+
+
+    var coords = CELLS_ARR[instanceId].position,
+        scales = CELLS_ARR[instanceId].scale,
+        rot = CELLS_ARR[instanceId].rotation;
+    highlighter.position.set(coords.x, coords.y, coords.z);
+    highlighter.scale.set(scales.x, scales.y, scales.z);
+    highlighter.rotation.set(rot.x, rot.y, rot.z);
+    highlighter.updateMatrix();
+    highlighter.name = 'cell_highlight';
+    highlighter.receiveShadow = false;
+    highlighter.castShadow = true;
+
+    if (isHighlighting) {
+        SCENE.add(highlighter)
+    }
+    return highlighter
+}
+
+
+function add_highlight_sphere(instanceId) {
+    if (instanceId != PREV_INSTANCE_ID) {
+        remove_highlight_sphere();
+        setHightlightSphere(instanceId, true);
+
+        $('html,body').css('cursor', 'pointer');
+    }
+}
+
+function remove_highlight_sphere() {
+    // 1. restore previous id
+    PREV_INSTANCE_ID = -1;
+
+    // 2. remove the mesh from the scene
+    SCENE.children
         .filter(d => d.name === 'cell_highlight')
         .forEach(d => SCENE.remove(d))
+
+    // restore the mouse cursor
+    $('html,body').css('cursor', 'default');
 }
+
+function add_highlight_glyphs(instanceId) {
+    if (instanceId != PREV_INSTANCE_ID) {
+        console.log('adding glyphs for cell label' + instanceId);
+        var label = instanceId + 1 // label is 1-based
+        var res = localise(SPOTLABELS[label])
+        var genes = res[1],
+            coords = res[0]
+        GLYPHS_HIGHLIGHT = genes.map((d, i) => my_particles(coords[i], d, 'highlight'));
+        GLYPHS_HIGHLIGHT.map(d => SCENE.add(d));
+    }
+}
+
+function remove_highlight_glyphs() {
+    // 1. restore previous id
+    PREV_INSTANCE_ID = -1;
+
+    // 2. remove the glyphs assigned to the highlighted cell
+    if (GLYPHS_HIGHLIGHT) {
+        GLYPHS_HIGHLIGHT.forEach(d => {
+            SCENE.remove(d)
+        })
+    }
+
+    // 3. restore the mouse cursor
+    $('html,body').css('cursor', 'default');
+}
+
 
 //oscillate between zero and max
 function osc(input, max) {
-    const capped = input % (max*2)
-    return (capped <= max) ? capped : max-(input%max)
+    const capped = input % (max * 2)
+    return (capped <= max) ? capped : max - (input % max)
+}
+
+
+function osc_2(d) {
+    var v = d.material.uniforms.glyphSize.value;
+    v *= 0.995;
+    if (v < 12) { // NEED TO EXPOSE THAT. DO NOT USE IT AS A MAGIN NUMBER (the same value is used in the shader as the starting glyph size)
+        v = 18;
+    }
+    d.material.uniforms.glyphSize.value = v
 }
 
 const clock = new THREE.Clock();
@@ -97,16 +195,12 @@ function render() {
     const intersection = RAYCASTER.intersectObject(INSTANCEDMESH.front_face.instancedMesh);
     if (intersection.length > 0) {
         var instanceId = intersection[0].instanceId;
-         if (instanceId != PREV_INSTANCE_ID) {
-             remove_highlight_sphere();
-             setHightlightSphere(instanceId, true)
-             PREV_INSTANCE_ID = instanceId;
-             $('html,body').css('cursor', 'pointer');
-         }
+        add_highlight_sphere(instanceId);
+        add_highlight_glyphs(instanceId);
+        PREV_INSTANCE_ID = instanceId;
     } else {
         remove_highlight_sphere();
-        PREV_INSTANCE_ID = -1;
-        $('html,body').css('cursor', 'default');
+        remove_highlight_glyphs();
     }
     // if (intersection.length > 0) {
     //     var instanceId = intersection[0].instanceId;
@@ -128,27 +222,30 @@ function render() {
     // }
 
 
-    // LOD_ramp()
-    SCENE.children.forEach(d => {
-        c2s = CAMERA.position.distanceTo(SCENE.position);
-        var lod = LOD_ramp(c2s);
-        if ((d.type === 'Mesh') && (d.name === 'front_mesh')) {
-            if (lod.level !== _c2s) {
-                console.log('Switching to ' + lod.level);
-                mesh_LOD(lod.w, lod.h);
-                _c2s = lod.level;
-            }
-        } else if ((d.type === 'Mesh') && (d.name === 'back_mesh')) {
-            if (lod.level !== _c2s) {
-                console.log('Switching to ' + lod.level);
-                mesh_LOD(4, 4);
-                _c2s = lod.level;
-            }
-        }
-    });
+    // // LOD_ramp()
+    // SCENE.children.forEach(d => {
+    //     c2s = CAMERA.position.distanceTo(SCENE.position);
+    //     var lod = LOD_ramp(c2s);
+    //     if ((d.type === 'Mesh') && (d.name === 'front_mesh')) {
+    //         if (lod.level !== _c2s) {
+    //             console.log('Switching to ' + lod.level);
+    //             mesh_LOD(lod.w, lod.h);
+    //             _c2s = lod.level;
+    //         }
+    //     } else if ((d.type === 'Mesh') && (d.name === 'back_mesh')) {
+    //         if (lod.level !== _c2s) {
+    //             console.log('Switching to ' + lod.level);
+    //             mesh_LOD(4, 4);
+    //             _c2s = lod.level;
+    //         }
+    //     }
+    // });
 
-    var gs = 4 + osc(6*clock.getElapsedTime(), 1.5);
-    SCENE.children.filter(v => v.type === 'Points').map(v => v.material.uniforms.glyphSize.value = 5*gs)
+    // var gs = 4 + osc(6 * clock.getElapsedTime(), 1.5);
+    if (GLYPHS_HIGHLIGHT) {
+        GLYPHS_HIGHLIGHT.map(osc_2)
+    }
+    // SCENE.children.filter(v => v.name.endsWith('_highlight')).map(v => v.material.uniforms.glyphSize.value = 5 * gs)
     RENDERER.render(SCENE, CAMERA);
 
     // adjust wth width of the gui

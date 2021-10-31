@@ -1,4 +1,4 @@
-function my_particles(positions, gene) {
+function my_particles(positions, gene, postfix = null) {
     console.log('Doing particles for ' + gene)
 
     var glyph = getGlyph(gene),
@@ -55,7 +55,15 @@ function my_particles(positions, gene) {
 
     // Points
     PARTICLES = new THREE.Points(particlesGeometry, particlesMaterial);
-    PARTICLES.name = gene;
+
+
+    if (postfix){
+       postfix = '_highlight';
+    }
+    else {
+        postfix = '';
+    }
+    PARTICLES.name = gene + postfix;
 
     return PARTICLES
 }

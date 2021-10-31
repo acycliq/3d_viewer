@@ -49,6 +49,8 @@ function postScene() {
 
     }
 
+    // call his to label the cells
+    SPOTLABELS = labelSpots();
 
     var paramsGUI = {
         numSpots: 0,
