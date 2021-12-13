@@ -374,6 +374,16 @@ table.no-spacing td {
     cursor: pointer;
 }
 
+.modal {
+   /*width: 300px;*/
+   /*height: 300px;*/
+   position: absolute;
+   /*left: 50%;*/
+   /*top: 50%;*/
+   /*margin-left: -150px;*/
+   margin-top: 50%;
+}
+
 .clicks {
     position:absolute;
     top:60px;
