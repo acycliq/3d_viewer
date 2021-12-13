@@ -80,6 +80,7 @@ function legendControl() {
     legend_added = true;
 
     $('#legend').show()
+    $('#about').show()
     console.log('legend added')
 }
 

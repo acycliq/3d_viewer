@@ -17,6 +17,9 @@ function postScene() {
     // and show the gene panel button
     legendControl();
 
+    // show the modal
+    showModal();
+
     function onMouseMove(event) {
         // calculate mouse position in normalized device coordinates
         // (-1 to +1) for both components

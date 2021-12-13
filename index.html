@@ -89,6 +89,44 @@
 <body>
 
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title">Transcriptomics viewer</h2>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This is a draft demo of a 3D transcriptomics viewer that is currently under development at Cortexlab, UCL.
+                    It shows data from a sequencing experiment on a mouse brain slice carried out recently at our lab. The viewer
+                    renders around 160,000 spots from a panel of 73 genes. The few ellipsoid-like shapes that you see when you zoom-in have
+                    been manually drawn as a mockup to represent areas where we expect to have cells.
+                </p>
+
+
+                <p>
+                    Usage:
+                    <ul>
+                        <li>Mouse left button to orbit around the data</li>
+                        <li>Mouse wheel to zoom in and out</li>
+                        <li>Mouse right button to pan</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
 <div class="container-fluid aligned-middle stack-top" id="preloader">
     <div class="row">
         <div class="col-sm-12">
@@ -125,12 +163,28 @@
     <script>$('#legend').hide();</script>
 </div>
 
+<button type="button"  id="about" class="map-content" data-toggle="modal" data-target="#myModal">About</button>
+<!--<div id="about" class="map-content">-->
+<!--&lt;!&ndash;    <a id="about-link" target="myModal">About&raquo;</a>&ndash;&gt;-->
+<!--    <script>$('#about').hide();</script>-->
+<!--</div>-->
+
+<!--<button type="button"  class="map-content" data-toggle="modal" data-target="#myModal">Launch modal</button>-->
+
 <canvas class="webgl"></canvas>
 <script>
     localStorage.clear();
     console.log('Local storage cleared');
 
     window.onload = run();
+
+
+    function showModal(){
+        $(document).ready(function(){
+            $('.modal').modal('show');
+        });
+    }
+
 
     function removePreloader() {
         $('#preloader').delay(350).fadeOut(250); // will fade out the white DIV that covers the website.

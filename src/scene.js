@@ -9,7 +9,10 @@ function iniScene() {
     var near = 20,
         far = 10000;
     CAMERA = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, near, far);
-    CAMERA.position.set(0, 0, 3000);
+    // CAMERA.position.set(1450, 1450, 1450);
+    CAMERA.position.set(1950, 700, 1400);
+    CAMERA.lookAt(-1000, -1000,-1000)
+
 
     SCENE = new THREE.Scene();
     // scene.background = new THREE.Color(0xdddddd);

@@ -368,6 +368,12 @@ table.no-spacing td {
     cursor: pointer;
 }
 
+#about {
+    top: 9px;
+    left: 212px;
+    cursor: pointer;
+}
+
 .clicks {
     position:absolute;
     top:60px;
