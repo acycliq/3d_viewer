@@ -60,12 +60,12 @@ function postScene() {
         numCells: 0,
     };
 
-    gui = new dat.GUI();
+    // gui = new dat.GUI();
 
     var numSpots = [0, 100000, 1000000, 5000000, 10000000, 20000000],
         numCells = [0, 100, 1000, 100000, 150000, 200000];
-    gui.add(paramsGUI, 'numSpots', numSpots).name('Num simulated spots').onChange(onSelectCounts);
-    gui.add(paramsGUI, 'numCells', numCells).name('Num simulated cells').onChange(onSelectCounts);
+    // gui.add(paramsGUI, 'numSpots', numSpots).name('Num simulated spots').onChange(onSelectCounts);
+    // gui.add(paramsGUI, 'numCells', numCells).name('Num simulated cells').onChange(onSelectCounts);
 
     function onSelectCounts() {
         console.log('Selected: ' + paramsGUI.numSpots + ' number of spots');
@@ -88,5 +88,5 @@ function postScene() {
         iniContent(spots_xyz, cells_xyz);
     }
 
-    gui.open();
+    // gui.open();
 }
