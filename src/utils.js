@@ -20,6 +20,7 @@ function getTaxonomy(gene) {
 }
 
 function getGlyph(gene) {
+    console.log(gene)
     return glyphSettings().filter(d => d.gene === gene)[0].glyphName
 }
 
@@ -65,6 +66,10 @@ function getGenePanel(geneData) {
         console.log('Waring: These genes have not been assigned color, glyph etc in the glyphConfig.js: ' + missing);
     }
 
+    // save the gene panel to the local storage
+    sessionStorage.setItem('gene_panel', JSON.stringify(panel));
+    console.log('Gene panel written to local storage')
+
     return panel
 }
 
@@ -80,7 +85,6 @@ function legendControl() {
     legend_added = true;
 
     $('#legend').show()
-    $('#about').show()
     console.log('legend added')
 }
 
@@ -252,8 +256,7 @@ function LOD_ramp(x) {
 }
 
 function mesh_LOD(w, h) {
-    // NEEDS TO BE CHECKED AGAIN. DO i HAVE TO LOOP OVER ALL CHILDREN??
-    var meshes = SCENE.children.filter(v => ( (v.type === 'Mesh') && (v.name !== 'cell_highlight') ) );
+    var meshes = SCENE.children.filter(v => v.type === 'Mesh');
     meshes.forEach(d => {
         const clonedGeometry = new THREE.SphereBufferGeometry(1, w, h);
         // clonedGeometry.parameters.widthSegments = paramsGUI.widthSegments;
@@ -283,30 +286,53 @@ function simulate_spots(counts) {
 }
 
 
-function labelSpots(){
-    // NOTE: Rewrite this. Loop first over the spots, then the cells. If a spots in not labelled, that give it
-    // the label = 0. The way it is now, if you try to label the unassigned to 0 then all the previously assigned labels
-    // will be overwritten and a good label will be set to zero
-    // 1. loop over the cells
-    CELLS_ARR.forEach((c, i) => {
-        var cell = setHightlightSphere_2(i, false)
-        var bb = new THREE.Box3()
-        bb.setFromObject(cell);
-        ALL_GENEDATA.forEach((d, j) => {
-            var x = d.x - CONFIGSETTINGS.img_width / 2,
-                y =  CONFIGSETTINGS.img_height / 2 - d.y,
-                z = d.z - CONFIGSETTINGS.img_depth / 2;
-            var mask = bb.containsPoint(new THREE.Vector3(x, y, z));
-            if (mask){
-                ALL_GENEDATA[j].cell_label = i+1
-                console.log('point ' + j + 'in cell ' + i)
-            }
-            // mask? ALL_GENEDATA[j].cell_label = i+1: ALL_GENEDATA[j].cell_label = 0
-        })
-    });
-
-    return groupBy(ALL_GENEDATA, 'cell_label')
+// from https://github.com/jonathantneal/convert-colors
+function rgb2hex(rgbR, rgbG, rgbB) {
+	return `#${((1 << 24) + (Math.round(rgbR * 255 / 100) << 16) + (Math.round(rgbG * 255 / 100) << 8) + Math.round(rgbB * 255 / 100)).toString(16).slice(1)}`;
 }
+
+function hsl2rgb(hslH, hslS, hslL) {
+	// calcuate t2
+	const t2 = hslL <= 50 ? hslL * (hslS + 100) / 100 : hslL + hslS - hslL * hslS / 100;
+
+	// calcuate t1
+	const t1 = hslL * 2 - t2;
+
+	// calculate rgb
+	const [ rgbR, rgbG, rgbB ] = [
+		hue2rgb(t1, t2, hslH + 120),
+		hue2rgb(t1, t2, hslH),
+		hue2rgb(t1, t2, hslH - 120)
+	];
+
+	return [ rgbR, rgbG, rgbB ];
+}
+
+function hue2rgb(t1, t2, hue) {
+	// calculate the ranged hue
+	const rhue = hue < 0 ? hue + 360 : hue > 360 ? hue - 360 : hue;
+
+	// calculate the rgb value
+	const rgb = rhue * 6 < 360
+		? t1 + (t2 - t1) * rhue / 60
+	: rhue * 2 < 360
+		? t2
+	: rhue * 3 < 720
+		? t1 + (t2 - t1) * (240 - rhue) / 60
+	: t1;
+
+	return rgb;
+}
+
+function hsv2hex(hsvH, hsvS, hsvV) {
+    // takes in values between 0 and 1
+	return _hsv2hex(hsvH*100, hsvS*100, hsvV*100)
+}
+
+function _hsv2hex(hsvH, hsvS, hsvV) {
+	return rgb2hex(...hsl2rgb(hsvH, hsvS, hsvV));
+}
+
 // function hide_back_face() {
 //     console.log('Hiding back face')
 //     scene.children.forEach(d => {

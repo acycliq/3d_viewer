@@ -1,18 +1,22 @@
-function my_particles(positions, gene, postfix = null) {
-    console.log('Doing particles for ' + gene)
+function my_particles(positions, gene, hexCode=null) {
+    // positions = positions.slice(0, 3);
+    console.log('Doing particles for ' + gene);
 
-    var glyph = getGlyph(gene),
+    var glyph = getGlyph(gene);
+    if (!hexCode){
         hexCode = getColor(gene);
+    }
+
 
     var fShader = getShader(glyph),
         color = hexToRgb(hexCode);
 
     var particlesGeometry = new THREE.BufferGeometry();
     particlesGeometry.name = gene
-    // var scales = new Float32Array(positions.length);
+    var sizes = new Float32Array(positions.length/3);
     var colors = new Float32Array(positions.length);
-    for (let i = 0; i < positions.length; i++) {
-        // scales[i] = 10;
+    for (let i = 0; i < positions.length; i += 3) {
+        sizes[i/3] = CONFIGSETTINGS.particle_size;
         colors[i] = color.r;
         colors[i + 1] = color.g;
         colors[i + 2] = color.b;
@@ -20,8 +24,8 @@ function my_particles(positions, gene, postfix = null) {
 
     // const mypositions = new Float32Array([0,0,1.5]) ;
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    // particleGeometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
-    // particleGeometry.setAttribute('scale', new THREE.BufferAttribute(scales, 3));
+    particlesGeometry.setAttribute( 'mycolor', new THREE.BufferAttribute( colors, 3 ) );
+    particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     var numVertices = particlesGeometry.attributes.position.count;
     var scales = new Float32Array(numVertices * 1);
@@ -44,7 +48,7 @@ function my_particles(positions, gene, postfix = null) {
             glyphSize: {value: 12},
             dotSize: {value: 2},
             u_resolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
-            zThres: {value: 100},
+            zThres: {value: 1000},
             attenuate: {value: true},
             r: {value: color.r / 255.0},
             g: {value: color.g / 255.0},
@@ -55,15 +59,7 @@ function my_particles(positions, gene, postfix = null) {
 
     // Points
     PARTICLES = new THREE.Points(particlesGeometry, particlesMaterial);
-
-
-    if (postfix){
-       postfix = '_highlight';
-    }
-    else {
-        postfix = '';
-    }
-    PARTICLES.name = gene + postfix;
+    PARTICLES.name = gene;
 
     return PARTICLES
 }
@@ -132,4 +128,14 @@ function my_sphere(radius, position, color) {
     });
     let mesh = new THREE.Mesh(geometry, material);
     return mesh;
+}
+
+function highlighter(gene, id){
+    // get the spots from that specific gene only
+    var spots = SPOTS_ARR[GENEPANEL.indexOf(gene)];
+
+    // get the coords of the spot to be highlighted
+    var coords = spots.slice(3*id, 3*id+3);
+
+    return my_particles(coords, gene, '#FFFF00')
 }

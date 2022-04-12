@@ -5,8 +5,13 @@ uniform float zThres;
 uniform bool attenuate;
 varying vec3 view;
 attribute float scale;
+attribute float size;
+attribute vec3 mycolor;
+varying vec3 vColor;
 void main()
 {
+    vColor = mycolor;
+    
     // Position
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -22,9 +27,9 @@ void main()
     }
     else {
         // points close to the camera
-        gl_PointSize = scale * glyphSize; //1500.0;
+        gl_PointSize = 100.0 * scale * glyphSize; //1500.0;
         if (attenuate){
-            gl_PointSize = glyphSize * 60.0 * (1. / - viewPosition.z);
+            gl_PointSize = size * (1. / - viewPosition.z);
         }
     }
     

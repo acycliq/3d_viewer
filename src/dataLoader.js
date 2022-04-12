@@ -72,7 +72,8 @@ function data_loader(workPackage) {
 
         var avg = average(data.map(d => d.progress));
         // var avg_mb = average(data.map(d => (d.bytes_streamed/(1024*1024)).toFixed() ));
-        var progress_1 = data[0].progress;
+        var progress_1 = data[0].progress,
+            progress_2 = data[1].progress;
 
         var inc = 0.0; // controls how often it will be update. Every 2% set inc = 0.02
         if (avg >= Math.min(1, previous_avg + inc)) {
@@ -85,17 +86,26 @@ function data_loader(workPackage) {
             $('#mb').html(mb_1 + 'MB');
             $('#datapoints').html(d3.format(",")(data[0].data_length));
 
+            updateDonutChart('#specificChart_2', progress_2*100, true);
+            var mb_2 = (data[1].bytes_streamed/(1024*1024)).toFixed()
+            $('#mb2').html(mb_2 + 'MB');
+            $('#datapoints2').html(d3.format(",")(data[1].data_length));
+
             previous_avg = avg;
         }
     }
 
     function onDataLoaded(data) {
         ALL_GENEDATA = data.geneData;
+        CELL_DATA = data.cellData;
         console.log('loading data finished');
         console.log('num of genes loaded: ' + ALL_GENEDATA.length);
 
+        console.log('num of cells: ' + CELL_DATA.length);
+
         // do now the chart
-        app(ALL_GENEDATA)
+        // ALL_GENEDATA = ALL_GENEDATA.filter(d => d.neighbour===1764)
+        app(ALL_GENEDATA, CELL_DATA)
     }
 
 

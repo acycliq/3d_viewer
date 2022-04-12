@@ -2,20 +2,14 @@ function config() {
     var ini = [
         {   // 1.
             name: 'default',
-            img_width: 1260,
-            img_height: 340,
-            img_depth: 60,
-            zThres: 100.0,
-            geneData: 'https://www.googleapis.com/storage/v1/b/3d-viewer/o/data/geneData/geneData.tsv',
-        },
-        {   // 1.
-            name: 'vizgen',
-            img_width: 98824,
-            img_height: 77294,
-            img_depth: 12,
-            geneData: 'https://api.github.com/repos/acycliq/MsBrain_Eg1_VS6_JH_V6/contents/region_0/geneData?ref=master',
+            img_width: 5905,
+            img_height: 5882,
+            img_depth: 15 * 6.0121,
+            particle_size: 8000.0,
+            // zThres: 1500.0,
+            geneData: 'https://www.googleapis.com/storage/v1/b/dxn_temp/o/without_single_page_cells/geneData.tsv',
+            cellData: 'https://www.googleapis.com/storage/v1/b/dxn_temp/o/without_single_page_cells/cellData.tsv',
         },
     ];
     return d3.map(ini, function (d) {return d.name;})
 }
-

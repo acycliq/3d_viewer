@@ -368,22 +368,6 @@ table.no-spacing td {
     cursor: pointer;
 }
 
-#about {
-    top: 9px;
-    left: 212px;
-    cursor: pointer;
-}
-
-.modal {
-   /*width: 300px;*/
-   /*height: 300px;*/
-   position: absolute;
-   /*left: 50%;*/
-   /*top: 50%;*/
-   /*margin-left: -150px;*/
-   margin-top: 50%;
-}
-
 .clicks {
     position:absolute;
     top:60px;
@@ -488,6 +472,14 @@ div.a {
     /*font-size: 20px;*/
     /*font-family: "Helvetica Neue";*/
     color: #AACCFF;
+}
+
+.pointlabel {
+    color: #ffff00;
+    font-family: sans-serif;
+    padding: 4px;
+    /*margin-left: 50px;*/
+    background: rgba(0, 0, 0, 0.6);
 }
 
 

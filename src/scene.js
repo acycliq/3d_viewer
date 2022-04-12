@@ -7,15 +7,12 @@ function iniScene() {
     document.body.appendChild(container);
 
     var near = 20,
-        far = 10000;
-    CAMERA = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, near, far);
-    // CAMERA.position.set(1450, 1450, 1450);
-    CAMERA.position.set(1950, 700, 1400);
-    CAMERA.lookAt(-1000, -1000,-1000)
-
+        far = 80000;
+    CAMERA = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, near, far);
+    CAMERA.position.set(24000, 1665, 13500);
 
     SCENE = new THREE.Scene();
-    // scene.background = new THREE.Color(0xdddddd);
+    // SCENE.background = new THREE.Color(0xdddddd);
 
     // ground
     var geometry = new THREE.BoxGeometry(10, 0.15, 10);
@@ -32,10 +29,6 @@ function iniScene() {
     ground.receiveShadow = true;
     // scene.add(ground);
 
-    // Controls
-    CONTROLS = new THREE.OrbitControls(CAMERA, CANVAS);
-    // controls.enableDamping = true;
-
     // Renderer
     RENDERER = new THREE.WebGLRenderer({
         canvas: CANVAS,
@@ -44,7 +37,25 @@ function iniScene() {
     RENDERER.setSize(window.innerWidth, window.innerHeight);
     RENDERER.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     RENDERER.shadowMap.enabled = true;
-    RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
+    RENDERER.shadowMap.type = THREE.BasicShadowMap;
+
+    const tooltipDiv = document.createElement('div');
+    tooltipDiv.className = 'pointlabel';
+    tooltipDiv.textContent = 'Tooltip';
+    tooltipDiv.style.marginTop = '-1em';
+    TOOLTIP = new THREE.CSS2DObject(tooltipDiv);
+    TOOLTIP.position.set(0, 0, 0);
+    SCENE.add(TOOLTIP);
+
+    LABEL_RENDERER = new THREE.CSS2DRenderer();
+    LABEL_RENDERER.setSize(window.innerWidth, window.innerHeight);
+    LABEL_RENDERER.domElement.style.position = 'absolute';
+    LABEL_RENDERER.domElement.style.top = '0px';
+    document.body.appendChild(LABEL_RENDERER.domElement);
+
+    // Controls
+    CONTROLS = new THREE.OrbitControls(CAMERA, LABEL_RENDERER.domElement);
+    // controls.enableDamping = true;
 
     stats = new Stats();
     container.appendChild(stats.dom);

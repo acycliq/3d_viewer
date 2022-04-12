@@ -3,7 +3,7 @@ function run() {
     console.log('app starts');
     CONFIGSETTINGS = config().get('default');
 
-    fetcher([encode(CONFIGSETTINGS.geneData)]).then(
+    fetcher([encode(CONFIGSETTINGS.geneData), encode(CONFIGSETTINGS.cellData)]).then(
         result => make_package(result),
         error => alert(error) // doesn't run
     );

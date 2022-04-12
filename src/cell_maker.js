@@ -1,4 +1,4 @@
-function make_cells(data) {
+function make_cells(cellData) {
     var front_props = {
             side: THREE.FrontSide,
             opacity: 0.4,
@@ -10,8 +10,9 @@ function make_cells(data) {
             name: 'back_mesh'
         };
 
-    var front_face = ellipsoids(data, front_props),
-        back_face = ellipsoids(data, back_props);
+    cellData = cellData.filter(d => d.color.r + d.color.g + d.color.b !== 0);
+    var front_face = ellipsoids(cellData, front_props),
+        back_face = ellipsoids(cellData, back_props);
         cells = {};
     cells.front_face = front_face;
     cells.back_face = back_face;
@@ -21,6 +22,10 @@ function make_cells(data) {
 function ellipsoids(data, props) {
     var counts = data.length,
         loader = new THREE.TextureLoader();
+
+    var img_width = CONFIGSETTINGS.img_width,
+        img_height = CONFIGSETTINGS.img_height,
+        img_depth = CONFIGSETTINGS.img_depth;
 
     const flakesTexture = loader.load('./src/flakes.png')
     const base_props = {
@@ -44,7 +49,7 @@ function ellipsoids(data, props) {
 
 
     var uScale = 0;
-    var widthSegments = 16,
+    var widthSegments = 8,
         heightSegments = 0.5 * widthSegments;
     var geometry =  new THREE.SphereBufferGeometry(1, widthSegments, heightSegments);
     var _n = geometry.index.count/3;
@@ -69,12 +74,12 @@ function ellipsoids(data, props) {
     console.log('tic')
     var temp_obj = new THREE.Mesh(new THREE.SphereGeometry(), new THREE.MeshBasicMaterial());
     for (var i = 0; i < counts; i++) {
-        var coords = data[i].position,
-            scales = data[i].scale,
-            rot = data[i].rotation,
-            color = data[i].color;
+        var coords = data[i].sphere_position,
+            scales = data[i].sphere_scale,
+            rot = data[i].sphere_rotation,
+            color =  data[i].color;
         dummy.position.set(coords.x, coords.y, coords.z);
-        dummy.scale.set(scales.x*0.99, scales.y*0.99, scales.z*0.99);
+        dummy.scale.set(scales.x, scales.y, scales.z);
         dummy.rotation.set(rot.x, rot.y, rot.z);
         dummy.updateMatrix();
         INSTANCEDMESH.name = props.name;
