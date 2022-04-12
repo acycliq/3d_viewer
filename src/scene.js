@@ -41,7 +41,7 @@ function iniScene() {
 
     const tooltipDiv = document.createElement('div');
     tooltipDiv.className = 'pointlabel';
-    tooltipDiv.textContent = 'Tooltip';
+    // tooltipDiv.textContent = 'Tooltip';
     tooltipDiv.style.marginTop = '-1em';
     TOOLTIP = new THREE.CSS2DObject(tooltipDiv);
     TOOLTIP.position.set(0, 0, 0);
